@@ -10,7 +10,7 @@ Features:
 
 ★ Extremely lightweight and fast.
 
-★ If the extension raises some interest, new features will come, including themes and any kind of handy utilities. Be sure to suggest new features by clicking on the SUPPORT tab.
+★ If the extension raises enough interest, new features will come, including themes and any kind of handy utilities. Be sure to suggest new features by clicking on the SUPPORT tab.
 
 ———————————————————— HOW TO ————————————————————
 
@@ -36,4 +36,4 @@ The message shown by Google Chrome for the requested permissions are far from th
 
 ———————————————————— TRADEMARKS ————————————————————
 
-WhatsApp is a trademark of Whatsapp Inc., registered in the U.S. and other countries. WhatsApp Toolkit is an independent project and is not affiliated in any way with Whatsapp Inc.
+WhatsApp is a trademark of WhatsApp Inc., registered in the U.S. and other countries. WhatsApp Toolkit is an independent project and is not affiliated in any way with WhatsApp Inc.
