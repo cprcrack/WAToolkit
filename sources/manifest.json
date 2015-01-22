@@ -1,0 +1,41 @@
+﻿{
+	"name": "WhatsApp Toolkit",
+	"version": "1.0",
+	"manifest_version": 2,
+	"minimum_chrome_version": "37",
+	"description": "Never ever miss a WhatsApp notification again while you are on your desktop computer!",
+	"icons":
+	{
+		"16": "favicon16.png",
+		"48": "icon48.png",
+		"128": "icon128.png"
+	},
+	"background":
+	{
+		"scripts": [ "background.js" ]
+	},
+	"content_scripts":
+	[
+		{
+			"matches": [ "*://*.whatsapp.com/*" ],
+			"js": [ "script.js" ],
+			"all_frames": true
+		}
+	],
+	"browser_action":
+	{
+		"default_icon":
+		{
+			"19": "favicon19.png",
+			"38": "favicon38.png"
+		},
+		"default_title": "WhatsApp"
+    },
+	"permissions":
+	[
+		"*://*.whatsapp.com/*",
+		"tabs",
+		"background",
+		"notifications"
+	]
+}
