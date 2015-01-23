@@ -30,9 +30,9 @@ WhatsApp Toolkit is free and open source. The source code is released under The 
 
 The message shown by Google Chrome for the requested permissions are far from the real needs of the extension, but they are technically required for the following reasons:
 
-• Read and change your data on all whatsapp.com sites: Required to detect whether an active WhatsApp session exists, and to create one in the background if it doesn't.
+• Read and change your data on all whatsapp.com sites: Required to create the background page that holds an active WhatsApp session.
 
-• Read your browsing history: Required for showing the related videos' rating bars inside the player when the video ends in the case of embedded videos.
+• Read your browsing history: Required to detect whether an active WhatsApp session exists among the tabs you are browsing, avoiding conflicts with the background page.
 
 ———————————————————— TRADEMARKS ————————————————————
 
