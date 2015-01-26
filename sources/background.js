@@ -62,7 +62,14 @@ function onMessage(messageEvent, sender, callback)
 	}
 	else if (messageEvent.name == "backgroundNotificationClicked")
 	{
-		chrome.tabs.create({ url: whatsAppUrl });
+		if (typeof messageEvent.srcChat == "string")
+		{
+			chrome.tabs.create({ url: whatsAppUrl + "#watSrcChat=" + messageEvent.srcChat });
+		}
+		else
+		{
+			chrome.tabs.create({ url: whatsAppUrl });
+		}
 	}
 }
 

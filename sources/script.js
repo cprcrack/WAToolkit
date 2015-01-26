@@ -51,9 +51,9 @@ function proxyNotifications()
 	{
 		if (event != undefined && event.data != undefined && event.data.name == "backgroundNotificationClicked")
 		{
-			chrome.runtime.sendMessage({ name: 'backgroundNotificationClicked' });
+			chrome.runtime.sendMessage({ name: "backgroundNotificationClicked", srcChat: event.data.srcChat });
 		}
-	}, false);
+	});
 	
 	var script =
 
@@ -84,24 +84,29 @@ function proxyNotifications()
 		"var that = this;" + 
 		"_notification.onclick = function (event)" + 
 		"{" + 
-			"if (debug) console.log('WAT: Notification click intercepted with event: ' + JSON.stringify(event));" + 
+			"if (debug) console.log('WAT: Background notification click intercepted with event: ' + JSON.stringify(event));" + 
+
 			"that.onclick(event);" +
-			"window.postMessage({ name: 'backgroundNotificationClicked' }, '*');" +
+			"var srcChat = undefined;" +
+			"if (event != undefined && event.srcElement != undefined && typeof event.srcElement.tag == 'string')" +
+			"{" +
+				"if (debug) console.log('WAT: Background notification click intercepted with srcChat: ' + event.srcElement.tag);" + 
+
+				"srcChat = event.srcElement.tag;" +
+			"};" + 
+			"window.postMessage({ name: 'backgroundNotificationClicked', srcChat: srcChat }, '*');" +
 			"if (debug) console.log('Reached');" + 
 		"};" + 
 		"_notification.onshow = function (event)" + 
 		"{" + 
-			"if (debug) console.log('WAT: Notification show intercepted with event: ' + JSON.stringify(event));" + 
 			"that.onshow(event);" + 
 		"};" + 
 		"_notification.onerror = function (event)" + 
 		"{" + 
-			"if (debug) console.log('WAT: Notification error intercepted with event: ' + JSON.stringify(event));" + 
 			"that.onerror(event);" + 
 		"};" + 
 		"_notification.onclose = function (event)" + 
 		"{" + 
-			"if (debug) console.log('WAT: Notification close intercepted with event: ' + JSON.stringify(event));" + 
 			"that.onclose(event);" + 
 		"};" + 
 
