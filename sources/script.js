@@ -154,7 +154,7 @@ function checkStatus()
 
 	try
 	{
-		// Should match definition of var isSessionReadyCode in background.js
+		// Decides whether a background session is active
 		var isSessionReady = document.getElementsByClassName('pane-list-user').length > 0 || document.getElementsByClassName('entry-main').length > 0;
 		if (isSessionReady)
 		{

@@ -6,8 +6,8 @@ License: GNU GPLv3
 
 
 var whatsAppUrl = "https://web.whatsapp.com";
-// Should match definition of var isSessionReady in script.js
-var isSessionReadyCode = "document.getElementsByClassName('pane-list-user').length > 0 || document.getElementsByClassName('entry-main').length > 0;";
+// Decides whether a foreground session is active
+var isSessionReadyCode = "document.getElementsByClassName('pane-list-user').length > 0 || document.getElementsByClassName('entry-main').length > 0 || document.getElementsByClassName('spinner').length > 0;";
 
 // Open WhatsApp on toolbar icon click
 chrome.browserAction.onClicked.addListener(function (tab)
