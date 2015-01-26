@@ -16,13 +16,13 @@ chrome.runtime.sendMessage({ name: "getIsBackgroundPage" }, function (isBackgrou
 {
 	if (isBackgroundPage)
 	{
-		if (debug) console.info("WhatsApp Toolkit: Script injected");
+		if (debug) console.info("WAT: Script injected");
 
 		reCheckStatus();
 	}
 	else
 	{
-		if (debug) console.info("WhatsApp Toolkit: Script injection cancelled");
+		if (debug) console.info("WAT: Script injection cancelled");
 	}
 });
 
@@ -33,7 +33,7 @@ function reCheckStatus()
 
 function checkStatus()
 {
-	if (debug) console.info("WhatsApp Toolkit: Checking status...");
+	if (debug) console.info("WAT: Checking status...");
 
 	try
 	{
@@ -41,25 +41,25 @@ function checkStatus()
 		var isSessionReady = document.getElementsByClassName('pane-list-user').length > 0 || document.getElementsByClassName('entry-main').length > 0;
 		if (isSessionReady)
 		{
-			if (debug) console.info("WhatsApp Toolkit: Session is ready");
+			if (debug) console.info("WAT: Session is ready");
 
 			reCheckStatus(); return;
 		}
 		else
 		{
-			if (debug) console.warn("WhatsApp Toolkit: Session is not ready, checking if should reconnect...");
+			if (debug) console.warn("WAT: Session is not ready, checking if should reconnect...");
 
 			chrome.runtime.sendMessage({ name: "getAttemptReconnect" }, function (attemptReconnect)
 			{
 				if (attemptReconnect)
 				{
-					if (debug) console.info("WhatsApp Toolkit: Reconnecting...");
+					if (debug) console.info("WAT: Reconnecting...");
 
 					window.location.reload();
 				}
 				else
 				{
-					if (debug) console.info("WhatsApp Toolkit: Not attempting to reconnect");
+					if (debug) console.info("WAT: Not attempting to reconnect");
 				}
 
 				reCheckStatus(); return;
@@ -68,7 +68,7 @@ function checkStatus()
 	}
 	catch (err)
 	{
-		console.error("WhatsApp Toolkit: Exception while checking status");
+		console.error("WAT: Exception while checking status");
 		console.error(err);
 		
 		reCheckStatus(); return;

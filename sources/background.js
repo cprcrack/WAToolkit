@@ -63,7 +63,7 @@ function checkIfActiveSessions(tabs, callback)
 	}
 	catch (err)
 	{
-		console.error("WhatsApp Toolkit: Exception while checking active sessions");
+		console.error("WAT: Exception while checking active sessions");
 		console.error(err);
 
 		callback(true);
