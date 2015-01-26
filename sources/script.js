@@ -5,7 +5,7 @@ License: GNU GPLv3
 */
 
 
-var debug = false;
+var debug = true;
 
 // Prevent page exit confirmation dialog (the content script's window object is not shared: http://stackoverflow.com/a/12396221/423171)
 var scriptElem = document.createElement("script");
