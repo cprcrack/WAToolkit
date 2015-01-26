@@ -10,6 +10,7 @@ var debug = true;
 var checkStatusInterval = 10000;
 var checkSrcChatTrials = 25;
 var checkSrcChatInterval = 400;
+var checkBadgeInterval = 10000;
 
 // Prevent page exit confirmation dialog. The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
 var scriptElem = document.createElement("script");
@@ -41,6 +42,7 @@ function backgroundScript()
 function foregroundScript()
 {
 	reCheckSrcChat(1);
+	reCheckBadge();
 }
 
 // FOR BACKGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
@@ -252,6 +254,43 @@ function checkSrcChat(trial)
 	catch (err)
 	{
 		console.error("WAT: Exception while checking source chat");
+		console.error(err);
+	}
+}
+
+function reCheckBadge()
+{
+	setTimeout(function () { checkBadge(); }, checkBadgeInterval);
+}
+
+function checkBadge()
+{
+	if (debug) console.info("WAT: Checking badge...");
+	
+	try
+	{
+		var areChatsReady = document.getElementsByClassName('pane-list-user').length > 0;
+		if (areChatsReady)
+		{
+			var unreadCount = 0;
+			var unreadCountElems = document.getElementsByClassName("unread-count");
+			for (var i = 0; i < unreadCountElems.length; i++)
+			{
+				unreadCount += parseInt(unreadCountElems[i].textContent);
+			}
+			var badgeText = "";
+			if (unreadCount > 0)
+			{
+				badgeText = unreadCount.toString();
+			}
+			chrome.runtime.sendMessage({ name: "setBadge", badgeText: badgeText });
+		}
+
+		reCheckBadge();
+	}
+	catch (err)
+	{
+		console.error("WAT: Exception while checking badge");
 		console.error(err);
 	}
 }

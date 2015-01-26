@@ -60,6 +60,10 @@ function onMessage(messageEvent, sender, callback)
 		});
 		return true; // Keep async callback valid: https://developer.chrome.com/extensions/runtime#event-onMessage
 	}
+	else if (messageEvent.name == "setBadge")
+	{
+		chrome.browserAction.setBadgeText({ text: messageEvent.badgeText });
+	}
 	else if (messageEvent.name == "backgroundNotificationClicked")
 	{
 		if (typeof messageEvent.srcChat == "string")
