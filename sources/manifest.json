@@ -36,6 +36,8 @@
 		"*://*.whatsapp.com/*",
 		"tabs",
 		"background",
-		"notifications"
+		"notifications",
+		"webRequest",
+		"webRequestBlocking"
 	]
 }

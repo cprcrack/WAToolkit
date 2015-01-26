@@ -5,17 +5,40 @@ License: GNU GPLv3
 */
 
 
+var whatsAppUrl = "https://web.whatsapp.com";
+// Should match definition of var isSessionReady in script.js
+var isSessionReadyCode = "document.getElementsByClassName('pane-list-user').length > 0 || document.getElementsByClassName('entry-main').length > 0;";
+
 // Open WhatsApp on toolbar icon click
 chrome.browserAction.onClicked.addListener(function (tab)
 {
-    chrome.tabs.create({ url: "https://web.whatsapp.com" });
+    chrome.tabs.create({ url: whatsAppUrl });
 });
 
-// Should match definition of var isSessionReady in script.js
-var isSessionReadyCode = "document.getElementsByClassName('pane-list-user').length > 0 || document.getElementsByClassName('entry-main').length > 0;"; 
+// Allow framing
+chrome.webRequest.onHeadersReceived.addListener(
+    function (details)
+    {
+    	var headers = details.responseHeaders;
+        for (var i = headers.length - 1; i >= 0 ; i--)
+        {
+            var header = headers[i].name;
+            if (header == "X-Frame-Options")
+            {
+                headers.splice(i, 1);
+            }
+        }
+        return { responseHeaders: details.responseHeaders };
+    },
+    {
+        urls: [ "*://*.whatsapp.com/*" ],
+        types: [ "sub_frame" ]
+    },
+    ["blocking", "responseHeaders"]
+);
 
 // Load background page
-document.body.innerHTML = "<iframe src='https://web.whatsapp.com/'></iframe>";
+document.body.innerHTML = "<iframe src='" + whatsAppUrl + "'></iframe>";
 
 chrome.runtime.onMessage.addListener(onMessage);
 
@@ -37,6 +60,10 @@ function onMessage(messageEvent, sender, callback)
 		});
 		return true; // Keep async callback valid: https://developer.chrome.com/extensions/runtime#event-onMessage
 	}
+	else if (messageEvent.name == "backgroundNotificationClicked")
+	{
+		chrome.tabs.create({ url: whatsAppUrl });
+	}
 }
 
 function checkIfActiveSessions(tabs, callback)
@@ -47,7 +74,7 @@ function checkIfActiveSessions(tabs, callback)
 		for (var i = 0; i < tabs.length; i++)
 		{
 			var tab = tabs[i];
-			if (tab != undefined && tab.url != undefined && tab.url.indexOf("https://web.whatsapp.com") == 0)
+			if (tab != undefined && tab.url != undefined && tab.url.indexOf(whatsAppUrl) == 0)
 			{
 				_tabs.push(tab);
 			}
