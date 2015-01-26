@@ -7,7 +7,9 @@ License: GNU GPLv3
 
 var debug = true;
 
-var checkInterval = 10000;
+var checkStatusInterval = 10000;
+var checkSrcChatTrials = 25;
+var checkSrcChatInterval = 400;
 
 // Prevent page exit confirmation dialog. The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
 var scriptElem = document.createElement("script");
@@ -38,7 +40,7 @@ function backgroundScript()
 
 function foregroundScript()
 {
-
+	reCheckSrcChat(1);
 }
 
 // FOR BACKGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
@@ -95,7 +97,6 @@ function proxyNotifications()
 				"srcChat = event.srcElement.tag;" +
 			"};" + 
 			"window.postMessage({ name: 'backgroundNotificationClicked', srcChat: srcChat }, '*');" +
-			"if (debug) console.log('Reached');" + 
 		"};" + 
 		"_notification.onshow = function (event)" + 
 		"{" + 
@@ -145,7 +146,7 @@ function proxyNotifications()
 
 function reCheckStatus()
 {
-	setTimeout(function () { checkStatus(); }, checkInterval);
+	setTimeout(function () { checkStatus(); }, checkStatusInterval);
 }
 
 function checkStatus()
@@ -194,3 +195,63 @@ function checkStatus()
 
 // FOR FOREGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
 
+function reCheckSrcChat(trial)
+{
+	setTimeout(function () { checkSrcChat(trial); }, checkSrcChatInterval);
+}
+
+function checkSrcChat(trial)
+{
+	try
+	{
+		var paramPrefix = "#watSrcChat=";
+		var srcChat = window.location.hash;
+		if (typeof srcChat == "string" && srcChat.indexOf(paramPrefix) == 0)
+		{
+			srcChat = srcChat.substr(paramPrefix.length).replace(/\./g, "-");
+
+			if (debug) console.info("WAT: Searching chat " + srcChat + " trial " + trial + "...");
+
+			var found = false;
+			var chats = document.getElementsByClassName("chat");
+			for (var i = 0; i < chats.length; i++)
+			{
+				var chat = chats[i];
+				var dataReactId = chat.getAttribute("data-reactid")
+				if ((typeof dataReactId == "string") && dataReactId.indexOf(srcChat) > -1)
+				{
+					chat.click();
+					setTimeout(function() { window.scrollTo(0, 0); }, 500);
+					setTimeout(function() { window.scrollTo(0, 0); }, 1000); // Fixes some strange page misposition that happens only sometimes
+					found = true;
+					break;
+				}
+			}
+
+			if (found)
+			{
+				if (debug) console.info("WAT: Found and clicked chat");
+
+				history.replaceState({}, document.title, "/");
+			}
+			else
+			{
+				if (trial < checkSrcChatTrials)
+				{
+					if (debug) console.warn("WAT: Chat not found");
+
+					reCheckSrcChat(trial + 1);
+				}
+				else
+				{
+					if (debug) console.error("WAT: Chat not found");
+				}
+			}
+		}
+	}
+	catch (err)
+	{
+		console.error("WAT: Exception while checking source chat");
+		console.error(err);
+	}
+}
