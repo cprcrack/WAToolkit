@@ -16,7 +16,7 @@ chrome.browserAction.onClicked.addListener(function (tab)
 });
 
 // Allow framing
-chrome.webRequest.onHeadersReceived.addListener(
+if (false) chrome.webRequest.onHeadersReceived.addListener(
     function (details)
     {
     	var headers = details.responseHeaders;
