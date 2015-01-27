@@ -63,6 +63,7 @@ function onMessage(messageEvent, sender, callback)
 	else if (messageEvent.name == "setBadge")
 	{
 		chrome.browserAction.setBadgeText({ text: messageEvent.badgeText });
+		chrome.browserAction.setTitle({ title: messageEvent.badgeTooltip });
 	}
 	else if (messageEvent.name == "backgroundNotificationClicked")
 	{

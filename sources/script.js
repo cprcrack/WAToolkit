@@ -37,6 +37,10 @@ function backgroundScript()
 {
 	proxyNotifications(true);
 	reCheckStatus();
+	reCheckBadge();
+	setTimeout(function () { checkBadge(false); }, 1000);
+	setTimeout(function () { checkBadge(false); }, 2000);
+	setTimeout(function () { checkBadge(false); }, 3000);
 }
 
 function foregroundScript()
@@ -44,9 +48,9 @@ function foregroundScript()
 	proxyNotifications(false);
 	reCheckSrcChat(1);
 	reCheckBadge();
-	setTimeout(function () { checkBadge(); }, 1000);
-	setTimeout(function () { checkBadge(); }, 2000);
-	setTimeout(function () { checkBadge(); }, 3000);
+	setTimeout(function () { checkBadge(false); }, 1000);
+	setTimeout(function () { checkBadge(false); }, 2000);
+	setTimeout(function () { checkBadge(false); }, 3000);
 }
 
 // FOR BOTH BACKGROUND AND FOREGROUND SCRIPTS ////////////////////////////////////////////////////
@@ -71,8 +75,8 @@ function proxyNotifications(isBackgroundScript)
 		{
 			if (event != undefined && event.data != undefined && (event.data.name == "foregroundNotificationClicked" || event.data.name == "foregroundNotificationShown"))
 			{
-				setTimeout(function () { checkBadge(); }, 500);
-				setTimeout(function () { checkBadge(); }, 1000);
+				setTimeout(function () { checkBadge(false); }, 500);
+				setTimeout(function () { checkBadge(false); }, 1000);
 			}
 		});
 	}
@@ -194,7 +198,7 @@ function checkStatus()
 	try
 	{
 		// Decides whether a background session is active
-		var isSessionReady = document.getElementsByClassName('pane-list-user').length > 0 || document.getElementsByClassName('entry-main').length > 0;
+		var isSessionReady = document.getElementsByClassName("pane-list-user").length > 0 || document.getElementsByClassName("entry-main").length > 0;
 		if (isSessionReady)
 		{
 			if (debug) console.info("WAT: Session is ready");
@@ -296,37 +300,53 @@ function checkSrcChat(trial)
 
 function reCheckBadge()
 {
-	setTimeout(function () { checkBadge(); }, checkBadgeInterval);
+	setTimeout(function () { checkBadge(true); }, checkBadgeInterval);
 }
 
-function checkBadge()
+function checkBadge(reCheck)
 {
 	if (debug) console.info("WAT: Checking badge...");
 	
 	try
 	{
-		var areChatsReady = document.getElementsByClassName('pane-list-user').length > 0;
-		if (areChatsReady)
+		var isSessionReady = document.getElementsByClassName("pane-list-user").length > 0;
+		if (isSessionReady)
 		{
-			var unreadCount = 0;
-			var unreadCountElems = document.getElementsByClassName("unread-count");
-			for (var i = 0; i < unreadCountElems.length; i++)
-			{
-				unreadCount += parseInt(unreadCountElems[i].textContent);
-			}
-			var badgeText = "";
-			if (unreadCount > 0)
-			{
-				badgeText = unreadCount.toString();
-			}
-			chrome.runtime.sendMessage({ name: "setBadge", badgeText: badgeText });
-		}
+			var totalUnreadCount = 0;
+			var badgeTooltip = "";
 
-		reCheckBadge();
+			var unreadChatElems = document.getElementsByClassName("chat unread");
+			for (var i = 0; i < unreadChatElems.length; i++)
+			{
+				unreadChatElem = unreadChatElems[i];
+				var unreadCount = parseInt(unreadChatElem.getElementsByClassName("unread-count")[0].textContent);
+				var chatTitle = unreadChatElem.getElementsByClassName("chat-title")[0].textContent;
+				var chatStatus = unreadChatElem.getElementsByClassName("chat-status")[0].textContent;
+				var chatTime = unreadChatElem.getElementsByClassName("chat-time")[0].textContent;
+				totalUnreadCount += unreadCount;
+				badgeTooltip += (i > 0 ? "\n" : "") + "(" + unreadCount + ")\t" + chatTitle + "  →  " + chatStatus + " [" + chatTime + "]";
+			}
+
+			var badgeText = "";
+			if (totalUnreadCount > 0)
+			{
+				badgeText = totalUnreadCount.toString();
+			}
+			if (badgeTooltip.length == 0)
+			{
+				badgeTooltip = "All messages read";
+			}
+			chrome.runtime.sendMessage({ name: "setBadge", badgeText: badgeText, badgeTooltip: badgeTooltip });
+		}
 	}
 	catch (err)
 	{
 		console.error("WAT: Exception while checking badge");
 		console.error(err);
+	}
+
+	if (reCheck)
+	{
+		reCheckBadge();
 	}
 }
