@@ -1,9 +1,9 @@
 ﻿{
-	"name": "WhatsApp Toolkit",
+	"name": "Unofficial Toolkit for WhatsApp",
 	"version": "1.1",
 	"manifest_version": 2,
 	"minimum_chrome_version": "37",
-	"description": "Never ever miss a WhatsApp notification again while you are on your desktop computer!",
+	"description": "An unofficial set of useful and lightweight tools for WhatsApp Web client that provides better Google Chrome integration.",
 	"icons":
 	{
 		"16": "favicon16.png",

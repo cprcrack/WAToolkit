@@ -1,30 +1,28 @@
-﻿WhatsApp Toolkit aims to be a set of useful and lightweight tools for the new WhatsApp web client.
-
-Currently it makes it possible to receive WhatsApp notifications even when there is no WhatsApp tab or Chrome window at all open. This way you will never miss a message again while working on your PC.
+﻿Never ever miss a WhatsApp notification again while you are on your desktop computer! This extension makes it possible to receive WhatsApp notifications even when there is no WhatsApp tab or Chrome window at all open. This way you will never miss a message again while working on your PC.
 
 Features:
 
 ★ Enables always-on desktop notifications. Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly.
 
-★ Adds a convenient WhatsApp icon to the toolbar. You can still hide the icon if you want via right click -> Hide button.
+★ Adds a convenient WhatsApp icon to the toolbar, with the number of unread messages always visible. You can still hide the icon if you want, just rigth click on it and select Hide button.
 
 ★ Extremely lightweight and fast.
 
-★ If the extension raises enough interest, new features will come, including themes and any kind of handy utilities. Be sure to suggest new features by clicking on the SUPPORT tab.
+★ New cool features to be added soon, including themes. Be sure to suggest new ideas by clicking on the SUPPORT tab.
 
 ———————————————————— HOW TO ————————————————————
 
-New to WhatsApp Web? To start using it, install this extension and click on the Chrome toolbar button with the green WhatsApp icon. The notifications will start working as soon as you log in using the QR code. Remember to check the "keep session opened" checkbox!
+New to WhatsApp Web? To start using it, install this extension and click on the Chrome toolbar button with the T icon. The notifications will start working as soon as you log in using the QR code. Remember to check the "keep session opened" checkbox!
 
-———————————————————— KNOWN ISSUES ————————————————————
-
-• When working on background mode, clicking on the notifications has no effect. You will have to open Chrome and go to WhatsApp manually in order to answer your messages.
+———————————————————— FAQ ————————————————————
 
 • If you can't see WhatsApp notifications, please refer to the official support thread to solve the issue: http://www.whatsapp.com/faq/en/web/28080004
 
 ———————————————————— LICENSE ————————————————————
 
-WhatsApp Toolkit is free and open source. The source code is released under The GNU General Public License v3.0. Contributions are very welcome on GitHub: https://github.com/cprcrack/WhatsApp-Toolkit
+Unofficial Toolkit for WhatsApp is free and open source. The source code is released under The GNU General Public License v3.0. Contributions are very welcome on GitHub:
+
+• https://github.com/cprcrack/Unofficial-Toolkit-for-WhatsApp
 
 ———————————————————— PERMISSIONS ————————————————————
 
@@ -36,4 +34,4 @@ The message shown by Google Chrome for the requested permissions are far from th
 
 ———————————————————— TRADEMARKS ————————————————————
 
-WhatsApp is a trademark of WhatsApp Inc., registered in the U.S. and other countries. WhatsApp Toolkit is an independent project and is not affiliated in any way with WhatsApp Inc.
+"WhatsApp" is a trademark of WhatsApp Inc., registered in the U.S. and other countries. "Unofficial Toolkit for WhatsApp" is an independent project which was not developed by WhatsApp Inc. and has no relationship to WhatsApp Inc.
