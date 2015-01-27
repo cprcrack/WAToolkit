@@ -37,8 +37,8 @@ if (false) chrome.webRequest.onHeadersReceived.addListener(
     ["blocking", "responseHeaders"]
 );
 
-// Load background page
-document.body.innerHTML = "<iframe src='" + whatsAppUrl + "'></iframe>";
+// Load background page. Height 10000 is vital so that all chats are loaded in the side panel.
+document.body.innerHTML = "<iframe width='1000' height='10000' src='" + whatsAppUrl + "'></iframe>";
 
 chrome.runtime.onMessage.addListener(onMessage);
 
