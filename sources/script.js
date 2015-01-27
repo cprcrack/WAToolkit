@@ -312,8 +312,10 @@ function checkBadge(reCheck)
 		var isSessionReady = document.getElementsByClassName("pane-list-user").length > 0;
 		if (isSessionReady)
 		{
+			var warn = document.getElementsByClassName("butterbar-phone").length > 0;
+			
 			var totalUnreadCount = 0;
-			var badgeTooltip = "";
+			var tooltipText = "";
 
 			var unreadChatElems = document.getElementsByClassName("chat unread");
 			for (var i = 0; i < unreadChatElems.length; i++)
@@ -332,7 +334,7 @@ function checkBadge(reCheck)
 				}
 				var chatTime = unreadChatElem.getElementsByClassName("chat-time")[0].textContent;
 				totalUnreadCount += unreadCount;
-				badgeTooltip += (i > 0 ? "\n" : "") + "(" + unreadCount + ")\t" + chatTitle + "  →  " + chatStatus + " [" + chatTime + "]";
+				tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")\t" + chatTitle + "  →  " + chatStatus + " [" + chatTime + "]";
 			}
 
 			var badgeText = "";
@@ -340,11 +342,11 @@ function checkBadge(reCheck)
 			{
 				badgeText = totalUnreadCount.toString();
 			}
-			if (badgeTooltip.length == 0)
+			if (tooltipText.length == 0)
 			{
-				badgeTooltip = "All messages read";
+				tooltipText = "All messages read";
 			}
-			chrome.runtime.sendMessage({ name: "setBadge", badgeText: badgeText, badgeTooltip: badgeTooltip });
+			chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn, badgeText: badgeText, tooltipText: tooltipText });
 		}
 	}
 	catch (err)

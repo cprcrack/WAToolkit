@@ -60,10 +60,18 @@ function onMessage(messageEvent, sender, callback)
 		});
 		return true; // Keep async callback valid: https://developer.chrome.com/extensions/runtime#event-onMessage
 	}
-	else if (messageEvent.name == "setBadge")
+	else if (messageEvent.name == "setToolbarIcon")
 	{
+		if (messageEvent.warn)
+		{
+			chrome.browserAction.setIcon({ path: { "19": "favicon19warn.png", "38": "favicon38warn.png" } });
+		}
+		else
+		{
+			chrome.browserAction.setIcon({ path: { "19": "favicon19.png", "38": "favicon38.png" } });
+		}
 		chrome.browserAction.setBadgeText({ text: messageEvent.badgeText });
-		chrome.browserAction.setTitle({ title: messageEvent.badgeTooltip });
+		chrome.browserAction.setTitle({ title: messageEvent.tooltipText });
 	}
 	else if (messageEvent.name == "backgroundNotificationClicked")
 	{
