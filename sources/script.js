@@ -10,7 +10,7 @@ var debug = true;
 var checkStatusInterval = 10000;
 var checkSrcChatTrials = 25;
 var checkSrcChatInterval = 400;
-var checkBadgeInterval = 10000;
+var checkBadgeInterval = 5000;
 
 // Prevent page exit confirmation dialog. The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
 var scriptElem = document.createElement("script");
@@ -35,33 +35,52 @@ chrome.runtime.sendMessage({ name: "getIsBackgroundPage" }, function (isBackgrou
 
 function backgroundScript()
 {
-	proxyNotifications();
+	proxyNotifications(true);
 	reCheckStatus();
 }
 
 function foregroundScript()
 {
+	proxyNotifications(false);
 	reCheckSrcChat(1);
 	reCheckBadge();
+	setTimeout(function () { checkBadge(); }, 1000);
+	setTimeout(function () { checkBadge(); }, 2000);
+	setTimeout(function () { checkBadge(); }, 3000);
 }
 
-// FOR BACKGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
+// FOR BOTH BACKGROUND AND FOREGROUND SCRIPTS ////////////////////////////////////////////////////
 
-function proxyNotifications()
+function proxyNotifications(isBackgroundScript)
 {
 	// The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
 
-	window.addEventListener("message", function (event)
+	if (isBackgroundScript)
 	{
-		if (event != undefined && event.data != undefined && event.data.name == "backgroundNotificationClicked")
+		window.addEventListener("message", function (event)
 		{
-			chrome.runtime.sendMessage({ name: "backgroundNotificationClicked", srcChat: event.data.srcChat });
-		}
-	});
-	
+			if (event != undefined && event.data != undefined && event.data.name == "backgroundNotificationClicked")
+			{
+				chrome.runtime.sendMessage({ name: "backgroundNotificationClicked", srcChat: event.data.srcChat });
+			}
+		});
+	}
+	else
+	{
+		window.addEventListener("message", function (event)
+		{
+			if (event != undefined && event.data != undefined && (event.data.name == "foregroundNotificationClicked" || event.data.name == "foregroundNotificationShown"))
+			{
+				setTimeout(function () { checkBadge(); }, 500);
+				setTimeout(function () { checkBadge(); }, 1000);
+			}
+		});
+	}
+
 	var script =
 
 	"var debug = " + debug + ";" +
+	"var isBackgroundScript = " + isBackgroundScript + ";" +
 
 	// Notification spec: https://developer.mozilla.org/en/docs/Web/API/notification
 
@@ -88,29 +107,44 @@ function proxyNotifications()
 		"var that = this;" + 
 		"_notification.onclick = function (event)" + 
 		"{" + 
-			"if (debug) console.log('WAT: Background notification click intercepted with event: ' + JSON.stringify(event));" + 
+			"if (that.onclick != undefined) that.onclick(event);" +
 
-			"that.onclick(event);" +
-			"var srcChat = undefined;" +
-			"if (event != undefined && event.srcElement != undefined && typeof event.srcElement.tag == 'string')" +
+			"if (isBackgroundScript)" +
 			"{" +
-				"if (debug) console.log('WAT: Background notification click intercepted with srcChat: ' + event.srcElement.tag);" + 
+				"var srcChat = undefined;" +
+				"if (event != undefined && event.srcElement != undefined && typeof event.srcElement.tag == 'string')" +
+				"{" +
+					"if (debug) console.log('WAT: Background notification click intercepted with srcChat: ' + event.srcElement.tag);" + 
 
-				"srcChat = event.srcElement.tag;" +
-			"};" + 
-			"window.postMessage({ name: 'backgroundNotificationClicked', srcChat: srcChat }, '*');" +
+					"srcChat = event.srcElement.tag;" +
+				"};" + 
+				"window.postMessage({ name: 'backgroundNotificationClicked', srcChat: srcChat }, '*');" +
+			"}" +
+			"else" +
+			"{" +
+				"if (debug) console.log('WAT: Foreground notification click intercepted');" + 
+				
+				"window.postMessage({ name: 'foregroundNotificationClicked' }, '*');" +
+			"};" +
 		"};" + 
 		"_notification.onshow = function (event)" + 
 		"{" + 
-			"that.onshow(event);" + 
+			"if (that.onshow != undefined) that.onshow(event);" + 
+
+			"if (!isBackgroundScript)" +
+			"{" +
+				"if (debug) console.log('WAT: Foreground notification show intercepted');" + 
+				
+				"window.postMessage({ name: 'foregroundNotificationShown' }, '*');" +
+			"};" +
 		"};" + 
 		"_notification.onerror = function (event)" + 
 		"{" + 
-			"that.onerror(event);" + 
+			"if (that.onerror != undefined) that.onerror(event);" + 
 		"};" + 
 		"_notification.onclose = function (event)" + 
 		"{" + 
-			"that.onclose(event);" + 
+			"if (that.onclose != undefined) that.onclose(event);" + 
 		"};" + 
 
 		// Proxy instance methods
@@ -145,6 +179,8 @@ function proxyNotifications()
 	scriptElem.innerHTML = script;
 	document.head.appendChild(scriptElem);
 }
+
+// FOR BACKGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
 
 function reCheckStatus()
 {
