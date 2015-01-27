@@ -321,7 +321,15 @@ function checkBadge(reCheck)
 				unreadChatElem = unreadChatElems[i];
 				var unreadCount = parseInt(unreadChatElem.getElementsByClassName("unread-count")[0].textContent);
 				var chatTitle = unreadChatElem.getElementsByClassName("chat-title")[0].textContent;
+				if (chatTitle.length > 30) // Max 30 chars
+				{
+					chatTitle = chatTitle.substr(0, 30 - 3) + "...";
+				}
 				var chatStatus = unreadChatElem.getElementsByClassName("chat-status")[0].textContent;
+				if (chatStatus.length > 70) // Max 70 chars
+				{
+					chatStatus = chatStatus.substr(0, 70 - 3) + "...";
+				}
 				var chatTime = unreadChatElem.getElementsByClassName("chat-time")[0].textContent;
 				totalUnreadCount += unreadCount;
 				badgeTooltip += (i > 0 ? "\n" : "") + "(" + unreadCount + ")\t" + chatTitle + "  →  " + chatStatus + " [" + chatTime + "]";
