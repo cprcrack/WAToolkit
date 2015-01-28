@@ -91,7 +91,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab)
 			closeAllWhatsAppTabsBut(tabId);
 			unloadBackgroundPage();
 		}
-		else if (whatsAppTabs.indexOf(tabId) > -1)
+		else if (changeInfo.url.indexOf(whatsAppUrl) != 0 && whatsAppTabs.indexOf(tabId) > -1)
 		{
 			if (debug) console.info("WAT: 'Closed' the only WhatsApp tab, load background page");
 
