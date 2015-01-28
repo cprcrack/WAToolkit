@@ -217,7 +217,7 @@ function checkBadge(reCheck)
 				}
 				var chatTime = unreadChatElem.getElementsByClassName("chat-time")[0].textContent;
 				totalUnreadCount += unreadCount;
-				tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")\t" + chatTitle + "  →  " + chatStatus + " [" + chatTime + "]";
+				tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")  " + chatTitle + "  →  " + chatStatus + "  [" + chatTime + "]";
 			}
 
 			var badgeText = "";
