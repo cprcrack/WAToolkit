@@ -9,12 +9,6 @@ var debug = true;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
 
-// Open WhatsApp on toolbar icon click
-chrome.browserAction.onClicked.addListener(function (tab)
-{
-    chrome.tabs.create({ url: whatsAppUrl });
-});
-
 // Allow framing
 chrome.webRequest.onHeadersReceived.addListener(
     function (details)
@@ -116,6 +110,22 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo)
 		whatsAppTabs.splice(whatsAppTabs.indexOf(tabId), 1);
 		loadBackgroundPage();
 	}
+});
+
+// Handle toolbar icon click. Focus WhatsApp tab if currently open in this window, otherwise just open a new one.
+chrome.browserAction.onClicked.addListener(function (tab)
+{
+	chrome.tabs.query({ url: whatsAppUrl + "*", lastFocusedWindow: true }, function (tabs)
+	{
+		if (tabs.length > 0)
+		{
+			chrome.tabs.update(tabs[0].id, { active: true });
+		}
+		else
+		{
+			chrome.tabs.create({ url: whatsAppUrl });
+		}
+	});
 });
 
 function loadBackgroundPage()
