@@ -7,7 +7,6 @@ License: GNU GPLv3
 
 var debug = true;
 
-var checkStatusInterval = 10000;
 var checkSrcChatTrials = 25;
 var checkSrcChatInterval = 400;
 var checkBadgeInterval = 5000;
@@ -36,21 +35,14 @@ chrome.runtime.sendMessage({ name: "getIsBackgroundPage" }, function (isBackgrou
 function backgroundScript()
 {
 	proxyNotifications(true);
-	reCheckStatus();
-	reCheckBadge();
-	setTimeout(function () { checkBadge(false); }, 1000);
-	setTimeout(function () { checkBadge(false); }, 2000);
-	setTimeout(function () { checkBadge(false); }, 3000);
+	reCheckBadge(true);
 }
 
 function foregroundScript()
 {
 	proxyNotifications(false);
+	reCheckBadge(true);
 	reCheckSrcChat(1);
-	reCheckBadge();
-	setTimeout(function () { checkBadge(false); }, 1000);
-	setTimeout(function () { checkBadge(false); }, 2000);
-	setTimeout(function () { checkBadge(false); }, 3000);
 }
 
 // FOR BOTH BACKGROUND AND FOREGROUND SCRIPTS ////////////////////////////////////////////////////
@@ -75,7 +67,6 @@ function proxyNotifications(isBackgroundScript)
 		{
 			if (event != undefined && event.data != undefined && (event.data.name == "foregroundNotificationClicked" || event.data.name == "foregroundNotificationShown"))
 			{
-				setTimeout(function () { checkBadge(false); }, 500);
 				setTimeout(function () { checkBadge(false); }, 1000);
 			}
 		});
@@ -184,54 +175,72 @@ function proxyNotifications(isBackgroundScript)
 	document.head.appendChild(scriptElem);
 }
 
-// FOR BACKGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
-
-function reCheckStatus()
+function reCheckBadge(isFirstCall)
 {
-	setTimeout(function () { checkStatus(); }, checkStatusInterval);
+	if (isFirstCall)
+	{
+		setTimeout(function () { checkBadge(false); }, 1000);
+		setTimeout(function () { checkBadge(false); }, 2000);
+		setTimeout(function () { checkBadge(false); }, 3000);
+	}
+	setTimeout(function () { checkBadge(true); }, checkBadgeInterval);
 }
 
-function checkStatus()
+function checkBadge(reCheck)
 {
-	if (debug) console.info("WAT: Checking status...");
-
+	if (debug) console.info("WAT: Checking badge...");
+	
 	try
 	{
-		// Decides whether a background session is active
-		var isSessionReady = document.getElementsByClassName("pane-list-user").length > 0 || document.getElementsByClassName("entry-main").length > 0;
-		if (isSessionReady)
+		var isSessionActive = document.getElementsByClassName("pane-list-user").length > 0;
+		if (isSessionActive)
 		{
-			if (debug) console.info("WAT: Session is ready");
+			var warn = document.getElementsByClassName("butterbar-phone").length > 0;
+			
+			var totalUnreadCount = 0;
+			var tooltipText = "";
 
-			reCheckStatus(); return;
-		}
-		else
-		{
-			if (debug) console.warn("WAT: Session is not ready, checking if should reconnect...");
-
-			chrome.runtime.sendMessage({ name: "getAttemptReconnect" }, function (attemptReconnect)
+			var unreadChatElems = document.getElementsByClassName("chat unread");
+			for (var i = 0; i < unreadChatElems.length; i++)
 			{
-				if (attemptReconnect)
+				unreadChatElem = unreadChatElems[i];
+				var unreadCount = parseInt(unreadChatElem.getElementsByClassName("unread-count")[0].textContent);
+				var chatTitle = unreadChatElem.getElementsByClassName("chat-title")[0].textContent;
+				if (chatTitle.length > 30) // Max 30 chars
 				{
-					if (debug) console.info("WAT: Reconnecting...");
-
-					window.location.reload();
+					chatTitle = chatTitle.substr(0, 30 - 3) + "...";
 				}
-				else
+				var chatStatus = unreadChatElem.getElementsByClassName("chat-status")[0].textContent;
+				if (chatStatus.length > 70) // Max 70 chars
 				{
-					if (debug) console.info("WAT: Not attempting to reconnect");
+					chatStatus = chatStatus.substr(0, 70 - 3) + "...";
 				}
+				var chatTime = unreadChatElem.getElementsByClassName("chat-time")[0].textContent;
+				totalUnreadCount += unreadCount;
+				tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")\t" + chatTitle + "  →  " + chatStatus + " [" + chatTime + "]";
+			}
 
-				reCheckStatus(); return;
-			});
+			var badgeText = "";
+			if (totalUnreadCount > 0)
+			{
+				badgeText = totalUnreadCount.toString();
+			}
+			if (tooltipText.length == 0)
+			{
+				tooltipText = "All messages read";
+			}
+			chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn, badgeText: badgeText, tooltipText: tooltipText });
 		}
 	}
 	catch (err)
 	{
-		console.error("WAT: Exception while checking status");
+		console.error("WAT: Exception while checking badge");
 		console.error(err);
-		
-		reCheckStatus(); return;
+	}
+
+	if (reCheck)
+	{
+		reCheckBadge(false);
 	}
 }
 
@@ -295,68 +304,5 @@ function checkSrcChat(trial)
 	{
 		console.error("WAT: Exception while checking source chat");
 		console.error(err);
-	}
-}
-
-function reCheckBadge()
-{
-	setTimeout(function () { checkBadge(true); }, checkBadgeInterval);
-}
-
-function checkBadge(reCheck)
-{
-	if (debug) console.info("WAT: Checking badge...");
-	
-	try
-	{
-		var isSessionReady = document.getElementsByClassName("pane-list-user").length > 0;
-		if (isSessionReady)
-		{
-			var warn = document.getElementsByClassName("butterbar-phone").length > 0;
-			
-			var totalUnreadCount = 0;
-			var tooltipText = "";
-
-			var unreadChatElems = document.getElementsByClassName("chat unread");
-			for (var i = 0; i < unreadChatElems.length; i++)
-			{
-				unreadChatElem = unreadChatElems[i];
-				var unreadCount = parseInt(unreadChatElem.getElementsByClassName("unread-count")[0].textContent);
-				var chatTitle = unreadChatElem.getElementsByClassName("chat-title")[0].textContent;
-				if (chatTitle.length > 30) // Max 30 chars
-				{
-					chatTitle = chatTitle.substr(0, 30 - 3) + "...";
-				}
-				var chatStatus = unreadChatElem.getElementsByClassName("chat-status")[0].textContent;
-				if (chatStatus.length > 70) // Max 70 chars
-				{
-					chatStatus = chatStatus.substr(0, 70 - 3) + "...";
-				}
-				var chatTime = unreadChatElem.getElementsByClassName("chat-time")[0].textContent;
-				totalUnreadCount += unreadCount;
-				tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")\t" + chatTitle + "  →  " + chatStatus + " [" + chatTime + "]";
-			}
-
-			var badgeText = "";
-			if (totalUnreadCount > 0)
-			{
-				badgeText = totalUnreadCount.toString();
-			}
-			if (tooltipText.length == 0)
-			{
-				tooltipText = "All messages read";
-			}
-			chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn, badgeText: badgeText, tooltipText: tooltipText });
-		}
-	}
-	catch (err)
-	{
-		console.error("WAT: Exception while checking badge");
-		console.error(err);
-	}
-
-	if (reCheck)
-	{
-		reCheckBadge();
 	}
 }

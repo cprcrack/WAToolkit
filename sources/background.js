@@ -5,9 +5,9 @@ License: GNU GPLv3
 */
 
 
-var whatsAppUrl = "https://web.whatsapp.com";
-// Decides whether a foreground session is active
-var isSessionReadyCode = "document.getElementsByClassName('pane-list-user').length > 0 || document.getElementsByClassName('entry-main').length > 0 || document.getElementsByClassName('spinner').length > 0;";
+var debug = true;
+
+var whatsAppUrl = "https://web.whatsapp.com/";
 
 // Open WhatsApp on toolbar icon click
 chrome.browserAction.onClicked.addListener(function (tab)
@@ -16,7 +16,7 @@ chrome.browserAction.onClicked.addListener(function (tab)
 });
 
 // Allow framing
-if (false) chrome.webRequest.onHeadersReceived.addListener(
+chrome.webRequest.onHeadersReceived.addListener(
     function (details)
     {
     	var headers = details.responseHeaders;
@@ -37,28 +37,155 @@ if (false) chrome.webRequest.onHeadersReceived.addListener(
     ["blocking", "responseHeaders"]
 );
 
-// Load background page. Height 10000 is vital so that all chats are loaded in the side panel.
-document.body.innerHTML = "<iframe width='1000' height='10000' src='" + whatsAppUrl + "'></iframe>";
+// Ensure that one and only one WhatsApp tab or background page is open at any time
+
+var isBackgroundPageLoaded = false;
+var whatsAppTabs = [];
+
+updateWhatsAppTabs(function ()
+{
+	if (whatsAppTabs.length == 0)
+	{
+		if (debug) console.info("WAT: There were no WhatsApp tabs on startup, load background page");
+
+		loadBackgroundPage();
+	}
+	else if (whatsAppTabs.length == 1)
+	{
+		if (debug) console.info("WAT: There was one WhatsApp tab on startup, do nothing");
+	}
+	else
+	{
+		if (debug) console.info("WAT: There were more than one WhatsApp tabs on startup, close all but the last one");
+
+		closeAllWhatsAppTabsBut(whatsAppTabs[whatsAppTabs.length - 1]);
+	}
+});
+
+chrome.runtime.onInstalled.addListener(function (details)
+{
+	if (details.reason == "install")
+	{
+		updateWhatsAppTabs(function ()
+		{
+			var closedCount = closeAllWhatsAppTabs();
+			if (closedCount > 0)
+			{
+				if (debug) console.info("WAT: There were WhatsApp tabs on install, open a new one");
+	
+				chrome.tabs.create({ url: whatsAppUrl });
+			}
+			else
+			{
+				if (debug) console.info("WAT: There were no WhatsApp tabs on install, load background page");
+			
+				loadBackgroundPage();
+			}
+		});
+	}
+});
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab)
+{
+	if (typeof changeInfo.url == "string")
+	{
+		if (changeInfo.url.indexOf(whatsAppUrl) == 0 && whatsAppTabs.indexOf(tabId) == -1)
+		{
+			if (debug) console.info("WAT: New WhatsApp tab, close all other WhatsApp tabs or background page");
+			
+			whatsAppTabs.push(tabId);
+			closeAllWhatsAppTabsBut(tabId);
+			unloadBackgroundPage();
+		}
+		else if (whatsAppTabs.indexOf(tabId) > -1)
+		{
+			if (debug) console.info("WAT: 'Closed' the only WhatsApp tab, load background page");
+
+			whatsAppTabs.splice(whatsAppTabs.indexOf(tabId), 1);
+			loadBackgroundPage();
+		}
+	}
+});
+
+chrome.tabs.onRemoved.addListener(function (tabId, removeInfo)
+{
+	if (whatsAppTabs.indexOf(tabId) > -1)
+	{
+		if (debug) console.info("WAT: Closed the only WhatsApp tab, load background page");
+		
+		whatsAppTabs.splice(whatsAppTabs.indexOf(tabId), 1);
+		loadBackgroundPage();
+	}
+});
+
+function loadBackgroundPage()
+{
+	if (!isBackgroundPageLoaded)
+	{
+		isBackgroundPageLoaded = true;
+		document.body.innerHTML = "<iframe width='1000' height='10000' src='" + whatsAppUrl + "'></iframe>"; // Big height makes all chats to be loaded in the side panel's DOM
+	}
+}
+
+function unloadBackgroundPage()
+{
+	if (isBackgroundPageLoaded)
+	{
+		isBackgroundPageLoaded = false;
+		document.body.innerHTML = "";
+	}
+}
+
+function updateWhatsAppTabs(callback)
+{
+	chrome.tabs.query({ url: whatsAppUrl + "*" }, function (tabs)
+	{
+		whatsAppTabs = [];
+		for (var i = 0; i < tabs.length; i++)
+		{
+			whatsAppTabs.push(tabs[i].id);
+		}
+
+		if (debug) console.info("WAT: Updated WhatsApp tabs: " + JSON.stringify(whatsAppTabs));
+
+		callback();
+	});
+}
+
+// Returns the number of tabs that will be closed (the method is async).
+function closeAllWhatsAppTabs()
+{
+	return closeAllWhatsAppTabsBut(-1);
+}
+
+// Pass -1 to close all tabs. Returns the number of tabs that will be closed (the method is async).
+function closeAllWhatsAppTabsBut(whatsAppTabToKeep)
+{
+	var removedWhatsAppTabs = [];
+	for (var i = whatsAppTabs.length - 1; i >= 0; i--)
+	{
+		var whatsAppTab = whatsAppTabs[i];
+		if (whatsAppTab != whatsAppTabToKeep)
+		{
+			removedWhatsAppTabs.push(whatsAppTabs.splice(i, 1)[0]);
+		}
+	}
+	if (removedWhatsAppTabs.length > 0)
+	{
+		chrome.tabs.remove(removedWhatsAppTabs);
+	}
+	return removedWhatsAppTabs.length;
+}
+
+// Handle data sent via chrome.runtime.sendMessage()
 
 chrome.runtime.onMessage.addListener(onMessage);
 
-// Handles data sent via chrome.runtime.sendMessage()
 function onMessage(messageEvent, sender, callback)
 {
 	if (messageEvent.name == "getIsBackgroundPage")
 	{
 		callback(sender.tab == undefined);
-	}
-	else if (messageEvent.name == "getAttemptReconnect")
-	{
-		chrome.tabs.query({}, function (tabs)
-		{
-			checkIfActiveSessions(tabs, function (activeSessions)
-			{
-				callback(!activeSessions);
-			});
-		});
-		return true; // Keep async callback valid: https://developer.chrome.com/extensions/runtime#event-onMessage
 	}
 	else if (messageEvent.name == "setToolbarIcon")
 	{
@@ -84,58 +211,4 @@ function onMessage(messageEvent, sender, callback)
 			chrome.tabs.create({ url: whatsAppUrl });
 		}
 	}
-}
-
-function checkIfActiveSessions(tabs, callback)
-{
-	try
-	{
-		var _tabs = [];
-		for (var i = 0; i < tabs.length; i++)
-		{
-			var tab = tabs[i];
-			if (tab != undefined && tab.url != undefined && tab.url.indexOf(whatsAppUrl) == 0)
-			{
-				_tabs.push(tab);
-			}
-		}
-		if (_tabs.length > 0)
-		{
-			checkIfActiveTab(_tabs, 0, false, callback);
-		}
-		else
-		{
-			callback(false);
-		}
-	}
-	catch (err)
-	{
-		console.error("WAT: Exception while checking active sessions");
-		console.error(err);
-
-		callback(true);
-	}
-}
-
-function checkIfActiveTab(tabs, index, active, callback)
-{
-	chrome.tabs.executeScript(tabs[index].id, { code: isSessionReadyCode, allFrames: true }, function (results)
-	{
-		for (var i = 0; i < results.length; i++)
-		{
-			active = active || results[i];
-		}
-		if (active)
-		{
-			callback(true)
-		}
-		else if (index + 1 >= tabs.length)
-		{
-			callback(false)
-		}
-		else
-		{
-			checkIfActiveTab(tabs, index + 1, active, callback);
-		}
-	});
 }
