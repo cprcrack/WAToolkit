@@ -193,10 +193,10 @@ function checkBadge(reCheck)
 	try
 	{
 		var isSessionActive = document.getElementsByClassName("pane-list-user").length > 0;
+		var warn = !isSessionActive || document.getElementsByClassName("butterbar-phone").length > 0;
+
 		if (isSessionActive)
 		{
-			var warn = document.getElementsByClassName("butterbar-phone").length > 0;
-			
 			var totalUnreadCount = 0;
 			var tooltipText = "";
 
@@ -230,6 +230,10 @@ function checkBadge(reCheck)
 				tooltipText = "All messages read";
 			}
 			chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn, badgeText: badgeText, tooltipText: tooltipText });
+		}
+		else
+		{
+			chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn });
 		}
 	}
 	catch (err)

@@ -207,8 +207,14 @@ function onMessage(messageEvent, sender, callback)
 		{
 			chrome.browserAction.setIcon({ path: { "19": "favicon19.png", "38": "favicon38.png" } });
 		}
-		chrome.browserAction.setBadgeText({ text: messageEvent.badgeText });
-		chrome.browserAction.setTitle({ title: messageEvent.tooltipText });
+		if (messageEvent.badgeText != undefined)
+		{
+			chrome.browserAction.setBadgeText({ text: messageEvent.badgeText });
+		}
+		if (messageEvent.tooltipText != undefined)
+		{
+			chrome.browserAction.setTitle({ title: messageEvent.tooltipText });
+		}
 	}
 	else if (messageEvent.name == "backgroundNotificationClicked")
 	{
