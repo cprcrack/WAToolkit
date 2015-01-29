@@ -14,7 +14,6 @@ var checkLoadingErrorInterval = 30000;
 var checkSrcChatTrials = 25;
 var checkSrcChatInterval = 400;
 
-
 // Prevent page exit confirmation dialog. The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
 var scriptElem = document.createElement("script");
 scriptElem.innerHTML = "window.onbeforeunload = null;"
@@ -180,6 +179,10 @@ function proxyNotifications(isBackgroundScript)
 	document.head.appendChild(scriptElem);
 }
 
+var lastToolbarIconWarn = -1;
+var lastToolbarIconBadgeText = -1;
+var lastToolbarIconTooltipText = -1;
+
 function reCheckBadge(isFirstCall)
 {
 	if (isFirstCall)
@@ -232,13 +235,35 @@ function checkBadge(reCheck)
 			}
 			if (tooltipText.length == 0)
 			{
-				tooltipText = "All messages read";
+				tooltipText = "WhatsApp"; // Should match browser_action.default_title defined in manifest.json
 			}
-			chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn, badgeText: badgeText, tooltipText: tooltipText });
+			if (lastToolbarIconWarn !== warn || lastToolbarIconBadgeText !== badgeText || lastToolbarIconTooltipText !== tooltipText)
+			{
+				if (debug) console.info("WAT: Will update toolbar icon info");
+				
+				chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn, badgeText: badgeText, tooltipText: tooltipText });
+				lastToolbarIconWarn = warn;
+				lastToolbarIconBadgeText = badgeText;
+				lastToolbarIconTooltipText = tooltipText;
+			}
+			else
+			{
+				if (debug) console.info("WAT: Will not update toolbar icon info because it did not change");
+			}
 		}
 		else
 		{
-			chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn });
+			if (lastToolbarIconWarn !== warn)
+			{
+				if (debug) console.info("WAT: Will update toolbar icon warning info");
+
+				chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn });
+				lastToolbarIconWarn = warn;
+			}
+			else
+			{
+				if (debug) console.info("WAT: Will not update toolbar icon warning info because it did not change");
+			}
 		}
 	}
 	catch (err)
