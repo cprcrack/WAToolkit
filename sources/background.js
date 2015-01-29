@@ -5,7 +5,7 @@ License: GNU GPLv3
 */
 
 
-var debug = true;
+var debug = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
 
