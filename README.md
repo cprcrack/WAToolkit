@@ -1,4 +1,4 @@
-#### [CLICK HERE OR SCROLL DOWN FOR INSTALLATION INSTRUCTIONS](#installation-instructions)
+﻿#### [CLICK HERE OR SCROLL DOWN FOR INSTALLATION INSTRUCTIONS](#installation-instructions)
 
 ![Unofficial Toolkit for WhatsApp](https://raw.githubusercontent.com/cprcrack/Unofficial-Toolkit-for-WhatsApp/master/resources/chrome_web_store_promo_1400x560.png)
 
@@ -8,13 +8,13 @@ Never ever miss a WhatsApp notification again while you are on your desktop comp
 
 ### Features
 
-? **Enables always-on desktop notifications:** Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly. You can click on the notifications to go directly to the relevant chat.
+★ **Enables always-on desktop notifications:** Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly. You can click on the notifications to go directly to the relevant chat.
 
-? **Adds a convenient WhatsApp button to the toolbar:** It includes the number of unread messages always visible. You can hover the mouse over the icon and you will see a summary of your unread conversations in a tooltip. In addition, the icon will become orange if there's some kind of connectivity issue with your phone. You can still hide the button if you want, just right click on it and select *Hide button*.
+★ **Adds a convenient WhatsApp button to the toolbar:** It includes the number of unread messages always visible. You can hover the mouse over the icon and you will see a summary of your unread conversations in a tooltip. In addition, the icon will become orange if there's some kind of connectivity issue with your phone. You can still hide the button if you want, just right click on it and select *Hide button*.
 
-? **Ensures you only have one instance of WhatsApp Web open at any time:** That way you can focus on the right tab in any situation. Moreover, you won't be bothered with WhatsApp's exit confirmation messages any more.
+★ **Ensures you only have one instance of WhatsApp Web open at any time:** That way you can focus on the right tab in any situation. Moreover, you won't be bothered with WhatsApp's exit confirmation messages any more.
 
-? **Extremely lightweight and fast:** Coded with performance in mind.
+★ **Extremely lightweight and fast:** Coded with performance in mind.
 
 ### Installation instructions
 
@@ -27,19 +27,19 @@ Unfortunately Google has [censored](http://www.reddit.com/r/chrome/comments/2u2y
 
 ### Frequently asked questions
 
-**� How to install it?** Please follow the [installation instructions](#installation-instructions).
+**• How to install it?** Please follow the [installation instructions](#installation-instructions).
 
-**� How to use it?** To start using WhatsApp Web, [install this extension](#installation-instructions) and click on the Chrome toolbar button with the *T* icon. If you are not logged in to WhatsApp, you must follow the instructions and scan the QR code with your phone. Remember to check the *Keep me signed in* checkbox so that your session is not closed automatically, or you may miss notifications.
+**• How to use it?** To start using WhatsApp Web, [install this extension](#installation-instructions) and click on the Chrome toolbar button with the *T* icon. If you are not logged in to WhatsApp, you must follow the instructions and scan the QR code with your phone. Remember to check the *Keep me signed in* checkbox so that your session is not closed automatically, or you may miss notifications.
 
-**� I cannot see any notification, what's happening?** If the toolbar *T* icon is orange, there might be some connectivity issue with your phone. If you still cannot see WhatsApp notifications, please refer to the official support thread to solve the issue: http://www.whatsapp.com/faq/en/web/28080004
+**• I cannot see any notification, what's happening?** If the toolbar *T* icon is orange, there might be some connectivity issue with your phone. If you still cannot see WhatsApp notifications, please refer to the official support thread to solve the issue: http://www.whatsapp.com/faq/en/web/28080004
 
 ### Permissions
 
 The message shown by Google Chrome for the requested permissions is far from the real needs of the extension, but the permissions are technically required for the following reasons:
 
-**� Read and change your data on all whatsapp.com sites:** Required to create the background page that holds an active WhatsApp session.
+**• Read and change your data on all whatsapp.com sites:** Required to create the background page that holds an active WhatsApp session.
 
-**� Read your browsing history:** Required to detect whether an active WhatsApp session exists among the tabs you are browsing, avoiding conflicts with the background page.
+**• Read your browsing history:** Required to detect whether an active WhatsApp session exists among the tabs you are browsing, avoiding conflicts with the background page.
 
 ### Motivation
 
