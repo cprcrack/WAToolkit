@@ -1,4 +1,4 @@
-﻿#### [CLICK HERE OR SCROLL DOWN FOR INSTALLATION INSTRUCTIONS](#installation-instructions)
+﻿﻿#### [CLICK HERE OR SCROLL DOWN FOR INSTALLATION INSTRUCTIONS](#installation-instructions)
 
 ![Unofficial Toolkit for WhatsApp](https://raw.githubusercontent.com/cprcrack/Unofficial-Toolkit-for-WhatsApp/master/resources/chrome_web_store_promo_1400x560.png)
 
@@ -18,7 +18,19 @@ Never ever miss a WhatsApp notification again while you are on your desktop comp
 
 ### Installation instructions
 
-Unfortunately Google has [censored](http://www.reddit.com/r/chrome/comments/2u2yi4/google_censored_my_whatsapp_extension_without_any/) this extension from Chrome Web Store. Fortunately you can always manually install the last version of Unofficial Toolkit for WhatsApp following this simple steps:
+Unfortunately Google has [censored](http://www.reddit.com/r/chrome/comments/2u2yi4/google_censored_my_whatsapp_extension_without_any/) this extension from Chrome Web Store. Fortunately you can always manually install the last version of Unofficial Toolkit for WhatsApp following these steps:
+
+**Windows:**
+
+1. Right click [here](https://raw.githubusercontent.com/cprcrack/Unofficial-Toolkit-for-WhatsApp/master/release/latest/sources.zip) and select *Save link as...* Save *sources.zip* temporarily to your desktop.
+2. Unzip *sources.zip* to a permanent location of your choice, for example to *%UserProfile%\watoolkit\*
+3. Click the Chrome menu icon ![Chrome menu](https://raw.githubusercontent.com/cprcrack/Unofficial-Toolkit-for-WhatsApp/master/resources/chrome_menu.png) on the browser toolbar and select *More tools > Extensions*.
+4. Check the *Developer mode* checkbox in the top right of the Extensions page.
+5. Click on *Load unpacked extensions...* and select the path where you saved the sources in step 2.
+
+Sadly you will be annoyed with a warning message every time you restart Chrome with developer mode activated.
+
+**Mac OS X or Linux:**
 
 1. Right click [here](https://raw.githubusercontent.com/cprcrack/Unofficial-Toolkit-for-WhatsApp/master/release/latest/watoolkit.crx) and select *Save link as...* Save *watoolkit.crx* temporarily to your desktop.
 2. Click the Chrome menu icon ![Chrome menu](https://raw.githubusercontent.com/cprcrack/Unofficial-Toolkit-for-WhatsApp/master/resources/chrome_menu.png) on the browser toolbar and select *More tools > Extensions*.
