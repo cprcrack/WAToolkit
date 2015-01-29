@@ -28,7 +28,7 @@ Unfortunately Google has [censored](http://www.reddit.com/r/chrome/comments/2u2y
 4. Check the *Developer mode* checkbox in the top right of the Extensions page.
 5. Click on *Load unpacked extensions...* and select the path where you saved the sources in step 2.
 
-Sadly you will be annoyed with a warning message every time you restart Chrome with developer mode activated.
+Sadly you will be annoyed with a warning message which you will have to *Cancel* every time you restart Chrome with developer mode activated.
 
 **Mac OS X or Linux:**
 
