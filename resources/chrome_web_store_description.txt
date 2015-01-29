@@ -2,21 +2,19 @@
 
 Features:
 
-★ Enables always-on desktop notifications. Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly.
+★ Enables always-on desktop notifications. Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly. You can click on the notifications to go directly to the relevant chat.
 
-★ Adds a convenient WhatsApp icon to the toolbar, with the number of unread messages always visible. You can still hide the icon if you want, just rigth click on it and select Hide button.
+★ Adds a convenient WhatsApp button to the toolbar, with the number of unread messages always visible. You can hover the mouse over the icon and you will see a summary of your unread conversations in a tooltip. In addition, the icon will become orange if there's some kind of connectivity issue with your smartphone. You can still hide the button if you want, just right click on it and select "Hide button".
 
-★ Extremely lightweight and fast.
+★ Ensures you only have one instance of WhatsApp Web open at any time, so that you can focus on the right tab in any situation. Moreover, you won't be bothered with WhatsApp's exit confirmation messages any more.
 
-★ New cool features to be added soon, including themes. Be sure to suggest new ideas by clicking on the SUPPORT tab.
-
-———————————————————— HOW TO ————————————————————
-
-New to WhatsApp Web? To start using it, install this extension and click on the Chrome toolbar button with the T icon. The notifications will start working as soon as you log in using the QR code. Remember to check the "keep session opened" checkbox!
+★ Extremely lightweight and fast. Coded with performance in mind.
 
 ———————————————————— FAQ ————————————————————
 
-• If you can't see WhatsApp notifications, please refer to the official support thread to solve the issue: http://www.whatsapp.com/faq/en/web/28080004
+• How to use it? To start using WhatsApp Web, install this extension and click on the Chrome toolbar button with the "T" icon. If you are not logged in to WhatsApp, you must follow the instructions and scan the QR code with your smartphone. Remember to check the "Keep me signed in" checkbox so that your session is not closed automatically or you may miss notifications.
+
+• I cannot see any notification, what's happening? If the toolbar "T" icon is orange, there might be some connectivity issue with your smartphone. If you still cannot see WhatsApp notifications, please refer to the official support thread to solve the issue: http://www.whatsapp.com/faq/en/web/28080004
 
 ———————————————————— LICENSE ————————————————————
 
