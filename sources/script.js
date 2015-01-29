@@ -7,9 +7,13 @@ License: GNU GPLv3
 
 var debug = true;
 
+var whatsAppUrl = "https://web.whatsapp.com/";
+
+var checkBadgeInterval = 5000;
+var checkLoadingErrorInterval = 30000;
 var checkSrcChatTrials = 25;
 var checkSrcChatInterval = 400;
-var checkBadgeInterval = 5000;
+
 
 // Prevent page exit confirmation dialog. The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
 var scriptElem = document.createElement("script");
@@ -36,6 +40,7 @@ function backgroundScript()
 {
 	proxyNotifications(true);
 	reCheckBadge(true);
+	reCheckLoadingError();
 }
 
 function foregroundScript()
@@ -246,6 +251,48 @@ function checkBadge(reCheck)
 	{
 		reCheckBadge(false);
 	}
+}
+
+// FOR BACKGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
+
+var lastPotentialLoadingError = false;
+
+function reCheckLoadingError()
+{
+	setTimeout(function () { checkLoadingError(); }, checkLoadingErrorInterval);
+}
+
+function checkLoadingError()
+{
+	if (debug) console.info("WAT: Checking potential loading error...");
+
+	try
+	{
+		var potentialLoadingError = document.getElementsByClassName("spinner").length > 0;
+
+		if (potentialLoadingError && !lastPotentialLoadingError)
+		{
+			if (debug) console.info("WAT: Found potential loading error");
+		}
+
+		if (lastPotentialLoadingError && potentialLoadingError)
+		{
+			if (debug) console.info("WAT: Found loading error. Reloading...");
+			
+			window.location.href = whatsAppUrl;
+		}
+		else
+		{
+			lastPotentialLoadingError = potentialLoadingError;
+		}
+	}
+	catch (err)
+	{
+		console.error("WAT: Exception while checking loading error");
+		console.error(err);
+	}
+
+	reCheckLoadingError();
 }
 
 // FOR FOREGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
