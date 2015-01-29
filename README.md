@@ -1,4 +1,4 @@
-﻿﻿#### [CLICK HERE OR SCROLL DOWN FOR INSTALLATION INSTRUCTIONS](#installation-instructions)
+#### [CLICK HERE OR SCROLL DOWN FOR INSTALLATION INSTRUCTIONS](#installation-instructions)
 
 ![Unofficial Toolkit for WhatsApp](https://raw.githubusercontent.com/cprcrack/Unofficial-Toolkit-for-WhatsApp/master/resources/chrome_web_store_promo_1400x560.png)
 
