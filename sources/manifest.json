@@ -1,9 +1,9 @@
 ﻿{
-	"name": "Unofficial Toolkit for WhatsApp",
-	"version": "1.2",
+	"name": "WAToolkit",
+	"version": "1.3",
 	"manifest_version": 2,
 	"minimum_chrome_version": "37",
-	"description": "An unofficial set of useful and lightweight tools for WhatsApp Web client that provides better Google Chrome integration.",
+	"description": "A set of useful and lightweight tools for WhatsApp™ Web client that provides better Google Chrome integration.",
 	"icons":
 	{
 		"16": "favicon16.png",
