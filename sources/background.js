@@ -42,7 +42,7 @@ updateWhatsAppTabs(function ()
 	if (whatsAppTabs.length == 0)
 	{
 		if (debug) console.info("WAT: There were no WhatsApp tabs on startup, load background page");
-
+		
 		loadBackgroundPage();
 	}
 	else if (whatsAppTabs.length == 1)
@@ -52,7 +52,7 @@ updateWhatsAppTabs(function ()
 	else
 	{
 		if (debug) console.info("WAT: There were more than one WhatsApp tabs on startup, close all but the last one");
-
+		
 		closeAllWhatsAppTabsBut(whatsAppTabs[whatsAppTabs.length - 1]);
 	}
 });
@@ -87,7 +87,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab)
 		if (changeInfo.url.indexOf(whatsAppUrl) == 0 && whatsAppTabs.indexOf(tabId) == -1)
 		{
 			if (debug) console.info("WAT: New WhatsApp tab, close all other WhatsApp tabs or background page");
-
+			
 			whatsAppTabs.push(tabId);
 			closeAllWhatsAppTabsBut(tabId);
 			unloadBackgroundPage();
@@ -95,7 +95,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab)
 		else if (changeInfo.url.indexOf(whatsAppUrl) != 0 && whatsAppTabs.indexOf(tabId) > -1)
 		{
 			if (debug) console.info("WAT: 'Closed' the only WhatsApp tab, load background page");
-
+			
 			whatsAppTabs.splice(whatsAppTabs.indexOf(tabId), 1);
 			loadBackgroundPage();
 		}
@@ -107,7 +107,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo)
 	if (whatsAppTabs.indexOf(tabId) > -1)
 	{
 		if (debug) console.info("WAT: Closed the only WhatsApp tab, load background page");
-
+		
 		whatsAppTabs.splice(whatsAppTabs.indexOf(tabId), 1);
 		loadBackgroundPage();
 	}
@@ -122,10 +122,10 @@ chrome.browserAction.onClicked.addListener(function (tab)
 		{
 			chrome.tabs.update(tabs[0].id, { active: true });
 		}
-        else if (tab.url == newTabUrl)
-        {
-            chrome.tabs.update(tab.id, { url: whatsAppUrl });
-        }
+		else if (tab.url == newTabUrl)
+		{
+			chrome.tabs.update(tab.id, { url: whatsAppUrl });
+		}
 		else
 		{
 			chrome.tabs.create({ url: whatsAppUrl });
