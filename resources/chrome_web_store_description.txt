@@ -4,7 +4,7 @@ Features:
 
 ★ Enables always-on desktop notifications: Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly. You can click on the notifications to go directly to the relevant chat.
 
-★ Adds a convenient WhatsApp button to the toolbar: It includes the number of unread messages always visible. You can hover the mouse over the icon and you will see a summary of your unread conversations in a tooltip. In addition, the icon will become orange if there's some kind of connectivity issue with your phone. You can still hide the button if you want, just right click on it and select *Hide button*.
+★ Adds a convenient WhatsApp button to the toolbar: It includes the number of unread messages always visible. You can hover the mouse over the icon and you will see a summary of your unread conversations in a tooltip. In addition, the icon will become orange if there's some kind of connectivity issue with your phone. You can still hide the button if you want, just right click on it and select "Hide button".
 
 ★ Ensures you only have one instance of WhatsApp Web open at any time: That way you can focus on the right tab in any situation. Moreover, you won't be bothered with WhatsApp's exit confirmation messages any more.
 
