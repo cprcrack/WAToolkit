@@ -8,6 +8,7 @@ License: GNU GPLv3
 var debug = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
+var newTabUrl = "chrome://newtab/";
 
 // Allow framing
 chrome.webRequest.onHeadersReceived.addListener(
@@ -66,13 +67,13 @@ chrome.runtime.onInstalled.addListener(function (details)
 			if (closedCount > 0)
 			{
 				if (debug) console.info("WAT: There were WhatsApp tabs on install, open a new one");
-	
+
 				chrome.tabs.create({ url: whatsAppUrl });
 			}
 			else
 			{
 				if (debug) console.info("WAT: There were no WhatsApp tabs on install, load background page");
-			
+
 				loadBackgroundPage();
 			}
 		});
@@ -86,7 +87,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab)
 		if (changeInfo.url.indexOf(whatsAppUrl) == 0 && whatsAppTabs.indexOf(tabId) == -1)
 		{
 			if (debug) console.info("WAT: New WhatsApp tab, close all other WhatsApp tabs or background page");
-			
+
 			whatsAppTabs.push(tabId);
 			closeAllWhatsAppTabsBut(tabId);
 			unloadBackgroundPage();
@@ -106,7 +107,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo)
 	if (whatsAppTabs.indexOf(tabId) > -1)
 	{
 		if (debug) console.info("WAT: Closed the only WhatsApp tab, load background page");
-		
+
 		whatsAppTabs.splice(whatsAppTabs.indexOf(tabId), 1);
 		loadBackgroundPage();
 	}
@@ -121,6 +122,10 @@ chrome.browserAction.onClicked.addListener(function (tab)
 		{
 			chrome.tabs.update(tabs[0].id, { active: true });
 		}
+        else if (tab.url == newTabUrl)
+        {
+            chrome.tabs.update(tab.id, { url: whatsAppUrl });
+        }
 		else
 		{
 			chrome.tabs.create({ url: whatsAppUrl });
