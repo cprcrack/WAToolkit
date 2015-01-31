@@ -1,44 +1,44 @@
 ﻿{
-	"name": "WAToolkit",
-	"short_name": "WAToolkit",
-	"version": "1.3.1",
-	"manifest_version": 2,
-	"minimum_chrome_version": "37",
-	"description": "A set of useful and lightweight tools for WhatsApp™ Web client.",
-	"icons":
-	{
-		"16": "favicon16.png",
-		"48": "icon48.png",
-		"128": "icon128.png"
-	},
-	"background":
-	{
-		"scripts": [ "background.js" ]
-	},
-	"content_scripts":
-	[
-		{
-			"matches": [ "*://*.whatsapp.com/*" ],
-			"js": [ "script.js" ],
-			"all_frames": true
-		}
-	],
-	"browser_action":
-	{
-		"default_icon":
-		{
-			"19": "favicon19.png",
-			"38": "favicon38.png"
-		},
-		"default_title": "WhatsApp"
+    "name": "WAToolkit",
+    "short_name": "WAToolkit",
+    "version": "1.3.1",
+    "manifest_version": 2,
+    "minimum_chrome_version": "37",
+    "description": "A set of useful and lightweight tools for WhatsApp™ Web client.",
+    "icons":
+    {
+        "16": "favicon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
     },
-	"permissions":
-	[
-		"*://*.whatsapp.com/*",
-		"tabs",
-		"background",
-		"notifications",
-		"webRequest",
-		"webRequestBlocking"
-	]
+    "background":
+    {
+        "scripts": [ "background.js" ]
+    },
+    "content_scripts":
+    [
+        {
+            "matches": [ "*://*.whatsapp.com/*" ],
+            "js": [ "script.js" ],
+            "all_frames": true
+        }
+    ],
+    "browser_action":
+    {
+        "default_icon":
+        {
+            "19": "favicon19.png",
+            "38": "favicon38.png"
+        },
+        "default_title": "WhatsApp"
+    },
+    "permissions":
+    [
+        "*://*.whatsapp.com/*",
+        "tabs",
+        "background",
+        "notifications",
+        "webRequest",
+        "webRequestBlocking"
+    ]
 }
