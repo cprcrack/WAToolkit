@@ -113,7 +113,8 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo)
 	}
 });
 
-// Handle toolbar icon click. Focus WhatsApp tab if currently open in this window, otherwise just open a new one.
+// Handle toolbar icon click. Focus WhatsApp tab if currently open in this window.
+// Otherwise just open a new one or use the currently active new tab page.
 chrome.browserAction.onClicked.addListener(function (tab)
 {
 	chrome.tabs.query({ url: whatsAppUrl + "*", lastFocusedWindow: true }, function (tabs)
