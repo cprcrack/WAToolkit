@@ -17,13 +17,12 @@ chrome.webRequest.onHeadersReceived.addListener(
         var headers = details.responseHeaders;
         for (var i = headers.length - 1; i >= 0 ; i--)
         {
-            var header = headers[i].name;
-            if (header == "X-Frame-Options")
+            if (headers[i].name == "X-Frame-Options")
             {
                 headers.splice(i, 1);
             }
         }
-        return { responseHeaders: details.responseHeaders };
+        return { responseHeaders: headers };
     },
     {
         urls: [ "*://*.whatsapp.com/*" ],
@@ -113,8 +112,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo)
     }
 });
 
-// Handle toolbar icon click. Focus WhatsApp tab if currently open in this window.
-// Otherwise just open a new one or use the currently active new tab page.
+// Handle toolbar icon click. Focus WhatsApp tab if currently open in this window, otherwise just open a new one or use the currently active new tab page.
 chrome.browserAction.onClicked.addListener(function (tab)
 {
     chrome.tabs.query({ url: whatsAppUrl + "*", lastFocusedWindow: true }, function (tabs)
