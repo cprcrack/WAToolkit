@@ -1,5 +1,5 @@
 ﻿/*
-Unofficial Toolkit for WhatsApp
+WAToolkit
 Author: Cristian Perez <http://www.cpr.name>
 License: GNU GPLv3
 */

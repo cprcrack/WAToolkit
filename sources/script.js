@@ -1,5 +1,5 @@
 ﻿/*
-Unofficial Toolkit for WhatsApp
+WAToolkit
 Author: Cristian Perez <http://www.cpr.name>
 License: GNU GPLv3
 */
@@ -76,103 +76,104 @@ function proxyNotifications(isBackgroundScript)
         });
     }
 
-    var script =
+    var script = "";
+    script += "var debug = " + debug + ";";
+    script += "var isBackgroundScript = " + isBackgroundScript + ";";
+    script += "(" + function ()
+	{
+        // Notification spec: https://developer.mozilla.org/en/docs/Web/API/notification
 
-    "var debug = " + debug + ";" +
-    "var isBackgroundScript = " + isBackgroundScript + ";" +
+        // Save native notification
+        var _Notification = window.Notification;
 
-    // Notification spec: https://developer.mozilla.org/en/docs/Web/API/notification
+        // Create proxy notification
+        var ProxyNotification = function (title, options)
+        {
+            if (debug) console.log("WAT: Notification creation intercepted");
 
-    // Save native notification
-    "var _Notification = window.Notification;" +
+            // Proxy constructor
+            var _notification = new _Notification(title, options);
 
-    // Create proxy notification
-    "var ProxyNotification = function (title, options)" + 
-    "{" + 
-        "if (debug) console.log('WAT: Notification creation intercepted');" +
+            // Proxy instance properties
+            this.title = _notification.title;
+            this.dir = _notification.dir;
+            this.lang = _notification.lang;
+            this.body = _notification.body;
+            this.tag = _notification.tag;
+            this.icon = _notification.icon;
 
-        // Proxy constructor
-        "var _notification = new _Notification(title, options);" + 
+            // Proxy event handlers
+            var that = this;
+            _notification.onclick = function (event)
+            {
+                if (that.onclick != undefined) that.onclick(event);
 
-        // Proxy instance properties
-        "this.title = _notification.title;" + 
-        "this.dir = _notification.dir;" + 
-        "this.lang = _notification.lang;" + 
-        "this.body = _notification.body;" + 
-        "this.tag = _notification.tag;" + 
-        "this.icon = _notification.icon;" + 
+                if (isBackgroundScript)
+                {
+                    var srcChat = undefined;
+                    if (event != undefined && event.srcElement != undefined && typeof event.srcElement.tag == "string")
+                    {
+                        if (debug) console.log("WAT: Background notification click intercepted with srcChat: " + event.srcElement.tag);
 
-        // Proxy event handlers
-        "var that = this;" + 
-        "_notification.onclick = function (event)" + 
-        "{" + 
-            "if (that.onclick != undefined) that.onclick(event);" +
+                        srcChat = event.srcElement.tag;
+                    };
+                    window.postMessage({ name: "backgroundNotificationClicked", srcChat: srcChat }, "*");
+                }
+                else
+                {
+                    if (debug) console.log("WAT: Foreground notification click intercepted");
+                    
+                    window.postMessage({ name: "foregroundNotificationClicked" }, "*");
+                };
+            };
+            _notification.onshow = function (event)
+            {
+                if (that.onshow != undefined) that.onshow(event);
 
-            "if (isBackgroundScript)" +
-            "{" +
-                "var srcChat = undefined;" +
-                "if (event != undefined && event.srcElement != undefined && typeof event.srcElement.tag == 'string')" +
-                "{" +
-                    "if (debug) console.log('WAT: Background notification click intercepted with srcChat: ' + event.srcElement.tag);" + 
+                if (!isBackgroundScript)
+                {
+                    if (debug) console.log("WAT: Foreground notification show intercepted");
+                    
+                    window.postMessage({ name: "foregroundNotificationShown" }, "*");
+                };
+            };
+            _notification.onerror = function (event)
+            {
+                if (that.onerror != undefined) that.onerror(event);
+            };
+            _notification.onclose = function (event)
+            {
+                if (that.onclose != undefined) that.onclose(event);
+            };
 
-                    "srcChat = event.srcElement.tag;" +
-                "};" + 
-                "window.postMessage({ name: 'backgroundNotificationClicked', srcChat: srcChat }, '*');" +
-            "}" +
-            "else" +
-            "{" +
-                "if (debug) console.log('WAT: Foreground notification click intercepted');" + 
-                
-                "window.postMessage({ name: 'foregroundNotificationClicked' }, '*');" +
-            "};" +
-        "};" + 
-        "_notification.onshow = function (event)" + 
-        "{" + 
-            "if (that.onshow != undefined) that.onshow(event);" + 
+            // Proxy instance methods
+            this.close = function ()
+            {
+                _notification.close();
+            };
+            this.addEventListener = function (type, listener, useCapture)
+            {
+                _notification.addEventListener(type, listener, useCapture);
+            };
+            this.removeEventListener = function (type, listener, useCapture)
+            {
+                _notification.removeEventListener(type, listener, useCapture);
+            };
+            this.dispatchEvent = function (event)
+            {
+                _notification.dispatchEvent(event);
+            };
+        };
 
-            "if (!isBackgroundScript)" +
-            "{" +
-                "if (debug) console.log('WAT: Foreground notification show intercepted');" + 
-                
-                "window.postMessage({ name: 'foregroundNotificationShown' }, '*');" +
-            "};" +
-        "};" + 
-        "_notification.onerror = function (event)" + 
-        "{" + 
-            "if (that.onerror != undefined) that.onerror(event);" + 
-        "};" + 
-        "_notification.onclose = function (event)" + 
-        "{" + 
-            "if (that.onclose != undefined) that.onclose(event);" + 
-        "};" + 
+        // Proxy static properties
+        ProxyNotification.permission = _Notification.permission;
 
-        // Proxy instance methods
-        "this.close = function ()" + 
-        "{" + 
-            "_notification.close();" + 
-        "};" + 
-        "this.addEventListener = function (type, listener, useCapture)" + 
-        "{" + 
-            "_notification.addEventListener(type, listener, useCapture);" + 
-        "};" + 
-        "this.removeEventListener = function (type, listener, useCapture)" + 
-        "{" + 
-            "_notification.removeEventListener(type, listener, useCapture);" + 
-        "};" + 
-        "this.dispatchEvent = function (event)" + 
-        "{" + 
-            "_notification.dispatchEvent(event);" + 
-        "};" + 
-    "};" + 
+        // Proxy static methods
+        ProxyNotification.requestPermission = _Notification.requestPermission;
 
-    // Proxy static properties
-    "ProxyNotification.permission = _Notification.permission;" + 
-
-    // Proxy static methods
-    "ProxyNotification.requestPermission = _Notification.requestPermission;" + 
-
-    // Replace native notification with proxy notification
-    "window.Notification = ProxyNotification;";
+        // Replace native notification with proxy notification
+        window.Notification = ProxyNotification;
+    } + ")();";
 
     var scriptElem = document.createElement("script");
     scriptElem.innerHTML = script;
