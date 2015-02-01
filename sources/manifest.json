@@ -33,6 +33,11 @@
         "default_title": "WhatsApp"
     },
     "options_page": "options.html",
+    "options_ui":
+    {
+        "page": "options.html",
+        "chrome_style": true
+    },
     "permissions":
     [
         "*://*.whatsapp.com/*",
@@ -42,4 +47,5 @@
         "webRequest",
         "webRequestBlocking"
     ]
+    
 }
