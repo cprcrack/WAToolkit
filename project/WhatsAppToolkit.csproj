@@ -46,8 +46,14 @@
     <Content Include="..\sources\options.html">
       <Link>options.html</Link>
     </Content>
+    <Content Include="..\sources\options.js">
+      <Link>options.js</Link>
+    </Content>
     <Content Include="..\sources\script.js">
       <Link>script.js</Link>
+    </Content>
+    <Content Include="..\sources\style.css">
+      <Link>style.css</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

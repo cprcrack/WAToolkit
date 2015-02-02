@@ -10,14 +10,14 @@ var debug = true;
 var whatsAppUrl = "https://web.whatsapp.com/";
 var newTabUrl = "chrome://newtab/";
 
-// Allow framing
+// Allow framing // and external resources
 chrome.webRequest.onHeadersReceived.addListener(
     function (details)
     {
         var headers = details.responseHeaders;
         for (var i = headers.length - 1; i >= 0 ; i--)
         {
-            if (headers[i].name == "X-Frame-Options")
+            if (headers[i].name == "X-Frame-Options") // || headers[i].name == "Content-Security-Policy"
             {
                 headers.splice(i, 1);
             }
@@ -26,7 +26,7 @@ chrome.webRequest.onHeadersReceived.addListener(
     },
     {
         urls: [ "*://*.whatsapp.com/*" ],
-        types: [ "sub_frame" ]
+        types: [ "main_frame", "sub_frame" ]
     },
     ["blocking", "responseHeaders"]
 );

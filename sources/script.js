@@ -6,13 +6,12 @@ License: GNU GPLv3
 
 
 var debug = true;
+var debugRepeating = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
 
 var checkBadgeInterval = 5000;
 var checkLoadingErrorInterval = 30000;
-var checkSrcChatTrials = 25;
-var checkSrcChatInterval = 400;
 
 // Prevent page exit confirmation dialog. The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
 var scriptElem = document.createElement("script");
@@ -46,7 +45,12 @@ function foregroundScript()
 {
     proxyNotifications(false);
     reCheckBadge(true);
-    reCheckSrcChat(1);
+
+    onMainUiReady(function ()
+    {
+        checkSrcChat();
+        addOptions();
+    });
 }
 
 // FOR BOTH BACKGROUND AND FOREGROUND SCRIPTS ////////////////////////////////////////////////////
@@ -113,7 +117,7 @@ function proxyNotifications(isBackgroundScript)
                     var srcChat = undefined;
                     if (event != undefined && event.srcElement != undefined && typeof event.srcElement.tag == "string")
                     {
-                        if (debug) console.log("WAT: Background notification click intercepted with srcChat: " + event.srcElement.tag);
+                        if (debug) console.log("WAT: Background notification click intercepted with srcChat " + event.srcElement.tag);
 
                         srcChat = event.srcElement.tag;
                     };
@@ -197,7 +201,7 @@ function reCheckBadge(isFirstCall)
 
 function checkBadge(reCheck)
 {
-    if (debug) console.info("WAT: Checking badge...");
+    if (debugRepeating) console.info("WAT: Checking badge...");
     
     try
     {
@@ -249,7 +253,7 @@ function checkBadge(reCheck)
             }
             else
             {
-                if (debug) console.info("WAT: Will not update toolbar icon info because it did not change");
+                if (debugRepeating) console.info("WAT: Will not update toolbar icon info because it did not change");
             }
         }
         else
@@ -263,7 +267,7 @@ function checkBadge(reCheck)
             }
             else
             {
-                if (debug) console.info("WAT: Will not update toolbar icon warning info because it did not change");
+                if (debugRepeating) console.info("WAT: Will not update toolbar icon warning info because it did not change");
             }
         }
     }
@@ -303,7 +307,7 @@ function checkLoadingError()
 
         if (lastPotentialLoadingError && potentialLoadingError)
         {
-            if (debug) console.info("WAT: Found loading error. Reloading...");
+            if (debug) console.info("WAT: Found loading error, will reload");
             
             window.location.href = whatsAppUrl;
         }
@@ -323,13 +327,55 @@ function checkLoadingError()
 
 // FOR FOREGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
 
-function reCheckSrcChat(trial)
+function onMainUiReady(callback)
 {
-    setTimeout(function () { checkSrcChat(trial); }, checkSrcChatInterval);
+    if (debug) console.info("WAT: Setting up mutation observer for main UI ready event...");
+
+    try
+    {
+        var appWrapperElem = document.getElementsByClassName("app-wrapper")[0];
+        if (appWrapperElem != undefined)
+        {
+            var mutationObserver = new MutationObserver(function (mutations)
+            {
+	            if (debug) console.info("WAT: Mutation observerd, will serach main UI");
+            
+                // Search for new child div with class "app"
+                for (var i = 0; i < mutations.length; i++)
+                {
+                    var mutation = mutations[i];
+                    var addedNodes = mutations[i].addedNodes;
+                    for (var j = 0; j < addedNodes.length; j++)
+                    {
+                        var addedNode = addedNodes[j];
+                        if (addedNode.nodeName.toLowerCase() == "div")
+                        {
+                            var addedNodeClass = addedNode.getAttribute("class");
+                            if (typeof addedNodeClass == "string" && addedNodeClass.indexOf("app") > -1)
+                            {
+                                if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
+
+                                mutationObserver.disconnect();
+                                callback();
+                            }
+                        }   
+                    }
+                }
+            });
+            mutationObserver.observe(appWrapperElem, { childList: true });
+        }
+    }
+    catch (err)
+{
+        console.error("WAT: Exception while setting up mutation observer for main UI ready event");
+        console.error(err);
+    }
 }
 
-function checkSrcChat(trial)
+function checkSrcChat()
 {
+    if (debug) console.info("WAT: Checking source chat...");
+    
     try
     {
         var paramPrefix = "#watSrcChat=";
@@ -337,10 +383,6 @@ function checkSrcChat(trial)
         if (typeof srcChat == "string" && srcChat.indexOf(paramPrefix) == 0)
         {
             srcChat = srcChat.substr(paramPrefix.length).replace(/\./g, "-");
-
-            if (debug) console.info("WAT: Searching chat " + srcChat + " trial " + trial + "...");
-
-            var found = false;
             var chats = document.getElementsByClassName("chat");
             for (var i = 0; i < chats.length; i++)
             {
@@ -348,31 +390,13 @@ function checkSrcChat(trial)
                 var dataReactId = chat.getAttribute("data-reactid")
                 if ((typeof dataReactId == "string") && dataReactId.indexOf(srcChat) > -1)
                 {
+                    if (debug) console.info("WAT: Found source chat, will click it");
+
                     chat.click();
+                    history.replaceState({}, document.title, "/");
                     setTimeout(function() { window.scrollTo(0, 0); }, 500);
                     setTimeout(function() { window.scrollTo(0, 0); }, 1000); // Fixes some strange page misposition that happens only sometimes
-                    found = true;
                     break;
-                }
-            }
-
-            if (found)
-            {
-                if (debug) console.info("WAT: Found and clicked chat");
-
-                history.replaceState({}, document.title, "/");
-            }
-            else
-            {
-                if (trial < checkSrcChatTrials)
-                {
-                    if (debug) console.warn("WAT: Chat not found");
-
-                    reCheckSrcChat(trial + 1);
-                }
-                else
-                {
-                    if (debug) console.error("WAT: Chat not found");
                 }
             }
         }
@@ -380,6 +404,41 @@ function checkSrcChat(trial)
     catch (err)
     {
         console.error("WAT: Exception while checking source chat");
+        console.error(err);
+    }
+}
+
+function addOptions()
+            {
+    if (debug) console.info("WAT: Adding options...");
+
+    try
+            {
+        var firstMenuItem = document.getElementsByClassName("menu-item")[0];
+        if (firstMenuItem != undefined)
+                {
+            if (debug) console.info("WAT: Will add options");
+
+            var menuItemElem = document.createElement("div");
+            menuItemElem.setAttribute("class", "menu-item menu-item-watoolkit");
+            menuItemElem.innerHTML = "<button class='icon icon-watoolkit' title='WAToolkit'>WAToolkit</button>";
+            menuItemElem.addEventListener("click", function ()
+            {
+                if (menuItemElem.getAttribute("class").indexOf("active") > -1)
+                {
+                    menuItemElem.setAttribute("class", "menu-item menu-item-watoolkit");
+                }
+                else
+                {
+                    menuItemElem.setAttribute("class", "menu-item active menu-item-watoolkit");
+            }
+            });
+            firstMenuItem.parentElement.insertBefore(menuItemElem, firstMenuItem);
+        }
+    }
+    catch (err)
+    {
+        console.error("WAT: Exception while adding options");
         console.error(err);
     }
 }
