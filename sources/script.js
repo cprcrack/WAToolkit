@@ -341,6 +341,7 @@ function onMainUiReady(callback)
 	            if (debug) console.info("WAT: Mutation observerd, will serach main UI");
             
                 // Search for new child div with class "app"
+                var found = false;
                 for (var i = 0; i < mutations.length; i++)
                 {
                     var mutation = mutations[i];
@@ -357,8 +358,14 @@ function onMainUiReady(callback)
 
                                 mutationObserver.disconnect();
                                 callback();
+                                found = true;
+                                break;
+                            }
                             }
                         }   
+                    if (found)
+                    {
+                        break;
                     }
                 }
             });
