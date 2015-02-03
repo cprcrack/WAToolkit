@@ -11,7 +11,6 @@ var debugRepeating = false;
 var whatsAppUrl = "https://web.whatsapp.com/";
 
 var safetyDelayShort = 250;
-var safetyDelayMedium = 500;
 var safetyDelayLong = 1000;
 
 var checkBadgeInterval = 5000;
@@ -403,10 +402,8 @@ function checkSrcChat()
                 {
                     if (debug) console.info("WAT: Found source chat, will click it");
 
-                    chat.click();
                     history.replaceState({}, document.title, "/");
-                    setTimeout(function() { window.scrollTo(0, 0); }, safetyDelayMedium);
-                    setTimeout(function() { window.scrollTo(0, 0); }, safetyDelayLong); // Fixes some strange page misposition that happens only sometimes
+                    setTimeout(function () { chat.click(); }, safetyDelayShort); // The delay fixes some strange page misposition glitch
                     break;
                 }
             }
