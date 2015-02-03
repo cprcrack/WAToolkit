@@ -10,6 +10,10 @@ var debugRepeating = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
 
+var safetyDelayShort = 250;
+var safetyDelayMedium = 500;
+var safetyDelayLong = 1000;
+
 var checkBadgeInterval = 5000;
 var checkLoadingErrorInterval = 30000;
 
@@ -36,24 +40,82 @@ chrome.runtime.sendMessage({ name: "getIsBackgroundPage" }, function (isBackgrou
 
 function backgroundScript()
 {
-    proxyNotifications(true);
-    reCheckBadge(true);
+    onMainUiReady(function ()
+    {
+        proxyNotifications(true);
+        checkBadge(false);
+        reCheckBadge();
+    });
+
     reCheckLoadingError();
 }
 
 function foregroundScript()
 {
-    proxyNotifications(false);
-    reCheckBadge(true);
-
     onMainUiReady(function ()
     {
+        proxyNotifications(false);
+        checkBadge(false);
+        reCheckBadge();
+
         checkSrcChat();
         addOptions();
     });
 }
 
 // FOR BOTH BACKGROUND AND FOREGROUND SCRIPTS ////////////////////////////////////////////////////
+
+function onMainUiReady(callback)
+{
+    if (debug) console.info("WAT: Setting up mutation observer for main UI ready event...");
+
+    try
+    {
+        var appWrapperElem = document.getElementsByClassName("app-wrapper")[0];
+        if (appWrapperElem != undefined)
+        {
+            var mutationObserver = new MutationObserver(function (mutations)
+            {
+	            if (debug) console.info("WAT: Mutation observerd, will search main UI");
+            
+                // Search for new child div with class "app"
+                var found = false;
+                for (var i = 0; i < mutations.length; i++)
+                {
+                    var mutation = mutations[i];
+                    var addedNodes = mutations[i].addedNodes;
+                    for (var j = 0; j < addedNodes.length; j++)
+                    {
+                        var addedNode = addedNodes[j];
+                        if (addedNode.nodeName.toLowerCase() == "div")
+                        {
+                            var addedNodeClass = addedNode.getAttribute("class");
+                            if (typeof addedNodeClass == "string" && addedNodeClass.indexOf("app") > -1)
+                            {
+                                if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
+
+                                mutationObserver.disconnect();
+                                setTimeout(function () { callback(); }, safetyDelayShort);
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (found)
+                    {
+                        break;
+                    }
+                }
+            });
+            mutationObserver.observe(appWrapperElem, { childList: true });
+        }
+    }
+    catch (err)
+    {
+        console.error("WAT: Exception while setting up mutation observer for main UI ready event");
+        console.error(err);
+    }
+}
 
 function proxyNotifications(isBackgroundScript)
 {
@@ -75,7 +137,7 @@ function proxyNotifications(isBackgroundScript)
         {
             if (event != undefined && event.data != undefined && (event.data.name == "foregroundNotificationClicked" || event.data.name == "foregroundNotificationShown"))
             {
-                setTimeout(function () { checkBadge(false); }, 1000);
+                setTimeout(function () { checkBadge(false); }, safetyDelayLong);
             }
         });
     }
@@ -188,14 +250,8 @@ var lastToolbarIconWarn = -1;
 var lastToolbarIconBadgeText = -1;
 var lastToolbarIconTooltipText = -1;
 
-function reCheckBadge(isFirstCall)
+function reCheckBadge()
 {
-    if (isFirstCall)
-    {
-        setTimeout(function () { checkBadge(false); }, 1000);
-        setTimeout(function () { checkBadge(false); }, 2000);
-        setTimeout(function () { checkBadge(false); }, 3000);
-    }
     setTimeout(function () { checkBadge(true); }, checkBadgeInterval);
 }
 
@@ -279,7 +335,7 @@ function checkBadge(reCheck)
 
     if (reCheck)
     {
-        reCheckBadge(false);
+        reCheckBadge();
     }
 }
 
@@ -327,58 +383,6 @@ function checkLoadingError()
 
 // FOR FOREGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
 
-function onMainUiReady(callback)
-{
-    if (debug) console.info("WAT: Setting up mutation observer for main UI ready event...");
-
-    try
-    {
-        var appWrapperElem = document.getElementsByClassName("app-wrapper")[0];
-        if (appWrapperElem != undefined)
-        {
-            var mutationObserver = new MutationObserver(function (mutations)
-            {
-	            if (debug) console.info("WAT: Mutation observerd, will serach main UI");
-            
-                // Search for new child div with class "app"
-                var found = false;
-                for (var i = 0; i < mutations.length; i++)
-                {
-                    var mutation = mutations[i];
-                    var addedNodes = mutations[i].addedNodes;
-                    for (var j = 0; j < addedNodes.length; j++)
-                    {
-                        var addedNode = addedNodes[j];
-                        if (addedNode.nodeName.toLowerCase() == "div")
-                        {
-                            var addedNodeClass = addedNode.getAttribute("class");
-                            if (typeof addedNodeClass == "string" && addedNodeClass.indexOf("app") > -1)
-                            {
-                                if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
-
-                                mutationObserver.disconnect();
-                                callback();
-                                found = true;
-                                break;
-                            }
-                            }
-                        }   
-                    if (found)
-                    {
-                        break;
-                    }
-                }
-            });
-            mutationObserver.observe(appWrapperElem, { childList: true });
-        }
-    }
-    catch (err)
-{
-        console.error("WAT: Exception while setting up mutation observer for main UI ready event");
-        console.error(err);
-    }
-}
-
 function checkSrcChat()
 {
     if (debug) console.info("WAT: Checking source chat...");
@@ -401,8 +405,8 @@ function checkSrcChat()
 
                     chat.click();
                     history.replaceState({}, document.title, "/");
-                    setTimeout(function() { window.scrollTo(0, 0); }, 500);
-                    setTimeout(function() { window.scrollTo(0, 0); }, 1000); // Fixes some strange page misposition that happens only sometimes
+                    setTimeout(function() { window.scrollTo(0, 0); }, safetyDelayMedium);
+                    setTimeout(function() { window.scrollTo(0, 0); }, safetyDelayLong); // Fixes some strange page misposition that happens only sometimes
                     break;
                 }
             }
@@ -416,14 +420,14 @@ function checkSrcChat()
 }
 
 function addOptions()
-            {
+{
     if (debug) console.info("WAT: Adding options...");
 
     try
-            {
+    {
         var firstMenuItem = document.getElementsByClassName("menu-item")[0];
         if (firstMenuItem != undefined)
-                {
+        {
             if (debug) console.info("WAT: Will add options");
 
             var menuItemElem = document.createElement("div");
@@ -438,7 +442,7 @@ function addOptions()
                 else
                 {
                     menuItemElem.setAttribute("class", "menu-item active menu-item-watoolkit");
-            }
+                }
             });
             firstMenuItem.parentElement.insertBefore(menuItemElem, firstMenuItem);
         }
