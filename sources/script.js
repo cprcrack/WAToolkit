@@ -5,7 +5,7 @@ License: GNU GPLv3
 */
 
 
-var debug = false;
+var debug = true;
 var debugRepeating = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
@@ -58,7 +58,7 @@ function foregroundScript()
         reCheckBadge();
 
         checkSrcChat();
-        if (false) addOptions();
+        addOptions();
     });
 }
 

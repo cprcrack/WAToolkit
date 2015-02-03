@@ -5,7 +5,7 @@ License: GNU GPLv3
 */
 
 
-var debug = false;
+var debug = true;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
 var newTabUrl = "chrome://newtab/";
