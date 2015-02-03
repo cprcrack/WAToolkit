@@ -155,7 +155,7 @@ function proxyNotifications(isBackgroundScript)
         // Create proxy notification
         var ProxyNotification = function (title, options)
         {
-            if (debug) console.log("WAT: Notification creation intercepted");
+            if (debug) console.info("WAT: Notification creation intercepted");
 
             // Proxy constructor
             var _notification = new _Notification(title, options);
@@ -179,7 +179,7 @@ function proxyNotifications(isBackgroundScript)
                     var srcChat = undefined;
                     if (event != undefined && event.srcElement != undefined && typeof event.srcElement.tag == "string")
                     {
-                        if (debug) console.log("WAT: Background notification click intercepted with srcChat " + event.srcElement.tag);
+                        if (debug) console.info("WAT: Background notification click intercepted with srcChat " + event.srcElement.tag);
 
                         srcChat = event.srcElement.tag;
                     };
@@ -187,7 +187,7 @@ function proxyNotifications(isBackgroundScript)
                 }
                 else
                 {
-                    if (debug) console.log("WAT: Foreground notification click intercepted");
+                    if (debug) console.info("WAT: Foreground notification click intercepted");
                     
                     window.postMessage({ name: "foregroundNotificationClicked" }, "*");
                 };
@@ -198,7 +198,7 @@ function proxyNotifications(isBackgroundScript)
 
                 if (!isBackgroundScript)
                 {
-                    if (debug) console.log("WAT: Foreground notification show intercepted");
+                    if (debug) console.info("WAT: Foreground notification show intercepted");
                     
                     window.postMessage({ name: "foregroundNotificationShown" }, "*");
                 };
@@ -358,12 +358,12 @@ function checkLoadingError()
 
         if (potentialLoadingError && !lastPotentialLoadingError)
         {
-            if (debug) console.info("WAT: Found potential loading error");
+            if (debug) console.warn("WAT: Found potential loading error");
         }
 
         if (lastPotentialLoadingError && potentialLoadingError)
         {
-            if (debug) console.info("WAT: Found loading error, will reload");
+            if (debug) console.warn("WAT: Found loading error, will reload");
             
             window.location.href = whatsAppUrl;
         }

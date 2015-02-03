@@ -222,9 +222,40 @@ function onMessage(messageEvent, sender, callback)
     }
     else if (messageEvent.name == "backgroundNotificationClicked")
     {
-        chrome.tabs.create({ url: whatsAppUrl + (typeof messageEvent.srcChat == "string" ? "#watSrcChat=" + messageEvent.srcChat : "") }, function (tab)
+        var url = whatsAppUrl + (typeof messageEvent.srcChat == "string" ? "#watSrcChat=" + messageEvent.srcChat : "");
+        chrome.windows.getCurrent(function (window)
         {
-            chrome.windows.update(tab.windowId, { focused: true });
+            if (window != undefined && window.id != undefined)
+            {
+                if (debug) console.info("WAT: Create new WhatsApp tab in current window");
+                
+                chrome.tabs.create({ windowId: window.id, url: url }, function (tab)
+                {
+                    chrome.windows.update(tab.windowId, { focused: true });
+                });
+            }
+            else
+            {
+                if (debug) console.info("WAT: Create new WhatsApp tab in new window");
+                
+                chrome.windows.create({ url: url, focused: true }, function (window)
+                {
+                    // After new window and new tab creation, remove all other WhatsApp tabs immediately so that they don't even load.
+                    // This prevents the new tab to be removed automatically if another WhatsApp tab loads later.
+                    chrome.tabs.query({ url: whatsAppUrl + "*", active: false }, function (tabs)
+                    {
+                        var tabsToRemove = [];
+                        for (var i = 0; i < tabs.length; i++)
+                        {
+                            tabsToRemove.push(tabs[i].id);
+                        }
+                        if (tabsToRemove.length > 0)
+                        {
+                            chrome.tabs.remove(tabsToRemove);
+                        }
+                    });
+                });
+            }
         });
     }
 }
