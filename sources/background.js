@@ -234,7 +234,7 @@ function onMessage(messageEvent, sender, callback)
                     chrome.windows.update(tab.windowId, { focused: true });
                 });
             }
-            else
+            else if (chrome.runtime.lastError) // This check prevents the error log: "Unchecked runtime.lastError while running windows.getCurrent: No current window", see http://stackoverflow.com/a/25736436/423171
             {
                 if (debug) console.info("WAT: Create new WhatsApp tab in new window");
                 
