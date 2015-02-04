@@ -7,9 +7,9 @@
     "description": "A set of useful and lightweight tools for WhatsApp™ Web client.",
     "icons":
     {
-        "16": "favicon16.png",
-        "48": "icon48.png",
-        "128": "icon128.png"
+        "16": "img/favicon16.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
     },
     "background":
     {
@@ -26,14 +26,14 @@
     ],
     "web_accessible_resources":
     [
-       "IconMenuItem128.png"
+       "img/iconMenuItem128.png"
     ],
     "browser_action":
     {
         "default_icon":
         {
-            "19": "favicon19.png",
-            "38": "favicon38.png"
+            "19": "img/favicon19.png",
+            "38": "img/favicon38.png"
         },
         "default_title": "Open WhatsApp"
     },

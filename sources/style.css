@@ -12,7 +12,7 @@ License: GNU GPLv3
 
 .icon-watoolkit
 {
-    background-image: url(chrome-extension://__MSG_@@extension_id__/IconMenuItem128.png) !important;
+    background-image: url(chrome-extension://__MSG_@@extension_id__/img/iconMenuItem128.png) !important;
     background-position: 3px 3px !important;
     background-size: 18px 18px !important;
 }

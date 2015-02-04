@@ -205,11 +205,11 @@ function onMessage(messageEvent, sender, callback)
     {
         if (messageEvent.warn)
         {
-            chrome.browserAction.setIcon({ path: { "19": "favicon19warn.png", "38": "favicon38warn.png" } });
+            chrome.browserAction.setIcon({ path: { "19": "img/favicon19warn.png", "38": "img/favicon38warn.png" } });
         }
         else
         {
-            chrome.browserAction.setIcon({ path: { "19": "favicon19.png", "38": "favicon38.png" } });
+            chrome.browserAction.setIcon({ path: { "19": "img/favicon19.png", "38": "img/favicon38.png" } });
         }
         if (messageEvent.badgeText != undefined)
         {
