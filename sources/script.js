@@ -429,8 +429,13 @@ function addOptions()
 
             var menuItemElem = document.createElement("div");
             menuItemElem.setAttribute("class", "menu-item menu-item-watoolkit");
-            menuItemElem.innerHTML = "<button class='icon icon-watoolkit' title='WAToolkit'>WAToolkit</button>";
-            menuItemElem.addEventListener("click", function ()
+            var iconElem = document.createElement("button");
+            iconElem.setAttribute("class", "icon icon-watoolkit");
+            iconElem.setAttribute("title", "WAToolkit options");
+            iconElem.innerHTML = "WAToolkit options";
+            menuItemElem.appendChild(iconElem);
+
+            iconElem.addEventListener("click", function ()
             {
                 if (menuItemElem.getAttribute("class").indexOf("active") > -1)
                 {
