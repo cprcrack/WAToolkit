@@ -1,19 +1,52 @@
-﻿A set of useful and lightweight tools for WhatsApp™ Web client.
+WhatsApp™ Web क्लाइंट के लिए उपयोगी और आसान टूल्स का एक सेट.
 
-Never ever miss a WhatsApp notification again while you are on your desktop computer! This extension makes it possible to receive WhatsApp notifications even when there is no WhatsApp tab or Chrome window at all open. This way you will never miss a message again while working on your PC.
+अब आप अपने डेस्कटॉप पर काम करते समय फिर से कभी भी WhatsApp अधिसूचना को नहीं भूलेंगे! कोई भी WhatsApp टैब या Chrome विंडो खुली हुई न होने पर भी यह एक्स्टैन्शन WhatsApp अधिसूचनाओं को प्राप्त करना संभव बना देता है. इस प्रकार आप अपने PC पर करते समय फिर से कभी भी संदेश को नहीं
+भूलेंगे.
 
-Features:
+————————————————————
+विशेषताएं
+————————————————————
 
-★ Enables always-on desktop notifications: Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly. You can click on the notifications to go directly to the relevant chat.
+★ डेस्कटॉप पर हमेशा नोटिफिकेशन संभव करता है: क्रोम हमेशा बैकग्राउंड में चलता रहेगा, आपके WhatsApp को ट्रैक करेगा और तत्काल नोटिफिकेशन दिखायेगा. आप चैट पर जाने के लिए सीधे ही नोटिफिकेशन पर क्लिक कर सकते हैं.
 
-★ Adds a convenient WhatsApp button to the toolbar: It includes the number of unread messages always visible. You can hover the mouse over the icon and you will see a summary of your unread conversations in a tooltip. In addition, the icon will become orange if there's some kind of connectivity issue with your phone. You can still hide the button if you want, just right click on it and select *Hide button*.
+★ टूलबार पर सुविधाजनक WhatsApp बटन जोडता है: इसमें कई सारे अपठित संदेश हमेशा के लिए दिखाई देते हैं. आप आइकन पर होवर करके आपके अपठित संदेशों का संक्षिप्त विवरण टूलटिप में देख सकते हैं. इसके अलावा, यदि आपके फोन के साथ कनेक्टिविटी की कोई समस्या हो तो आइकन ऑरेंज कलर में बदल जाता है. यदि आप स्वयं को छिपाना चाहते हैं तो उस पर दाएं बटन से क्लिक करके "बटन छुपाएं" का चयन करके स्वयं को छुपा सकते हैं.
 
-★ Ensures you only have one instance of WhatsApp Web open at any time: That way you can focus on the right tab in any situation. Moreover, you won't be bothered with WhatsApp's exit confirmation messages any more.
+★ सुनिश्चित करता है कि आपके पास एक समय में  एक ही WhatsApp web खुला हो: इस तरह आप किसी भी परिस्थिति में सही टैब पर ध्यान लगा सकते हैं. और, अब आपको WhatsApp के बंद करने के कन्फर्मेशन मैसेज की भी चिंता नहीं करनी होगी.
 
-★ Extremely lightweight and fast: Coded with performance in mind.
+★ अत्याधिक आसान और तेज: कामकाज को सामने रखकर बनाया गया. 
 
-FREQUENT QUESTIONS
+————————————————————
+अक्सर पूछे जाने वाले सवाल
+————————————————————
 
-• How to use it? To start using WhatsApp Web, install this extension and click on the Chrome toolbar button with the "T" icon. If you are not logged in to WhatsApp Web, you must follow the instructions and scan the QR code with your phone. Remember to check the "Keep me signed in" checkbox so that your session is not closed automatically, or you may miss notifications.
+• इसका उपयोग कैसे करें? WhatsApp Web का उपयोग करना प्रारंभ करने के लिए, एक्स्टैन्शन को इंस्टाल करें और Chrome टूलबार पर "T" आइकन के साथ क्लिक करें. यदि आप WhatsApp Web में लॉग इन नहीं हैं, तो सूचनाओं को आवश्य पालन करें और आपके फोन से QR कोड स्कैन करें. "मुझे साइन इन रखें" पर सही का निशान लगाना याद रखें जिससे आपका सत्र स्वचालित रूप से बंद नहीं होगा, नहीं तो आप अधिसूचनाओं को भूल जाएंगे.
 
-• I cannot see any notification, what's happening? If the toolbar "T" icon is orange, there might be some connectivity issue with your phone. If you still cannot see WhatsApp notifications, please refer to the official support thread to solve the issue: http://www.whatsapp.com/faq/web/28080004
+• मैं किसी भी अधिसूचना को देख नहीं सकता, क्या हुआ है? यदि टूलबार का "T" आइकन ऑरेंज में है, तो हो सकता है कि आपके फोन के साथ कनेक्टिविटी की कोई समस्या हो. यदि आप फिर भी WhatsApp अधिसूचनाओं को नहीं देख पाते हैं, तो इस समस्या का समाधान करने के लिए इस अधिकृत सपोर्ट लिंक का उपयोग करें: http://www.whatsapp.com/faq/web/28080004
+
+————————————————————
+MOTIVATION
+————————————————————
+
+As all the software I make in my free time, I created WAToolkit because I wanted the functionality it offers for myself. My first need was being able to watch all WhatsApp notifications on my desktop computer, even without a WhatsApp tab opened (or any Chrome window at all), and that was its first feature. As the extension has raised some interest, I'll be maintaining WAToolkit and new features will probably be added in the future. Be sure to report bugs or suggest new ideas by clicking on the SUPPORT tab.
+
+————————————————————
+PERMISSIONS
+————————————————————
+
+The message shown by Google Chrome for the requested permissions is far from the real needs of the extension, but the permissions are technically required for the following reasons:
+
+• Read and change your data on all whatsapp.com sites: Required to create the background page that holds an active WhatsApp session.
+
+• Read your browsing history: Required to detect whether an active WhatsApp session exists among the tabs you are browsing, avoiding conflicts with the background page.
+
+————————————————————
+LICENSE
+————————————————————
+
+WAToolkit is free and open source. The source code is released under The GNU General Public License v3.0. Contributions are very welcome on GitHub: https://github.com/cprcrack/WAToolkit
+
+————————————————————
+LEGAL
+————————————————————
+
+WhatsApp is a trademark of WhatsApp Inc., registered in the U.S. and other countries. WAToolkit is an independent project developed by Cristian Perez and has no relationship to WhatsApp or WhatsApp Inc.

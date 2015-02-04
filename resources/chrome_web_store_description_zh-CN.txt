@@ -1,19 +1,51 @@
-﻿A set of useful and lightweight tools for WhatsApp™ Web client.
+为 WhatsApp™ Web 用户设计的一组轻载多功能工具。
 
-Never ever miss a WhatsApp notification again while you are on your desktop computer! This extension makes it possible to receive WhatsApp notifications even when there is no WhatsApp tab or Chrome window at all open. This way you will never miss a message again while working on your PC.
+现在，当您在使用台式电脑时，再也不会错过 WhatsApp 的通知了！此扩展功能可让您在没有打开任何 WhatsApp 选项卡或 Chrome 窗口时也能收到 WhatsApp。这样您便可在使用电脑的同时不再错过任何信息了。
 
-Features:
+————————————————————
+特点
+————————————————————
 
-★ Enables always-on desktop notifications: Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly. You can click on the notifications to go directly to the relevant chat.
+★ 即时桌面通知：Chrome 一直以后台模式运行，跟踪并即时向您推送 WhatsApp 通知。您可以点击通知，直接进入相关对话。
 
-★ Adds a convenient WhatsApp button to the toolbar: It includes the number of unread messages always visible. You can hover the mouse over the icon and you will see a summary of your unread conversations in a tooltip. In addition, the icon will become orange if there's some kind of connectivity issue with your phone. You can still hide the button if you want, just right click on it and select *Hide button*.
+★ 在工具栏添加一个 WhatsApp 便捷按钮：还可显示有几条未读信息。您可以将鼠标置于图标之上，将出现提示信息显示您的未读信息的总数。此外，当您的手机出现连接问题时，图标将变成橙色。您还可以隐藏按钮，只需右击图标选择"隐藏按钮"。
 
-★ Ensures you only have one instance of WhatsApp Web open at any time: That way you can focus on the right tab in any situation. Moreover, you won't be bothered with WhatsApp's exit confirmation messages any more.
+★ 确保您每次只打开一个 WhatsApp Web 窗口：这样不管在什么情况下，您都可以找到正确的选项卡，此外，无需处理 WhatsApp 退出确认信息。
 
-★ Extremely lightweight and fast: Coded with performance in mind.
+★ 超级轻载且快速：以性能为导向的编码。
 
-FREQUENT QUESTIONS
+————————————————————
+常见问题
+————————————————————
 
-• How to use it? To start using WhatsApp Web, install this extension and click on the Chrome toolbar button with the "T" icon. If you are not logged in to WhatsApp Web, you must follow the instructions and scan the QR code with your phone. Remember to check the "Keep me signed in" checkbox so that your session is not closed automatically, or you may miss notifications.
+• 如何使用？首先，安装此扩展功能，然后点击 Chrome 工具栏上带 "T" 图标的按钮。如果您未登录 WhatsApp Web，您必须按照指示，用您的手机扫描二维码。请记得勾选“保持登录”复选框，以确保中途不会自动关闭，否则您可能会错过通知。
 
-• I cannot see any notification, what's happening? If the toolbar "T" icon is orange, there might be some connectivity issue with your phone. If you still cannot see WhatsApp notifications, please refer to the official support thread to solve the issue: http://www.whatsapp.com/faq/web/28080004
+• 为什么我看不到任何通知？如果工具栏上的"T" 图标显示为橙色，那么您的手机可能出现了连接问题。如果您还是看不到 WhatsApp 通知，请参考官方支持文章，解决您的问题：http://www.whatsapp.com/faq/web/28080004
+
+————————————————————
+MOTIVATION
+————————————————————
+
+As all the software I make in my free time, I created WAToolkit because I wanted the functionality it offers for myself. My first need was being able to watch all WhatsApp notifications on my desktop computer, even without a WhatsApp tab opened (or any Chrome window at all), and that was its first feature. As the extension has raised some interest, I'll be maintaining WAToolkit and new features will probably be added in the future. Be sure to report bugs or suggest new ideas by clicking on the SUPPORT tab.
+
+————————————————————
+PERMISSIONS
+————————————————————
+
+The message shown by Google Chrome for the requested permissions is far from the real needs of the extension, but the permissions are technically required for the following reasons:
+
+• Read and change your data on all whatsapp.com sites: Required to create the background page that holds an active WhatsApp session.
+
+• Read your browsing history: Required to detect whether an active WhatsApp session exists among the tabs you are browsing, avoiding conflicts with the background page.
+
+————————————————————
+LICENSE
+————————————————————
+
+WAToolkit is free and open source. The source code is released under The GNU General Public License v3.0. Contributions are very welcome on GitHub: https://github.com/cprcrack/WAToolkit
+
+————————————————————
+LEGAL
+————————————————————
+
+WhatsApp is a trademark of WhatsApp Inc., registered in the U.S. and other countries. WAToolkit is an independent project developed by Cristian Perez and has no relationship to WhatsApp or WhatsApp Inc.
