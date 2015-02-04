@@ -295,7 +295,7 @@ function checkBadge(reCheck)
             }
             if (tooltipText.length == 0)
             {
-                tooltipText = "WhatsApp"; // Should match browser_action.default_title defined in manifest.json
+                tooltipText = "Open WhatsApp"; // Should match browser_action.default_title defined in manifest.json
             }
             if (lastToolbarIconWarn !== warn || lastToolbarIconBadgeText !== badgeText || lastToolbarIconTooltipText !== tooltipText)
             {
