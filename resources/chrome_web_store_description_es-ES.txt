@@ -1,0 +1,51 @@
+Conjunto de herramientas útiles y livianas para WhatsApp™ Web.
+
+No pierda nunca mas una notificación de WhatsApp mientras está en su computadora de escritorio. Esta extensión hace posible recibir notificaciones de WhatsApp aún cuando no hay pestañas de WhatsApp o ventana de Chrome abiertas. De esta manera nunca volverá a perder un mensaje de nuevo mientras trabaja con su PC.
+
+————————————————————
+CARACTERÍSTICAS
+————————————————————
+
+★ Permite recibir notificaciones en el escritorio en todo momento: Chrome se ejecutará en segundo plano de manera permanente, haciendo el seguimiento y mostrando sus notificaciones de WhatsApp al instante. Puede hacer clic en las notificaciones para ir directamente al chat relevante.
+
+★ Añade un cómodo botón de WhatsApp a la barra de herramientas: Incluye el número de mensajes no leídos siempre visible. Puede pasar el puntero del ratón sobre el icono y verá un resumen de sus conversaciones sin leer en un texto de ayuda. Además, el icono se pondrá naranja si hay algún tipo de problema de conectividad con el teléfono. En cualquier caso puede ocultar el botón si quiere, simplemente haga clic derecho sobre él y seleccione "Ocultar botón".
+
+★ Se asegura de que sólo tiene una instancia de WhatsApp Web abierta en todo momento: De esta manera usted puede concentrarse en la pestaña correcta en cualquier situación. Además, usted no será molestado con mensajes de confirmación de salida de WhatsApp nunca más.
+
+★ Extremadamente liviano y rápido: codificado con el rendimiento en mente.
+
+————————————————————
+PREGUNTAS FRECUENTES
+————————————————————
+
+• ¿Cómo se usa? Para empezar a utilizar WhatsApp Web, instale esta extensión y haga clic en el botón de la barra de herramientas de Chrome con el símbolo "T". Si no ha iniciado sesión en WhatsApp Web, debe seguir las instrucciones y escanear el código QR con su teléfono. Recuerde marcar las casilla de verificación "Seguir conectado" para que su sesión no se cierre automáticamente, o podría perderse notificaciones.
+
+• No puedo ver ninguna notificación, ¿que está sucediendo? Si el icono "T" de la barra de herramientas es de color naranja, puede haber algún problema de conectividad con su teléfono. Si usted todavía no puede ver las notificaciones de WhatsApp, por favor consulte el hilo de soporte oficial para resolver el problema: http://www.whatsapp.com/faq/web/28080004
+
+————————————————————
+MOTIVATION
+————————————————————
+
+As all the software I make in my free time, I created WAToolkit because I wanted the functionality it offers for myself. My first need was being able to watch all WhatsApp notifications on my desktop computer, even without a WhatsApp tab opened (or any Chrome window at all), and that was its first feature. As the extension has raised some interest, I'll be maintaining WAToolkit and new features will probably be added in the future. Be sure to report bugs or suggest new ideas by clicking on the SUPPORT tab.
+
+————————————————————
+PERMISSIONS
+————————————————————
+
+The message shown by Google Chrome for the requested permissions is far from the real needs of the extension, but the permissions are technically required for the following reasons:
+
+• Read and change your data on all whatsapp.com sites: Required to create the background page that holds an active WhatsApp session.
+
+• Read your browsing history: Required to detect whether an active WhatsApp session exists among the tabs you are browsing, avoiding conflicts with the background page.
+
+————————————————————
+LICENSE
+————————————————————
+
+WAToolkit is free and open source. The source code is released under The GNU General Public License v3.0. Contributions are very welcome on GitHub: https://github.com/cprcrack/WAToolkit
+
+————————————————————
+LEGAL
+————————————————————
+
+WhatsApp is a trademark of WhatsApp Inc., registered in the U.S. and other countries. WAToolkit is an independent project developed by Cristian Perez and has no relationship to WhatsApp or WhatsApp Inc.

@@ -1,24 +1,26 @@
-Never ever miss a WhatsApp notification again while you are on your desktop computer! This extension makes it possible to receive WhatsApp notifications even when there is no WhatsApp tab or Chrome window at all open. This way you will never miss a message again while working on your PC.
+Um conjunto de ferramentas úteis e leve para o cliente Web WhatsApp™.
+
+Nunca, jamais, perder uma notificação WhatsApp novamente quando você estiver no seu computador desktop! Esta extensão permite receber notificações WhatsApp, mesmo quando não há nenhum guia WhatsApp ou janela Chrome em todos os aberto. Desta forma, você nunca vai perder novamente uma mensagem enquanto trabalhava em seu PC.
 
 ————————————————————
-FEATURES
+CARACTERÍSTICAS
 ————————————————————
 
-★ Enables always-on desktop notifications: Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly. You can click on the notifications to go directly to the relevant chat.
+★ Permite always-on notificações no computador: Chrome será executado no modo de fundo permanente, mantendo o controle e mostrando suas notificações WhatsApp instantaneamente. Você pode clicar nas notificações para ir diretamente para o bate-papo relevante.
 
-★ Adds a convenient WhatsApp button to the toolbar: It includes the number of unread messages always visible. You can hover the mouse over the icon and you will see a summary of your unread conversations in a tooltip. In addition, the icon will become orange if there's some kind of connectivity issue with your phone. You can still hide the button if you want, just right click on it and select "Hide button".
+★ Adiciona um botão WhatsApp conveniente para a barra de ferramentas: Inclui o número de mensagens não lidas sempre visíveis. Você pode passar o mouse sobre o ícone e você vai ver um resumo de suas conversas não lidas em uma dica de ferramenta. Além disso, o ícone ficará cor de laranja se há algum tipo de problema de conectividade com o telefone. Você ainda pode ocultar o botão, se quiser, basta clicar sobre ele e selecione "Ocultar botão".
 
-★ Ensures you only have one instance of WhatsApp Web open at any time: That way you can focus on the right tab in any situation. Moreover, you won't be bothered with WhatsApp's exit confirmation messages any more.
+★ Garante que você só tem uma instância do WhatsApp Web aberto a qualquer momento: Dessa forma, você pode se concentrar na aba direita em qualquer situação. Além disso, você não será incomodado com mensagens de confirmação de saída do WhatsApp mais.
 
-★ Extremely lightweight and fast: Coded with performance in mind.
+★ Extremamente leve e rápido: Codificado com desempenho em mente.
 
 ————————————————————
-FREQUENT QUESTIONS
+PERGUNTAS FREQUENTES
 ————————————————————
 
-• How to use it? To start using WhatsApp Web, install this extension and click on the Chrome toolbar button with the "T" icon. If you are not logged in to WhatsApp Web, you must follow the instructions and scan the QR code with your phone. Remember to check the "Keep me signed in" checkbox so that your session is not closed automatically, or you may miss notifications.
+• Como usá-lo? Para começar a usar o WhatsApp Web, instalar esta extensão e clique no botão da barra de ferramentas Chrome com o ícone "T". Se você não estiver logado no WhatsApp Web, você deve seguir as instruções e digitalizar o código QR com o seu telefone. Lembre-se de verificar as "Mantenha-me conectado" checkbox para que a sua sessão não será encerrada automaticamente, ou você pode perder notificações.
 
-• I cannot see any notification, what's happening? If the toolbar "T" icon is orange, there might be some connectivity issue with your phone. If you still cannot see WhatsApp notifications, please refer to the official support thread to solve the issue: http://www.whatsapp.com/faq/web/28080004
+• Eu não consigo ver qualquer notificação, o que está acontecendo? Se o ícone "T" da barra de ferramentas é laranja, pode haver algum problema de conectividade com o telefone. Se você ainda não pode ver notificações WhatsApp, por favor consulte o segmento de suporte oficial para resolver a questão: http://www.whatsapp.com/faq/web/28080004
 
 ————————————————————
 MOTIVATION

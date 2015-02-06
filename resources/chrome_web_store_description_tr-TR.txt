@@ -1,24 +1,26 @@
-Never ever miss a WhatsApp notification again while you are on your desktop computer! This extension makes it possible to receive WhatsApp notifications even when there is no WhatsApp tab or Chrome window at all open. This way you will never miss a message again while working on your PC.
+WhatsApp™ Web istemcisi için bir grup kullanışlı ve küçük araç.
+
+Masaüstü bilgisayarınızı kullanırken artık asla tek bir WhatsApp bildirimini bile kaçırmayacaksınız! Bu uzantı, açık bir WhatsApp sekmesi ya da Chrome penceresi olmadığında bile WhatsApp bildirimleri almanıza olanak tanır. Bu şekilde PC'nizde çalışırken  artık hiçbir mesajı kaçırmayacaksınız.
 
 ————————————————————
-FEATURES
+ÖZELLIKLER
 ————————————————————
 
-★ Enables always-on desktop notifications: Chrome will run in background mode permanently, keeping track and showing your WhatsApp notifications instantly. You can click on the notifications to go directly to the relevant chat.
+★ Her zaman açık olan masaüstü bildirimleri sağlar: Chrome arkaplan modunda sürekli açık olacak, bildirim durumunu izleyecek ve WhatsApp bildirimlerinizi anında görüntüleyecektir. İlgili sohbete gitmek için bildirimlere tıklayabilirsiniz.
 
-★ Adds a convenient WhatsApp button to the toolbar: It includes the number of unread messages always visible. You can hover the mouse over the icon and you will see a summary of your unread conversations in a tooltip. In addition, the icon will become orange if there's some kind of connectivity issue with your phone. You can still hide the button if you want, just right click on it and select "Hide button".
+★ Araç çubuğuna uygun bir WhatsApp düğmesi ekler: Her zaman görülebillir okunmamış mesaj sayısını içerir. Fareyi simgenin üzerinde gezdirerek okunmamış sohbetlerinizin bir özetini araç bilgisi kısmında görebilirsiniz. Ayrıca, telefonunuzla bir çeşit bağlantı hatası olması durumunda simge turuncu renge dönecektir. İstersenz, düğmeye sağ tıklayıp *Hide button* seçeneğini seçerek düğmeyi saklayabilirsiniz.
 
-★ Ensures you only have one instance of WhatsApp Web open at any time: That way you can focus on the right tab in any situation. Moreover, you won't be bothered with WhatsApp's exit confirmation messages any more.
+★ Tek seferde yalnızca bir WhatsApp Web uygulaması açık olduğunda destekler: Böylece, her durumda doğru sekmeye odaklanabilirsiniz. Ayrıca, artık WhatsApp'tan çıkış doğrulama mesajları ile uğraşmayacaksınız.
 
-★ Extremely lightweight and fast: Coded with performance in mind.
+★ Oldukça küçük ve hızlı: Akıl performansıyla kodlanmıştır.
 
 ————————————————————
-FREQUENT QUESTIONS
+SIK SORULAN SORULAR
 ————————————————————
 
-• How to use it? To start using WhatsApp Web, install this extension and click on the Chrome toolbar button with the "T" icon. If you are not logged in to WhatsApp Web, you must follow the instructions and scan the QR code with your phone. Remember to check the "Keep me signed in" checkbox so that your session is not closed automatically, or you may miss notifications.
+• Nasıl Kullanılır? WhatsApp Web kullanmaya başlamak için, bu uzantıyı yükleyin ve "T" simgesiyle Chrome araç çubuğu düğmesine tıklayın. WhatsApp Web uygulamasına giriş yapmadıysanız, talimatları takip edin ve telefonunuzla kare kodu tarayın. Oturumunuzun otomatik olarak kapanmamassı veya bildirimleri kaçırmamanız için "Oturumu açık bırak" işaret kutusunu işaretlemeyi unutmayın.
 
-• I cannot see any notification, what's happening? If the toolbar "T" icon is orange, there might be some connectivity issue with your phone. If you still cannot see WhatsApp notifications, please refer to the official support thread to solve the issue: http://www.whatsapp.com/faq/web/28080004
+• Bildirimleri göremiyorum, ne oluyor? Araç çubuğu "T" simgesi turuncu renkte ise, telefonunuzla bağlantı hatası olabilir. WhatsApp bildirimlerini hala göremiyorsanız, sorunu gidermek üzere lütfen resmi destek bölümüne başvurun: http://www.whatsapp.com/faq/web/28080004
 
 ————————————————————
 MOTIVATION
