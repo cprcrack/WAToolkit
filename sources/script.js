@@ -159,6 +159,7 @@ function proxyNotifications(isBackgroundScript)
     var script = "";
     script += "var debug = " + debug + ";";
     script += "var isBackgroundScript = " + isBackgroundScript + ";";
+    script += "var backgroundNotif = " + backgroundNotif + ";";
     script += "(" + function ()
 	{
         // Notification spec: https://developer.mozilla.org/en/docs/Web/API/notification
@@ -169,7 +170,16 @@ function proxyNotifications(isBackgroundScript)
         // Create proxy notification
         var ProxyNotification = function (title, options)
         {
-            if (debug) console.info("WAT: Notification creation intercepted");
+            if (isBackgroundScript && !backgroundNotif)
+            {
+                if (debug) console.info("WAT: Notification creation intercepted, will not proxy it because the user disabled background notifications");
+                
+                return;
+            }
+            else
+            {
+                if (debug) console.info("WAT: Notification creation intercepted, will proxy it");
+            }
 
             // Proxy constructor
             var _notification = new _Notification(title, options);
