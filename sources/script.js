@@ -84,49 +84,57 @@ function foregroundScript()
 
 function onMainUiReady(callback)
 {
-    // TODO CHECK IF ALREADY LOADED!
-
-    if (debug) console.info("WAT: Setting up mutation observer for main UI ready event...");
-
     try
     {
-        var appWrapperElem = document.getElementsByClassName("app-wrapper")[0];
-        if (appWrapperElem != undefined)
+        // First check if the main UI is already ready, just in case
+        if (document.querySelector(".app-wrapper > .app") != undefined)
         {
-            var mutationObserver = new MutationObserver(function (mutations)
-            {
-	            if (debug) console.info("WAT: Mutation observerd, will search main UI");
-            
-                // Search for new child div with class "app"
-                var found = false;
-                for (var i = 0; i < mutations.length; i++)
-                {
-                    var mutation = mutations[i];
-                    var addedNodes = mutations[i].addedNodes;
-                    for (var j = 0; j < addedNodes.length; j++)
-                    {
-                        var addedNode = addedNodes[j];
-                        if (addedNode.nodeName.toLowerCase() == "div")
-                        {
-                            var addedNodeClass = addedNode.getAttribute("class");
-                            if (typeof addedNodeClass == "string" && addedNodeClass.indexOf("app") > -1)
-                            {
-                                if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
+            if (debug) console.info("WAT: Found main UI, will notify main UI ready event directly");
 
-                                mutationObserver.disconnect();
-                                setTimeout(function () { callback(); }, safetyDelayShort);
-                                found = true;
-                                break;
+            setTimeout(function () { callback(); }, safetyDelayShort);
+        }
+        else
+        {
+            if (debug) console.info("WAT: Setting up mutation observer for main UI ready event...");
+
+            var appWrapperElem = document.getElementsByClassName("app-wrapper")[0];
+            if (appWrapperElem != undefined)
+            {
+                var mutationObserver = new MutationObserver(function (mutations)
+                {
+	                if (debug) console.info("WAT: Mutation observerd, will search main UI");
+            
+                    // Search for new child div with class "app"
+                    var found = false;
+                    for (var i = 0; i < mutations.length; i++)
+                    {
+                        var mutation = mutations[i];
+                        var addedNodes = mutations[i].addedNodes;
+                        for (var j = 0; j < addedNodes.length; j++)
+                        {
+                            var addedNode = addedNodes[j];
+                            if (addedNode.nodeName.toLowerCase() == "div")
+                            {
+                                var addedNodeClass = addedNode.getAttribute("class");
+                                if (typeof addedNodeClass == "string" && addedNodeClass.indexOf("app") > -1)
+                                {
+                                    if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
+
+                                    mutationObserver.disconnect();
+                                    setTimeout(function () { callback(); }, safetyDelayShort);
+                                    found = true;
+                                    break;
+                                }
                             }
                         }
+                        if (found)
+                        {
+                            break;
+                        }
                     }
-                    if (found)
-                    {
-                        break;
-                    }
-                }
-            });
-            mutationObserver.observe(appWrapperElem, { childList: true });
+                });
+                mutationObserver.observe(appWrapperElem, { childList: true });
+            }
         }
     }
     catch (err)
