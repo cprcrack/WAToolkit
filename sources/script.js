@@ -40,14 +40,19 @@ chrome.runtime.sendMessage({ name: "getIsBackgroundPage" }, function (isBackgrou
 
         foregroundScript();
     }
-});
 
-chrome.runtime.sendMessage({ name: "getOptions" }, function (options)
-{
-    if (debug) console.info("WAT: Got options: " + JSON.stringify(options));
+    chrome.runtime.sendMessage({ name: "getOptions" }, function (options)
+    {
+        if (debug) console.info("WAT: Got options: " + JSON.stringify(options));
 
-    backgroundNotif = options.backgroundNotif;
-    wideText = options.wideText;
+        backgroundNotif = options.backgroundNotif;
+        wideText = options.wideText;
+
+        if (!isBackgroundPage)
+        {
+            updateWideText();
+        }
+    });
 });
 
 function backgroundScript()
@@ -556,9 +561,37 @@ function optionWideTextClick()
         wideText = false;
     }
     chrome.runtime.sendMessage({ name: "setOptions", wideText: wideText });
+    updateWideText();
 }
 
 function optionRateClick()
 {
     window.open(rateUrl);
+}
+
+var wideTextStyleElem;
+
+function updateWideText()
+{
+    if (debug) console.info("WAT: Updating wide text...");
+    
+    if (wideTextStyleElem == undefined)
+    {
+	    wideTextStyleElem = document.createElement("style");
+	    wideTextStyleElem.setAttribute("type", "text/css");
+	    wideTextStyleElem.innerHTML = ".message-in, .message-out { max-width: initial !important; }";
+    }
+    
+    if (wideText && wideTextStyleElem.parentElement == undefined)
+    {
+        if (debug) console.info("WAT: Will update wide text");
+
+        document.getElementsByTagName("head")[0].appendChild(wideTextStyleElem);
+    }
+    else if (!wideText && wideTextStyleElem.parentElement != undefined)
+    {
+        if (debug) console.info("WAT: Will update wide text");
+
+        wideTextStyleElem.parentElement.removeChild(wideTextStyleElem);
+    }
 }
