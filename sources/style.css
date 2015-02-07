@@ -8,6 +8,7 @@ License: GNU GPLv3
 .menu-item-watoolkit
 {
     margin-right: 16px !important;
+    cursor: pointer !important;
 }
 
 .icon-watoolkit
@@ -15,4 +16,79 @@ License: GNU GPLv3
     background-image: url(chrome-extension://__MSG_@@extension_id__/img/iconMenuItem128.png) !important;
     background-position: 3px 3px !important;
     background-size: 18px 18px !important;
+    cursor: pointer !important;
+}
+
+.drop-theme-watoolkit.drop-element
+{
+    z-index: 200 !important;
+}
+
+.checkbox-watoolkit
+{
+    position: relative !important;
+    float: left !important;
+}
+
+.checkbox-watoolkit.checked
+{
+    margin-right: 17px !important;
+}
+
+.checkbox-watoolkit.unchecked
+{
+    margin-right: 10px !important;
+}
+
+.watoolkit-options-container
+{
+    background-color: #fff !important;
+    padding: 9px 0 !important;
+    font-family: Roboto, sans-serif !important;
+    font-size: 14.5px !important;
+    color: #444 !important;
+    max-width: 500px !important;
+    border-radius: 3px !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.watoolkit-options-title
+{
+    height: 50px !important;
+    padding: 12.5px 24px 0 24px !important;
+    font-size: 20px !important;
+}
+
+.watoolkit-options-item
+{
+    padding: 12.5px 24px !important;
+    cursor: pointer !important;
+}
+
+.watoolkit-options-item:hover
+{ 
+    background-color: #f4f4f4 !important;
+}
+
+.watoolkit-rate
+{
+    color: #cc181e !important;
+}
+
+.watoolkit-rate-heart
+{
+    position: relative !important;
+    top: -3px !important;
+    float: left !important;
+    width: 15px !important;
+    margin-right: 10px !important;
+    font-size: 20px !important;
+}
+
+.watoolkit-options-description
+{
+    padding-top: 10px;
+    padding-left: 25px;
+    font-size: 12px !important;
+    opacity: 0.7 !important;
 }

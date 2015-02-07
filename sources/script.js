@@ -434,19 +434,54 @@ function addOptions()
             iconElem.setAttribute("title", "WAToolkit options");
             iconElem.innerHTML = "WAToolkit options";
             menuItemElem.appendChild(iconElem);
+            firstMenuItem.parentElement.insertBefore(menuItemElem, firstMenuItem);
 
-            iconElem.addEventListener("click", function ()
-            {
-                if (menuItemElem.getAttribute("class").indexOf("active") > -1)
-                {
-                    menuItemElem.setAttribute("class", "menu-item menu-item-watoolkit");
-                }
-                else
-                {
-                    menuItemElem.setAttribute("class", "menu-item active menu-item-watoolkit");
+            var dropContent = " \
+            <div class='watoolkit-options-container'> \
+                <div class='watoolkit-options-title'>WAToolkit options</div> \
+                <div id='watoolkit-option-background-notif'  class='watoolkit-options-item'> \
+                    <div class='checkbox checkbox-watoolkit checked'></div> \
+                    Background notifications \
+                    <div class='watoolkit-options-description'>Enable background notifications to receive new message notifications even when you have no WhatsApp tab or Chrome window at all open. Regular notifications must be enabled in WhatsApp's menu for this to work.</div> \
+                </div> \
+                <div id='watoolkit-option-wide-text' class='watoolkit-options-item'> \
+                    <div class='checkbox checkbox-watoolkit unchecked'></div> \
+                    Wide text bubbles \
+                    <div class='watoolkit-options-description'>Enable wide text bubbles to make use of the full chat panel width in both outgoing and incomming messages.</div> \
+                </div> \
+                <div id='watoolkit-option-rate' class='watoolkit-options-item watoolkit-rate'> \
+                    <div class='watoolkit-rate-heart'>❤</div> \
+                    Rate WAToolkit in Chrome Web Store \
+                    <div class='watoolkit-options-description'>If you enjoy WATookit and would like the development to continue, please help us with a 5 star ★★★★★ rating on Chrome Web Store.</div> \
+                </div> \
+            </div>";
+
+            var drop = new Drop({
+                target: menuItemElem,
+                content: dropContent,
+                position: "bottom left",
+                classes: "drop-theme-watoolkit",
+                openOn: "click",
+                tetherOptions: {
+                    offset: "-4px -4px 0 0"
                 }
             });
-            firstMenuItem.parentElement.insertBefore(menuItemElem, firstMenuItem);
+            drop.on("open", function()
+            {
+                document.getElementsByClassName("menu-item-watoolkit")[0].setAttribute("class", "menu-item active menu-item-watoolkit");
+
+                document.getElementById("watoolkit-option-background-notif").addEventListener("click", optionBackgroundNotifClick);
+                document.getElementById("watoolkit-option-wide-text").addEventListener("click", optionWideTextClick);
+                document.getElementById("watoolkit-option-rate").addEventListener("click", optionRateClick);
+            });
+            drop.on("close", function()
+            {
+                document.getElementsByClassName("menu-item-watoolkit")[0].setAttribute("class", "menu-item menu-item-watoolkit");
+
+                document.getElementById("watoolkit-option-background-notif").removeEventListener("click", optionBackgroundNotifClick);
+                document.getElementById("watoolkit-option-wide-text").removeEventListener("click", optionWideTextClick);
+                document.getElementById("watoolkit-option-rate").removeEventListener("click", optionRateClick);
+            });
         }
     }
     catch (err)
@@ -454,4 +489,19 @@ function addOptions()
         console.error("WAT: Exception while adding options");
         console.error(err);
     }
+}
+
+function optionBackgroundNotifClick()
+{
+    alert("clicked on first option");
+}
+
+function optionWideTextClick()
+{
+    alert("clicked on second option");
+}
+
+function optionRateClick()
+{
+    alert("clicked on third option");
 }

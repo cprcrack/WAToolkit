@@ -18,9 +18,20 @@
     "content_scripts":
     [
         {
-            "matches": [ "*://*.whatsapp.com/*" ],
-            "js": [ "script.js" ],
-            "css": [ "style.css" ],
+            "matches":
+            [
+                "*://*.whatsapp.com/*"
+            ],
+            "js":
+            [
+                "script.js",
+                "lib/drop/drop.js"
+            ],
+            "css":
+            [
+                "style.css",
+                "lib/drop/css/drop-theme-basic.css"
+            ],
             "all_frames": true
         }
     ],
