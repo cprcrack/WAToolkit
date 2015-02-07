@@ -9,12 +9,17 @@ var debug = true;
 var debugRepeating = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
+var rateUrl = "https://chrome.google.com/webstore/detail/watoolkit/fedimamkpgiemhacbdhkkaihgofncola/reviews";
 
 var safetyDelayShort = 250;
 var safetyDelayLong = 1000;
 
 var checkBadgeInterval = 5000;
 var checkLoadingErrorInterval = 30000;
+
+// Default options, should match the ones defined in background.js
+var backgroundNotif = true;
+var wideText = false;
 
 // Prevent page exit confirmation dialog. The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
 var scriptElem = document.createElement("script");
@@ -35,6 +40,14 @@ chrome.runtime.sendMessage({ name: "getIsBackgroundPage" }, function (isBackgrou
 
         foregroundScript();
     }
+});
+
+chrome.runtime.sendMessage({ name: "getOptions" }, function (options)
+{
+    if (debug) console.info("WAT: Got options: " + JSON.stringify(options));
+
+    backgroundNotif = options.backgroundNotif;
+    wideText = options.wideText;
 });
 
 function backgroundScript()
@@ -66,6 +79,8 @@ function foregroundScript()
 
 function onMainUiReady(callback)
 {
+    // TODO CHECK IF ALREADY LOADED!
+
     if (debug) console.info("WAT: Setting up mutation observer for main UI ready event...");
 
     try
@@ -436,51 +451,59 @@ function addOptions()
             menuItemElem.appendChild(iconElem);
             firstMenuItem.parentElement.insertBefore(menuItemElem, firstMenuItem);
 
-            var dropContent = " \
-            <div class='watoolkit-options-container'> \
-                <div class='watoolkit-options-title'>WAToolkit options</div> \
-                <div id='watoolkit-option-background-notif'  class='watoolkit-options-item'> \
-                    <div class='checkbox checkbox-watoolkit checked'></div> \
-                    Background notifications \
-                    <div class='watoolkit-options-description'>Enable background notifications to receive new message notifications even when you have no WhatsApp tab or Chrome window at all open. Regular notifications must be enabled in WhatsApp's menu for this to work.</div> \
-                </div> \
-                <div id='watoolkit-option-wide-text' class='watoolkit-options-item'> \
-                    <div class='checkbox checkbox-watoolkit unchecked'></div> \
-                    Wide text bubbles \
-                    <div class='watoolkit-options-description'>Enable wide text bubbles to make use of the full chat panel width in both outgoing and incomming messages.</div> \
-                </div> \
-                <div id='watoolkit-option-rate' class='watoolkit-options-item watoolkit-rate'> \
-                    <div class='watoolkit-rate-heart'>❤</div> \
-                    Rate WAToolkit in Chrome Web Store \
-                    <div class='watoolkit-options-description'>If you enjoy WATookit and would like the development to continue, please help us with a 5 star ★★★★★ rating on Chrome Web Store.</div> \
-                </div> \
-            </div>";
-
-            var drop = new Drop({
-                target: menuItemElem,
-                content: dropContent,
-                position: "bottom left",
-                classes: "drop-theme-watoolkit",
-                openOn: "click",
-                tetherOptions: {
-                    offset: "-4px -4px 0 0"
-                }
-            });
-            drop.on("open", function()
+            chrome.runtime.sendMessage({ name: "getOptions" }, function (options)
             {
-                document.getElementsByClassName("menu-item-watoolkit")[0].setAttribute("class", "menu-item active menu-item-watoolkit");
+                if (debug) console.info("WAT: Got options: " + JSON.stringify(options));
 
-                document.getElementById("watoolkit-option-background-notif").addEventListener("click", optionBackgroundNotifClick);
-                document.getElementById("watoolkit-option-wide-text").addEventListener("click", optionWideTextClick);
-                document.getElementById("watoolkit-option-rate").addEventListener("click", optionRateClick);
-            });
-            drop.on("close", function()
-            {
-                document.getElementsByClassName("menu-item-watoolkit")[0].setAttribute("class", "menu-item menu-item-watoolkit");
+                backgroundNotif = options.backgroundNotif;
+                wideText = options.wideText;
 
-                document.getElementById("watoolkit-option-background-notif").removeEventListener("click", optionBackgroundNotifClick);
-                document.getElementById("watoolkit-option-wide-text").removeEventListener("click", optionWideTextClick);
-                document.getElementById("watoolkit-option-rate").removeEventListener("click", optionRateClick);
+                var dropContent = " \
+                <div class='watoolkit-options-container'> \
+                    <div class='watoolkit-options-title'>WAToolkit options</div> \
+                    <div id='watoolkit-option-background-notif' class='watoolkit-options-item'> \
+                        <div class='checkbox checkbox-watoolkit " + (backgroundNotif ? "checked" : "unchecked") + "'></div> \
+                        Background notifications \
+                        <div class='watoolkit-options-description'>Enable background notifications to receive new message notifications even when you have no WhatsApp tab or Chrome window at all open. Regular notifications must be enabled in WhatsApp's menu for this to work.</div> \
+                    </div> \
+                    <div id='watoolkit-option-wide-text' class='watoolkit-options-item'> \
+                        <div class='checkbox checkbox-watoolkit " + (wideText ? "checked" : "unchecked") + "'></div> \
+                        Wide text bubbles \
+                        <div class='watoolkit-options-description'>Enable wide text bubbles to make use of the full chat panel width in both outgoing and incomming messages.</div> \
+                    </div> \
+                    <div id='watoolkit-option-rate' class='watoolkit-options-item watoolkit-rate'> \
+                        <div class='watoolkit-rate-heart'>❤</div> \
+                        Rate WAToolkit in Chrome Web Store \
+                        <div class='watoolkit-options-description'>If you enjoy WATookit and would like the development to continue, please help us with a 5 star ★★★★★ rating on Chrome Web Store.</div> \
+                    </div> \
+                </div>";
+
+                var drop = new Drop({
+                    target: menuItemElem,
+                    content: dropContent,
+                    position: "bottom left",
+                    classes: "drop-theme-watoolkit",
+                    openOn: "click",
+                    tetherOptions: {
+                        offset: "-4px -4px 0 0"
+                    }
+                });
+                drop.on("open", function()
+                {
+                    document.getElementsByClassName("menu-item-watoolkit")[0].setAttribute("class", "menu-item active menu-item-watoolkit");
+
+                    document.getElementById("watoolkit-option-background-notif").addEventListener("click", optionBackgroundNotifClick);
+                    document.getElementById("watoolkit-option-wide-text").addEventListener("click", optionWideTextClick);
+                    document.getElementById("watoolkit-option-rate").addEventListener("click", optionRateClick);
+                });
+                drop.on("close", function()
+                {
+                    document.getElementsByClassName("menu-item-watoolkit")[0].setAttribute("class", "menu-item menu-item-watoolkit");
+
+                    document.getElementById("watoolkit-option-background-notif").removeEventListener("click", optionBackgroundNotifClick);
+                    document.getElementById("watoolkit-option-wide-text").removeEventListener("click", optionWideTextClick);
+                    document.getElementById("watoolkit-option-rate").removeEventListener("click", optionRateClick);
+                });
             });
         }
     }
@@ -493,15 +516,39 @@ function addOptions()
 
 function optionBackgroundNotifClick()
 {
-    alert("clicked on first option");
+    var checkbox = document.querySelector("#watoolkit-option-background-notif .checkbox-watoolkit");
+    var checkboxClass = checkbox.getAttribute("class");
+    if (checkboxClass.indexOf("unchecked") > -1)
+    {
+        checkbox.setAttribute("class", checkboxClass.replace("unchecked", "checked"));
+        backgroundNotif = true;
+    }
+    else
+    {
+        checkbox.setAttribute("class", checkboxClass.replace("checked", "unchecked"));
+        backgroundNotif = false;
+    }
+    chrome.runtime.sendMessage({ name: "setOptions", backgroundNotif: backgroundNotif });
 }
 
 function optionWideTextClick()
 {
-    alert("clicked on second option");
+    var checkbox = document.querySelector("#watoolkit-option-wide-text .checkbox-watoolkit");
+    var checkboxClass = checkbox.getAttribute("class");
+    if (checkboxClass.indexOf("unchecked") > -1)
+    {
+        checkbox.setAttribute("class", checkboxClass.replace("unchecked", "checked"));
+        wideText = true;
+    }
+    else
+    {
+        checkbox.setAttribute("class", checkboxClass.replace("checked", "unchecked"));
+        wideText = false;
+    }
+    chrome.runtime.sendMessage({ name: "setOptions", wideText: wideText });
 }
 
 function optionRateClick()
 {
-    alert("clicked on third option");
+    window.open(rateUrl);
 }

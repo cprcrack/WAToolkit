@@ -10,6 +10,10 @@ var debug = true;
 var whatsAppUrl = "https://web.whatsapp.com/";
 var newTabUrl = "chrome://newtab/";
 
+// Default options, should match the ones defined in script.js
+var backgroundNotif = true;
+var wideText = false;
+
 // Allow framing // and external resources
 chrome.webRequest.onHeadersReceived.addListener(
     function (details)
@@ -257,5 +261,42 @@ function onMessage(messageEvent, sender, callback)
                 });
             }
         });
+    }
+    else if (messageEvent.name == "getOptions")
+    {
+        if (localStorage["watoolkitBackgroundNotif"] == "true" || localStorage["watoolkitBackgroundNotif"] == "false")
+        {
+            backgroundNotif = localStorage["watoolkitBackgroundNotif"] == "true";
+        }
+        else
+        {
+            localStorage["watoolkitBackgroundNotif"] = backgroundNotif;
+        }
+        if (localStorage["watoolkitWideText"] == "true" || localStorage["watoolkitWideText"] == "false")
+        {
+            wideText = localStorage["watoolkitWideText"] == "true";
+        }
+        else
+        {
+            localStorage["watoolkitWideText"] = wideText;
+        }
+        callback(
+        {
+            backgroundNotif: backgroundNotif,
+            wideText: wideText
+        });
+    }
+    else if (messageEvent.name == "setOptions")
+    {
+        if (messageEvent.backgroundNotif != undefined)
+        {
+            backgroundNotif = messageEvent.backgroundNotif == true;
+            localStorage["watoolkitBackgroundNotif"] = backgroundNotif;
+        }
+        if (messageEvent.wideText != undefined)
+        {
+            wideText = messageEvent.wideText == true;
+            localStorage["watoolkitWideText"] = wideText;
+        }
     }
 }
