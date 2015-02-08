@@ -1,6 +1,8 @@
 A set of useful and lightweight tools for WhatsApp™ Web client.
 
-Never ever miss a WhatsApp notification again while you are on your desktop computer! This extension makes it possible to receive WhatsApp notifications even when there is no WhatsApp tab or Chrome window at all open. This way you will never miss a message again while working on your PC.
+★★★★★ WATookit is the best rated extension for WhatsApp™ Web!
+
+Never ever miss a WhatsApp notification again while you are on your desktop computer. This extension makes it possible to receive WhatsApp notifications even when there is no WhatsApp tab or Chrome window at all open. This way you will never miss a message again while working on your PC.
 
 ————————————————————
 FEATURES
