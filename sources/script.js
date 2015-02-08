@@ -102,7 +102,7 @@ function onMainUiReady(callback)
             {
                 var mutationObserver = new MutationObserver(function (mutations)
                 {
-	                if (debug) console.info("WAT: Mutation observerd, will search main UI");
+                    if (debug) console.info("WAT: Mutation observerd, will search main UI");
             
                     // Search for new child div with class "app"
                     var found = false;
@@ -174,7 +174,7 @@ function proxyNotifications(isBackgroundScript)
     script += "var isBackgroundScript = " + isBackgroundScript + ";";
     script += "var backgroundNotif = " + backgroundNotif + ";";
     script += "(" + function ()
-	{
+    {
         // Notification spec: https://developer.mozilla.org/en/docs/Web/API/notification
 
         // Save native notification
@@ -585,9 +585,9 @@ function updateWideText()
     
     if (wideTextStyleElem == undefined)
     {
-	    wideTextStyleElem = document.createElement("style");
-	    wideTextStyleElem.setAttribute("type", "text/css");
-	    wideTextStyleElem.innerHTML = ".message-in, .message-out { max-width: initial !important; }";
+        wideTextStyleElem = document.createElement("style");
+        wideTextStyleElem.setAttribute("type", "text/css");
+        wideTextStyleElem.innerHTML = ".message-in, .message-out { max-width: initial !important; }";
     }
     
     if (wideText && wideTextStyleElem.parentElement == undefined)
