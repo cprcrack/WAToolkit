@@ -532,6 +532,7 @@ function addOptions()
                 var fragment = window.location.hash;
                 if (typeof fragment == "string" && fragment.indexOf(optionsFragment) == 0)
                 {
+                    history.replaceState({}, document.title, "/");
                     setTimeout(function () { drop.open(); }, safetyDelayLong); // The delay fixes a potential dialog misposition glitch
                 }
             });
