@@ -10,6 +10,7 @@ var debugRepeating = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
 var rateUrl = "https://chrome.google.com/webstore/detail/watoolkit/fedimamkpgiemhacbdhkkaihgofncola/reviews";
+var optionsFragment = "#WAToolkitOptions";
 
 var safetyDelayShort = 250;
 var safetyDelayLong = 1000;
@@ -103,7 +104,7 @@ function onMainUiReady(callback)
                 var mutationObserver = new MutationObserver(function (mutations)
                 {
                     if (debug) console.info("WAT: Mutation observerd, will search main UI");
-            
+
                     // Search for new child div with class "app"
                     var found = false;
                     for (var i = 0; i < mutations.length; i++)
@@ -186,7 +187,7 @@ function proxyNotifications(isBackgroundScript)
             if (isBackgroundScript && !backgroundNotif)
             {
                 if (debug) console.info("WAT: Notification creation intercepted, will not proxy it because the user disabled background notifications");
-                
+
                 return;
             }
             else
@@ -225,7 +226,7 @@ function proxyNotifications(isBackgroundScript)
                 else
                 {
                     if (debug) console.info("WAT: Foreground notification click intercepted");
-                    
+
                     window.postMessage({ name: "foregroundNotificationClicked" }, "*");
                 };
             };
@@ -236,7 +237,7 @@ function proxyNotifications(isBackgroundScript)
                 if (!isBackgroundScript)
                 {
                     if (debug) console.info("WAT: Foreground notification show intercepted");
-                    
+
                     window.postMessage({ name: "foregroundNotificationShown" }, "*");
                 };
             };
@@ -295,7 +296,7 @@ function reCheckBadge()
 function checkBadge(reCheck)
 {
     if (debugRepeating) console.info("WAT: Checking badge...");
-    
+
     try
     {
         var isSessionActive = document.getElementsByClassName("pane-list-user").length > 0;
@@ -338,7 +339,7 @@ function checkBadge(reCheck)
             if (lastToolbarIconWarn !== warn || lastToolbarIconBadgeText !== badgeText || lastToolbarIconTooltipText !== tooltipText)
             {
                 if (debug) console.info("WAT: Will update toolbar icon info");
-                
+
                 chrome.runtime.sendMessage({ name: "setToolbarIcon", warn: warn, badgeText: badgeText, tooltipText: tooltipText });
                 lastToolbarIconWarn = warn;
                 lastToolbarIconBadgeText = badgeText;
@@ -401,7 +402,7 @@ function checkLoadingError()
         if (lastPotentialLoadingError && potentialLoadingError)
         {
             if (debug) console.warn("WAT: Found loading error, will reload");
-            
+
             window.location.href = whatsAppUrl;
         }
         else
@@ -423,7 +424,7 @@ function checkLoadingError()
 function checkSrcChat()
 {
     if (debug) console.info("WAT: Checking source chat...");
-    
+
     try
     {
         var paramPrefix = "#watSrcChat=";
@@ -527,6 +528,12 @@ function addOptions()
                     document.getElementById("watoolkit-option-wide-text").removeEventListener("click", optionWideTextClick);
                     document.getElementById("watoolkit-option-rate").removeEventListener("click", optionRateClick);
                 });
+
+                var fragment = window.location.hash;
+                if (typeof fragment == "string" && fragment.indexOf(optionsFragment) == 0)
+                {
+                    drop.open();
+                }
             });
         }
     }
@@ -582,14 +589,14 @@ var wideTextStyleElem;
 function updateWideText()
 {
     if (debug) console.info("WAT: Updating wide text...");
-    
+
     if (wideTextStyleElem == undefined)
     {
         wideTextStyleElem = document.createElement("style");
         wideTextStyleElem.setAttribute("type", "text/css");
         wideTextStyleElem.innerHTML = ".message-in, .message-out { max-width: initial !important; }";
     }
-    
+
     if (wideText && wideTextStyleElem.parentElement == undefined)
     {
         if (debug) console.info("WAT: Will update wide text");
