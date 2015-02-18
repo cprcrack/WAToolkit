@@ -9,6 +9,7 @@ var debug = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
 var newTabUrl = "chrome://newtab/";
+var sourceChatFragment = "#watSrcChat=";
 
 // Default options, should match the ones defined in script.js
 var backgroundNotif = true;
@@ -226,7 +227,7 @@ function onMessage(messageEvent, sender, callback)
     }
     else if (messageEvent.name == "backgroundNotificationClicked")
     {
-        var url = whatsAppUrl + (typeof messageEvent.srcChat == "string" ? "#watSrcChat=" + messageEvent.srcChat : "");
+        var url = whatsAppUrl + (typeof messageEvent.srcChat == "string" ? sourceChatFragment + messageEvent.srcChat : "");
         chrome.windows.getCurrent(function (window)
         {
             if (window != undefined && window.id != undefined)

@@ -10,7 +10,8 @@ var debugRepeating = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
 var rateUrl = "https://chrome.google.com/webstore/detail/watoolkit/fedimamkpgiemhacbdhkkaihgofncola/reviews";
-var optionsFragment = "#WAToolkitOptions";
+var optionsFragment = "#watOptions";
+var sourceChatFragment = "#watSrcChat=";
 
 var safetyDelayShort = 250;
 var safetyDelayLong = 1000;
@@ -427,11 +428,10 @@ function checkSrcChat()
 
     try
     {
-        var paramPrefix = "#watSrcChat=";
-        var srcChat = window.location.hash;
-        if (typeof srcChat == "string" && srcChat.indexOf(paramPrefix) == 0)
+        var fragment = window.location.hash;
+        if (typeof fragment == "string" && fragment.indexOf(sourceChatFragment) == 0)
         {
-            srcChat = srcChat.substr(paramPrefix.length).replace(/\./g, "-");
+            var srcChat = fragment.substr(sourceChatFragment.length).replace(/\./g, "-");
             var chats = document.getElementsByClassName("chat");
             for (var i = 0; i < chats.length; i++)
             {
