@@ -13,8 +13,8 @@ var rateUrl = "https://chrome.google.com/webstore/detail/watoolkit/fedimamkpgiem
 var optionsFragment = "#watOptions";
 var sourceChatFragment = "#watSrcChat=";
 
-var safetyDelayShort = 250;
-var safetyDelayLong = 1000;
+var safetyDelayShort = 300;
+var safetyDelayLong = 600;
 
 var checkBadgeInterval = 5000;
 var checkLoadingErrorInterval = 30000;
@@ -532,7 +532,7 @@ function addOptions()
                 var fragment = window.location.hash;
                 if (typeof fragment == "string" && fragment.indexOf(optionsFragment) == 0)
                 {
-                    drop.open();
+                    setTimeout(function () { drop.open(); }, safetyDelayLong); // The delay fixes a potential dialog misposition glitch
                 }
             });
         }
