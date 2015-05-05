@@ -46,9 +46,6 @@
     <Content Include="..\sources\options.html">
       <Link>options.html</Link>
     </Content>
-    <Content Include="..\sources\options.js">
-      <Link>options.js</Link>
-    </Content>
     <Content Include="..\sources\script.js">
       <Link>script.js</Link>
     </Content>
