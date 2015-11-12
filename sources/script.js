@@ -486,12 +486,12 @@ function addOptions()
                 <div class='watoolkit-options-container'> \
                     <div class='watoolkit-options-title'>WAToolkit options</div> \
                     <div id='watoolkit-option-background-notif' class='watoolkit-options-item'> \
-                        <div class='checkbox checkbox-watoolkit " + (backgroundNotif ? "checked" : "unchecked") + "'></div> \
+                        <div class='checkbox checkbox-watoolkit " + (backgroundNotif ? "checked" : "unchecked") + "'><div class='checkmark'></div></div> \
                         Background notifications \
                         <div class='watoolkit-options-description'>Enable background notifications to receive new message notifications even when you have no WhatsApp tab or Chrome window at all open. Regular notifications must be enabled in WhatsApp's menu for this to work.</div> \
                     </div> \
                     <div id='watoolkit-option-wide-text' class='watoolkit-options-item'> \
-                        <div class='checkbox checkbox-watoolkit " + (wideText ? "checked" : "unchecked") + "'></div> \
+                        <div class='checkbox checkbox-watoolkit " + (wideText ? "checked" : "unchecked") + "'><div class='checkmark'></div></div> \
                         Wide text bubbles \
                         <div class='watoolkit-options-description'>Enable wide text bubbles to make use of the full chat panel width in both outgoing and incomming messages.</div> \
                     </div> \

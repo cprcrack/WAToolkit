@@ -28,16 +28,11 @@ License: GNU GPLv3
 {
     position: relative !important;
     float: left !important;
-}
-
-.checkbox-watoolkit.checked
-{
-    margin-right: 17px !important;
-}
-
-.checkbox-watoolkit.unchecked
-{
-    margin-right: 10px !important;
+    width: 17px !important;
+    height: 16px !important;
+    margin-left: 1px !important;
+    margin-right: 7px !important;
+    top: -1px !important;
 }
 
 .watoolkit-options-container
