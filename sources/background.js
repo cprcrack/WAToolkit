@@ -22,7 +22,7 @@ chrome.webRequest.onHeadersReceived.addListener(
         var headers = details.responseHeaders;
         for (var i = headers.length - 1; i >= 0 ; i--)
         {
-            if (headers[i].name == "X-Frame-Options") // || headers[i].name == "Content-Security-Policy"
+            if (headers[i].name.toLowerCase() == "x-frame-options") // || headers[i].name.toLowerCase() == "content-security-policy"
             {
                 headers.splice(i, 1);
             }
@@ -142,7 +142,8 @@ function loadBackgroundPage()
     if (!isBackgroundPageLoaded)
     {
         isBackgroundPageLoaded = true;
-        document.body.innerHTML = "<iframe width='1000' height='10000' src='" + whatsAppUrl + "'></iframe>"; // Big height makes all chats to be loaded in the side panel's DOM
+        var randomParam = "?watRnd=" + Math.random(); // This random GET parameter forces the app cache not to be used (workaround for bug https://code.google.com/p/chromium/issues/detail?id=453843 that prevents the X-Frame-Options header from being deleted when the site is loaded from the cache)
+        document.body.innerHTML = "<iframe width='1000' height='10000' src='" + whatsAppUrl + randomParam + "'></iframe>"; // Big height makes all chats to be loaded in the side panel's DOM
     }
 }
 
