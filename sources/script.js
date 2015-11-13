@@ -218,9 +218,11 @@ function proxyNotifications(isBackgroundScript)
                     var srcChat = undefined;
                     if (event != undefined && event.srcElement != undefined && typeof event.srcElement.tag == "string")
                     {
-                        if (debug) console.info("WAT: Background notification click intercepted with srcChat " + event.srcElement.tag);
-
                         srcChat = event.srcElement.tag;
+                        srcChat = srcChat.substr(0, srcChat.indexOf("@") > -1 ? srcChat.indexOf("@") + 2 : 0);
+                        if (srcChat.length == 0) srcChat = "unknown";
+
+                        if (debug) console.info("WAT: Background notification click intercepted with srcChat " + srcChat);
                     };
                     window.postMessage({ name: "backgroundNotificationClicked", srcChat: srcChat }, "*");
                 }
@@ -431,12 +433,13 @@ function checkSrcChat()
         var fragment = window.location.hash;
         if (typeof fragment == "string" && fragment.indexOf(sourceChatFragment) == 0)
         {
-            var srcChat = fragment.substr(sourceChatFragment.length).replace(/\./g, "-");
+            var srcChat = fragment.substr(sourceChatFragment.length);
             var chats = document.getElementsByClassName("chat");
             for (var i = 0; i < chats.length; i++)
             {
                 var chat = chats[i];
-                var dataReactId = chat.getAttribute("data-reactid")
+                var dataReactId = chat.getAttribute("data-reactid");
+                console.debug("SEARCHING " + srcChat + " INSIDE " + dataReactId);
                 if ((typeof dataReactId == "string") && dataReactId.indexOf(srcChat) > -1)
                 {
                     if (debug) console.info("WAT: Found source chat, will click it");
