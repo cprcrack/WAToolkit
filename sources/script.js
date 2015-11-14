@@ -439,7 +439,6 @@ function checkSrcChat()
             {
                 var chat = chats[i];
                 var dataReactId = chat.getAttribute("data-reactid");
-                console.debug("SEARCHING " + srcChat + " INSIDE " + dataReactId);
                 if ((typeof dataReactId == "string") && dataReactId.indexOf(srcChat) > -1)
                 {
                     if (debug) console.info("WAT: Found source chat, will click it");
