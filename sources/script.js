@@ -438,9 +438,13 @@ function checkSrcChat()
                 if ((typeof dataReactId == "string") && dataReactId.indexOf(srcChat) > -1)
                 {
                     if (debug) console.info("WAT: Found source chat, will click it");
-
+                    
                     history.replaceState({}, document.title, "/");
-                    setTimeout(function () { chat.click(); }, safetyDelayShort); // The delay fixes some strange page misposition glitch
+                    setTimeout(function ()
+                    {
+                        // For some reason chat.click() stopped working
+                        chat.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, cancelable: true }));
+                    }, safetyDelayShort); // The delay fixes some strange page misposition glitch
                     break;
                 }
             }
