@@ -99,8 +99,8 @@ function onMainUiReady(callback)
         {
             if (debug) console.info("WAT: Setting up mutation observer for main UI ready event...");
 
-            var appWrapperElem = document.getElementsByClassName("app-wrapper")[0];
-            if (appWrapperElem != undefined)
+            var appElem = document.getElementById("app");
+            if (appElem != undefined)
             {
                 var mutationObserver = new MutationObserver(function (mutations)
                 {
@@ -115,18 +115,14 @@ function onMainUiReady(callback)
                         for (var j = 0; j < addedNodes.length; j++)
                         {
                             var addedNode = addedNodes[j];
-                            if (addedNode.nodeName.toLowerCase() == "div")
+                            if (addedNode.nodeName.toLowerCase() == "div" && addedNode.classList.contains("app"))
                             {
-                                var addedNodeClass = addedNode.getAttribute("class");
-                                if (typeof addedNodeClass == "string" && addedNodeClass.indexOf("app") > -1)
-                                {
-                                    if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
+                                if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
 
-                                    mutationObserver.disconnect();
-                                    setTimeout(function () { callback(); }, safetyDelayShort);
-                                    found = true;
-                                    break;
-                                }
+                                mutationObserver.disconnect();
+                                setTimeout(function () { callback(); }, safetyDelayShort);
+                                found = true;
+                                break;
                             }
                         }
                         if (found)
@@ -135,7 +131,7 @@ function onMainUiReady(callback)
                         }
                     }
                 });
-                mutationObserver.observe(appWrapperElem, { childList: true });
+                mutationObserver.observe(appElem, { childList: true, subtree: true });
             }
         }
     }
