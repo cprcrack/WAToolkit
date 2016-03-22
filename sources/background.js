@@ -31,7 +31,7 @@ chrome.webRequest.onHeadersReceived.addListener(
     },
     {
         urls: [ "*://*.whatsapp.com/*" ],
-        types: [ "main_frame", "sub_frame" ]
+        types: [ "main_frame", "sub_frame", "xmlhttprequest" ]
     },
     ["blocking", "responseHeaders"]
 );
