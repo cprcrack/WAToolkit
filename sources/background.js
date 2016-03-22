@@ -22,7 +22,7 @@ chrome.webRequest.onHeadersReceived.addListener(
         var headers = details.responseHeaders;
         for (var i = headers.length - 1; i >= 0 ; i--)
         {
-            if (headers[i].name.toLowerCase() == "x-frame-options") // || headers[i].name.toLowerCase() == "content-security-policy"
+            if (headers[i].name.toLowerCase() == "x-frame-options") // Potential future bug fix: || headers[i].name.toLowerCase() == "content-security-policy"
             {
                 headers.splice(i, 1);
             }
@@ -31,7 +31,7 @@ chrome.webRequest.onHeadersReceived.addListener(
     },
     {
         urls: [ "*://*.whatsapp.com/*" ],
-        types: [ "main_frame", "sub_frame", "xmlhttprequest" ]
+        types: [ "main_frame", "sub_frame", "xmlhttprequest" ] // Potential future bug fix: Completely remove the parameter "types", thus allowing all types
     },
     ["blocking", "responseHeaders"]
 );
