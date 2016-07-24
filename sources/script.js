@@ -473,7 +473,6 @@ function addOptions()
             var iconElem = document.createElement("button");
             iconElem.setAttribute("class", "icon icon-watoolkit");
             iconElem.setAttribute("title", "WAToolkit options");
-            iconElem.innerHTML = "WAToolkit options";
             menuItemElem.appendChild(iconElem);
             firstMenuItem.parentElement.insertBefore(menuItemElem, firstMenuItem);
 
