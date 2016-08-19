@@ -11,7 +11,7 @@ var debugRepeating = false;
 var whatsAppUrl = "https://web.whatsapp.com/";
 var rateUrl = "https://chrome.google.com/webstore/detail/watoolkit/fedimamkpgiemhacbdhkkaihgofncola/reviews";
 var optionsFragment = "#watOptions";
-var sourceChatFragment = "#watSrcChat=";
+var sourceChatFragment = "#watSrcChatTitle=";
 
 var safetyDelayShort = 300;
 var safetyDelayLong = 600;
@@ -152,7 +152,7 @@ function proxyNotifications(isBackgroundScript)
         {
             if (event != undefined && event.data != undefined && event.data.name == "backgroundNotificationClicked")
             {
-                chrome.runtime.sendMessage({ name: "backgroundNotificationClicked", srcChat: event.data.srcChat });
+                chrome.runtime.sendMessage({ name: "backgroundNotificationClicked", srcChatTitle: event.data.srcChatTitle });
             }
         });
     }
@@ -211,16 +211,14 @@ function proxyNotifications(isBackgroundScript)
 
                 if (isBackgroundScript)
                 {
-                    var srcChat = undefined;
-                    if (event != undefined && event.srcElement != undefined && typeof event.srcElement.tag == "string")
+                    var srcChatTitle = undefined;
+                    if (event != undefined && event.srcElement != undefined && typeof event.srcElement.title == "string" && event.srcElement.title.length > 0)
                     {
-                        srcChat = event.srcElement.tag;
-                        srcChat = srcChat.substr(0, srcChat.indexOf("@") > -1 ? srcChat.indexOf("@") + 2 : 0);
-                        if (srcChat.length == 0) srcChat = "unknown";
-
-                        if (debug) console.info("WAT: Background notification click intercepted with srcChat " + srcChat);
+                        srcChatTitle = event.srcElement.title;
+                        
+                        if (debug) console.info("WAT: Background notification click intercepted with srcChatTitle " + srcChatTitle);
                     };
-                    window.postMessage({ name: "backgroundNotificationClicked", srcChat: srcChat }, "*");
+                    window.postMessage({ name: "backgroundNotificationClicked", srcChatTitle: srcChatTitle }, "*");
                 }
                 else
                 {
@@ -429,24 +427,65 @@ function checkSrcChat()
         var fragment = window.location.hash;
         if (typeof fragment == "string" && fragment.indexOf(sourceChatFragment) == 0)
         {
-            var srcChat = fragment.substr(sourceChatFragment.length);
-            var chats = document.getElementsByClassName("chat");
-            for (var i = 0; i < chats.length; i++)
+            var srcChatTitle = decodeURIComponent(fragment.substr(sourceChatFragment.length));
+            var chatTitle = undefined;
+            var foundSrcChat = false;
+            
+            if (!foundSrcChat)
             {
-                var chat = chats[i];
-                var dataReactId = chat.getAttribute("data-reactid");
-                if ((typeof dataReactId == "string") && dataReactId.indexOf(srcChat) > -1)
+                var chatTitles = document.querySelectorAll(".first .chat-title .emojitext");
+                for (var i = 0; i < chatTitles.length; i++)
                 {
-                    if (debug) console.info("WAT: Found source chat, will click it");
-                    
-                    history.replaceState({}, document.title, "/");
-                    setTimeout(function ()
+                    chatTitle = chatTitles[i];
+                    var chatTitleText = chatTitle.getAttribute("title")
+                    if (typeof chatTitleText == "string" && chatTitleText == srcChatTitle)
                     {
-                        // For some reason chat.click() stopped working
-                        chat.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, cancelable: true }));
-                    }, safetyDelayShort); // The delay fixes some strange page misposition glitch
-                    break;
+                        foundSrcChat = true;
+                        break;
+                    }
                 }
+            }
+
+            if (!foundSrcChat)
+            {
+                var chatTitles = document.querySelectorAll(".unread .chat-title .emojitext");
+                for (var i = 0; i < chatTitles.length; i++)
+                {
+                    chatTitle = chatTitles[i];
+                    var chatTitleText = chatTitle.getAttribute("title")
+                    if (typeof chatTitleText == "string" && chatTitleText == srcChatTitle)
+                    {
+                        foundSrcChat = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!foundSrcChat)
+            {
+                var chatTitles = document.querySelectorAll(".chat-title .emojitext");
+                for (var i = 0; i < chatTitles.length; i++)
+                {
+                    chatTitle = chatTitles[i];
+                    var chatTitleText = chatTitle.getAttribute("title")
+                    if (typeof chatTitleText == "string" && chatTitleText == srcChatTitle)
+                    {
+                        foundSrcChat = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (foundSrcChat)
+            {
+                if (debug) console.info("WAT: Found source chat, will click it");
+
+                history.replaceState({}, document.title, "/");
+                setTimeout(function ()
+                {
+                    // For some reason chatTitle.click() stopped working
+                    chatTitle.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, cancelable: true }));
+                }, safetyDelayShort); // The delay fixes some strange page misposition glitch
             }
         }
     }
