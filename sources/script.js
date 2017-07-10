@@ -319,7 +319,7 @@ function checkBadge(reCheck)
                 {
                     chatStatus = chatStatus.substr(0, 70 - 3) + "...";
                 }
-                var chatTime = unreadChatElem.getElementsByClassName("chat-time")[0].textContent;
+                var chatTime = unreadChatElem.getElementsByClassName("timestamp")[0].textContent;
                 totalUnreadCount += unreadCount;
                 tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")  " + chatTitle + "  →  " + chatStatus + "  [" + chatTime + "]";
             }
