@@ -5,7 +5,7 @@ License: GNU GPLv3
 */
 
 
-var debug = false;
+var debug = true;
 var debugRepeating = false;
 
 var whatsAppUrl = "https://web.whatsapp.com/";
@@ -502,13 +502,13 @@ function addOptions()
 
     try
     {
-        var firstMenuItem = document.getElementsByClassName("menu-item")[0];
+        var firstMenuItem = document.getElementsByClassName("menu-horizontal-item")[0];
         if (firstMenuItem != undefined)
         {
             if (debug) console.info("WAT: Will add options");
 
             var menuItemElem = document.createElement("div");
-            menuItemElem.setAttribute("class", "menu-item menu-item-watoolkit");
+            menuItemElem.setAttribute("class", "menu-horizontal-item menu-horizontal-item-watoolkit");
             var iconElem = document.createElement("button");
             iconElem.setAttribute("class", "icon icon-watoolkit");
             iconElem.setAttribute("title", "WAToolkit options");
@@ -554,7 +554,7 @@ function addOptions()
                 });
                 drop.on("open", function()
                 {
-                    document.getElementsByClassName("menu-item-watoolkit")[0].setAttribute("class", "menu-item active menu-item-watoolkit");
+                    document.getElementsByClassName("menu-horizontal-item-watoolkit")[0].setAttribute("class", "menu-horizontal-item active menu-horizontal-item-watoolkit");
 
                     document.getElementById("watoolkit-option-background-notif").addEventListener("click", optionBackgroundNotifClick);
                     document.getElementById("watoolkit-option-wide-text").addEventListener("click", optionWideTextClick);
@@ -562,7 +562,7 @@ function addOptions()
                 });
                 drop.on("close", function()
                 {
-                    document.getElementsByClassName("menu-item-watoolkit")[0].setAttribute("class", "menu-item menu-item-watoolkit");
+                    document.getElementsByClassName("menu-horizontal-item-watoolkit")[0].setAttribute("class", "menu-horizontal-item menu-horizontal-item-watoolkit");
 
                     document.getElementById("watoolkit-option-background-notif").removeEventListener("click", optionBackgroundNotifClick);
                     document.getElementById("watoolkit-option-wide-text").removeEventListener("click", optionWideTextClick);
