@@ -7,9 +7,12 @@ License: GNU GPLv3
 
 .icon-watoolkit
 {
+    width: 24px !important;
+    height: 24px !important;
     background-image: url(chrome-extension://__MSG_@@extension_id__/img/iconMenuItem24.png) !important;
     background-position: 3px 3px !important;
     background-size: 18px 18px !important;
+    background-repeat: no-repeat !important;
     cursor: pointer !important;
 }
 

@@ -510,7 +510,7 @@ function addOptions()
             var menuItemElem = document.createElement("div");
             menuItemElem.setAttribute("class", "menu-horizontal-item menu-horizontal-item-watoolkit");
             var iconElem = document.createElement("button");
-            iconElem.setAttribute("class", "icon icon-watoolkit");
+            iconElem.setAttribute("class", "icon-watoolkit");
             iconElem.setAttribute("title", "WAToolkit options");
             menuItemElem.appendChild(iconElem);
             firstMenuItem.parentElement.insertBefore(menuItemElem, firstMenuItem);
