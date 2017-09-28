@@ -308,7 +308,7 @@ function checkBadge(reCheck)
             for (var i = 0; i < unreadChatElems.length; i++)
             {
                 unreadChatElem = unreadChatElems[i];
-                var unreadCount = parseInt(unreadChatElem.getElementsByClassName("unread-count")[0].textContent);
+                var unreadCount = parseInt(unreadChatElem.querySelector(".chat-secondary .chat-meta").textContent);
                 var chatTitle = unreadChatElem.getElementsByClassName("chat-title")[0].textContent;
                 if (chatTitle.length > 30) // Max 30 chars
                 {
@@ -319,7 +319,7 @@ function checkBadge(reCheck)
                 {
                     chatStatus = chatStatus.substr(0, 70 - 3) + "...";
                 }
-                var chatTime = unreadChatElem.getElementsByClassName("timestamp")[0].textContent;
+                var chatTime = unreadChatElem.querySelector(".chat-main .chat-meta").textContent;
                 totalUnreadCount += unreadCount;
                 tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")  " + chatTitle + "  →  " + chatStatus + "  [" + chatTime + "]";
             }
