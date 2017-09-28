@@ -25,11 +25,23 @@ License: GNU GPLv3
 {
     position: relative !important;
     float: left !important;
-    width: 16px !important;
-    height: 16px !important;
+    width: 18px !important;
+    height: 18px !important;
     margin-left: 1px !important;
     margin-right: 7px !important;
     top: -1px !important;
+
+    display:inline !important;
+}
+
+.checkbox-watoolkit.checked
+{
+    background-image: url(chrome-extension://__MSG_@@extension_id__/img/checkboxChecked.png) !important;
+}
+
+.checkbox-watoolkit.unchecked
+{
+    background-image: url(chrome-extension://__MSG_@@extension_id__/img/checkboxUnchecked.png) !important;
 }
 
 .watoolkit-options-container
