@@ -502,18 +502,18 @@ function addOptions()
 
     try
     {
-        var firstMenuItem = document.getElementsByClassName("menu-horizontal-item")[0];
-        if (firstMenuItem != undefined)
+        var menu = document.querySelector(".pane-list-controls");
+        if (menu != undefined)
         {
             if (debug) console.info("WAT: Will add options");
 
-            var menuItemElem = document.createElement("div");
-            menuItemElem.setAttribute("class", "menu-horizontal-item menu-horizontal-item-watoolkit");
+            var menuItem = document.createElement("div");
+            menuItem.setAttribute("class", "menu-watoolkit");
             var iconElem = document.createElement("button");
             iconElem.setAttribute("class", "icon-watoolkit");
             iconElem.setAttribute("title", "WAToolkit options");
-            menuItemElem.appendChild(iconElem);
-            firstMenuItem.parentElement.insertBefore(menuItemElem, firstMenuItem);
+            menuItem.appendChild(iconElem);
+            menu.firstChild.insertBefore(menuItem, menu.firstChild.firstChild);
 
             chrome.runtime.sendMessage({ name: "getOptions" }, function (options)
             {
@@ -543,7 +543,7 @@ function addOptions()
                 </div>";
 
                 var drop = new Drop({
-                    target: menuItemElem,
+                    target: menuItem,
                     content: dropContent,
                     position: "bottom left",
                     classes: "drop-theme-watoolkit",
@@ -554,7 +554,7 @@ function addOptions()
                 });
                 drop.on("open", function()
                 {
-                    document.getElementsByClassName("menu-horizontal-item-watoolkit")[0].setAttribute("class", "menu-horizontal-item active menu-horizontal-item-watoolkit");
+                    document.getElementsByClassName("menu-watoolkit")[0].setAttribute("class", "menu-horizontal-item active menu-watoolkit");
 
                     document.getElementById("watoolkit-option-background-notif").addEventListener("click", optionBackgroundNotifClick);
                     document.getElementById("watoolkit-option-wide-text").addEventListener("click", optionWideTextClick);
@@ -562,7 +562,7 @@ function addOptions()
                 });
                 drop.on("close", function()
                 {
-                    document.getElementsByClassName("menu-horizontal-item-watoolkit")[0].setAttribute("class", "menu-horizontal-item menu-horizontal-item-watoolkit");
+                    document.getElementsByClassName("menu-watoolkit")[0].setAttribute("class", "menu-horizontal-item menu-watoolkit");
 
                     document.getElementById("watoolkit-option-background-notif").removeEventListener("click", optionBackgroundNotifClick);
                     document.getElementById("watoolkit-option-wide-text").removeEventListener("click", optionWideTextClick);

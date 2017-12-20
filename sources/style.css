@@ -5,6 +5,12 @@ License: GNU GPLv3
 */
 
 
+.menu-watoolkit
+{
+    margin-right: 10px !important;
+    padding: 8px !important;
+}
+
 .icon-watoolkit
 {
     width: 24px !important;
