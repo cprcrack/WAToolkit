@@ -99,7 +99,7 @@ function onMainUiReady(callback)
         {
             if (debug) console.info("WAT: Setting up mutation observer for main UI ready event...");
 
-            var appElem = document.getElementById("app");
+            var appElem = document.querySelector("#app");
             if (appElem != undefined)
             {
                 var mutationObserver = new MutationObserver(function (mutations)
@@ -397,7 +397,7 @@ function checkLoadingError()
 
     try
     {
-        var potentialLoadingError = document.getElementsByClassName("spinner").length > 0;
+        var potentialLoadingError = document.querySelector("#startup") != undefined;
 
         if (potentialLoadingError && !lastPotentialLoadingError)
         {
