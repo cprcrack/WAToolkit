@@ -296,8 +296,8 @@ function checkBadge(reCheck)
 
     try
     {
-        var isSessionActive = document.getElementsByClassName("pane-list-user").length > 0;
-        var warn = !isSessionActive || document.getElementsByClassName("butterbar-phone").length > 0 || document.getElementsByClassName("butterbar-computer").length > 0;
+        var isSessionActive = document.querySelector("#pane-side") != undefined;
+        var warn = !isSessionActive || document.querySelector("[data-icon='alert-phone']") != undefined || document.querySelector("[data-icon='alert-computer']") != undefined;
 
         if (isSessionActive)
         {
