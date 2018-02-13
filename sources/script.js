@@ -318,18 +318,18 @@ function checkBadge(reCheck)
                     var chatTime =   chatElem.children[0].children[0].children[1].children[0].children[1].textContent;
                     var chatStatus = chatElem.children[0].children[0].children[1].children[1].children[0].textContent;
 
-                if (chatTitle.length > 30) // Max 30 chars
-                {
-                    chatTitle = chatTitle.substr(0, 30 - 3) + "...";
-                }
-                if (chatStatus.length > 70) // Max 70 chars
-                {
-                    chatStatus = chatStatus.substr(0, 70 - 3) + "...";
-                }
+                    if (chatTitle.length > 30) // Max 30 chars
+                    {
+                        chatTitle = chatTitle.substr(0, 30 - 3) + "...";
+                    }
+                    if (chatStatus.length > 70) // Max 70 chars
+                    {
+                        chatStatus = chatStatus.substr(0, 70 - 3) + "...";
+                    }
 
-                totalUnreadCount += unreadCount;
-                tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")  " + chatTitle + "  →  " + chatStatus + "  [" + chatTime + "]";
-            }
+                    totalUnreadCount += unreadCount;
+                    tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")  " + chatTitle + "  →  " + chatStatus + "  [" + chatTime + "]";
+                }
             }
 
             var badgeText = "";
@@ -510,7 +510,7 @@ function addOptions()
 
     try
     {
-        var menu = document.querySelector(".pane-list-controls");
+        var menu = document.querySelector("#side > header").children[1];
         if (menu != undefined)
         {
             if (debug) console.info("WAT: Will add options");
