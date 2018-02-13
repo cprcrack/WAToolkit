@@ -304,24 +304,32 @@ function checkBadge(reCheck)
             var totalUnreadCount = 0;
             var tooltipText = "";
 
-            var unreadChatElems = document.getElementsByClassName("chat unread");
-            for (var i = 0; i < unreadChatElems.length; i++)
+            var parentChatElem = document.querySelector("#pane-side").children[0].children[0].children[0];
+            var chatElems = parentChatElem.children;
+            for (var i = 0; i < chatElems.length; i++)
             {
-                unreadChatElem = unreadChatElems[i];
-                var unreadCount = parseInt(unreadChatElem.querySelector(".chat-secondary .chat-meta").textContent);
-                var chatTitle = unreadChatElem.getElementsByClassName("chat-title")[0].textContent;
+                var chatElem = chatElems[i];
+                var unreadElem = chatElem.children[0].children[0].children[1].children[1].children[1];
+
+                var unreadCount = parseInt(unreadElem.textContent) || 0; // Returns 0 in case of isNaN
+                if (unreadCount > 0)
+                {
+                    var chatTitle =  chatElem.children[0].children[0].children[1].children[0].children[0].textContent;
+                    var chatTime =   chatElem.children[0].children[0].children[1].children[0].children[1].textContent;
+                    var chatStatus = chatElem.children[0].children[0].children[1].children[1].children[0].textContent;
+
                 if (chatTitle.length > 30) // Max 30 chars
                 {
                     chatTitle = chatTitle.substr(0, 30 - 3) + "...";
                 }
-                var chatStatus = unreadChatElem.getElementsByClassName("chat-status")[0].textContent;
                 if (chatStatus.length > 70) // Max 70 chars
                 {
                     chatStatus = chatStatus.substr(0, 70 - 3) + "...";
                 }
-                var chatTime = unreadChatElem.querySelector(".chat-main .chat-meta").textContent;
+
                 totalUnreadCount += unreadCount;
                 tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")  " + chatTitle + "  →  " + chatStatus + "  [" + chatTime + "]";
+            }
             }
 
             var badgeText = "";
