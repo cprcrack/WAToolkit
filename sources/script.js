@@ -438,49 +438,18 @@ function checkSrcChat()
             var srcChatTitle = decodeURIComponent(fragment.substr(sourceChatFragment.length));
             var chatTitle = undefined;
             var foundSrcChat = false;
-            
-            if (!foundSrcChat)
-            {
-                var chatTitles = document.querySelectorAll(".first .chat-title .emojitext");
-                for (var i = 0; i < chatTitles.length; i++)
-                {
-                    chatTitle = chatTitles[i];
-                    var chatTitleText = chatTitle.getAttribute("title")
-                    if (typeof chatTitleText == "string" && chatTitleText == srcChatTitle)
-                    {
-                        foundSrcChat = true;
-                        break;
-                    }
-                }
-            }
 
-            if (!foundSrcChat)
+            var parentChatElem = document.querySelector("#pane-side").children[0].children[0].children[0];
+            var chatElems = parentChatElem.children;
+            for (var i = 0; i < chatElems.length; i++)
             {
-                var chatTitles = document.querySelectorAll(".unread .chat-title .emojitext");
-                for (var i = 0; i < chatTitles.length; i++)
+                var chatElem = chatElems[i];
+                chatTitle = chatElem.children[0].children[0].children[1].children[0].children[0].children[0];
+                var chatTitleText = chatTitle.getAttribute("title")
+                if (typeof chatTitleText == "string" && chatTitleText == srcChatTitle)
                 {
-                    chatTitle = chatTitles[i];
-                    var chatTitleText = chatTitle.getAttribute("title")
-                    if (typeof chatTitleText == "string" && chatTitleText == srcChatTitle)
-                    {
-                        foundSrcChat = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!foundSrcChat)
-            {
-                var chatTitles = document.querySelectorAll(".chat-title .emojitext");
-                for (var i = 0; i < chatTitles.length; i++)
-                {
-                    chatTitle = chatTitles[i];
-                    var chatTitleText = chatTitle.getAttribute("title")
-                    if (typeof chatTitleText == "string" && chatTitleText == srcChatTitle)
-                    {
-                        foundSrcChat = true;
-                        break;
-                    }
+                    foundSrcChat = true;
+                    break;
                 }
             }
             
