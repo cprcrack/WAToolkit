@@ -14,18 +14,19 @@ var optionsFragment = "#watOptions";
 var sourceChatFragment = "#watSrcChatTitle=";
 
 var safetyDelayShort = 300;
-var safetyDelayLong = 600;
+var safetyDelayLong = 600; // Must be smaller than checkBadgeInterval
+var safetyDelayLonger = 1200;
 
-var checkBadgeInterval = 5000;
+var checkBadgeInterval = 5000; // Must be greater than safetyDelayLong
 var checkLoadingErrorInterval = 30000;
 
 // Default options, should match the ones defined in background.js
 var backgroundNotif = true;
 var wideText = false;
 
-// Prevent page exit confirmation dialog. The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
+// Prevent page exit confirmation dialog. The window object is not shared between the original page and the content script: http://stackoverflow.com/a/12396221/423171
 var scriptElem = document.createElement("script");
-scriptElem.innerHTML = "window.onbeforeunload = null;"
+scriptElem.innerHTML = "window.onbeforeunload = null;";
 document.head.appendChild(scriptElem);
 
 chrome.runtime.sendMessage({ name: "getIsBackgroundPage" }, function (isBackgroundPage)
@@ -59,11 +60,13 @@ chrome.runtime.sendMessage({ name: "getIsBackgroundPage" }, function (isBackgrou
 
 function backgroundScript()
 {
+    addStopAnimations();
+
     onMainUiReady(function ()
     {
         proxyNotifications(true);
-        checkBadge(false);
-        reCheckBadge();
+        checkBadge();
+        reCheckBadge(true);
     });
 
     reCheckLoadingError();
@@ -74,8 +77,8 @@ function foregroundScript()
     onMainUiReady(function ()
     {
         proxyNotifications(false);
-        checkBadge(false);
-        reCheckBadge();
+        checkBadge();
+        reCheckBadge(false);
 
         checkSrcChat();
         addOptions();
@@ -144,7 +147,7 @@ function onMainUiReady(callback)
 
 function proxyNotifications(isBackgroundScript)
 {
-    // The content script's window object is not shared: http://stackoverflow.com/a/12396221/423171
+    // The window object is not shared between the original page and the content script: http://stackoverflow.com/a/12396221/423171
 
     if (isBackgroundScript)
     {
@@ -162,7 +165,7 @@ function proxyNotifications(isBackgroundScript)
         {
             if (event != undefined && event.data != undefined && (event.data.name == "foregroundNotificationClicked" || event.data.name == "foregroundNotificationShown"))
             {
-                setTimeout(function () { checkBadge(false); }, safetyDelayLong);
+                setTimeout(function () { checkBadge(); }, safetyDelayLonger);
             }
         });
     }
@@ -285,12 +288,16 @@ var lastToolbarIconWarn = -1;
 var lastToolbarIconBadgeText = -1;
 var lastToolbarIconTooltipText = -1;
 
-function reCheckBadge()
+function reCheckBadge(isBackgroundScript)
 {
-    setTimeout(function () { checkBadge(true); }, checkBadgeInterval);
+    if (isBackgroundScript)
+    {
+        setTimeout(function () { document.dispatchEvent(new CustomEvent("stopAnimations")); }, checkBadgeInterval - safetyDelayLong);
+    }
+    setTimeout(function () { checkBadge(); reCheckBadge(isBackgroundScript); }, checkBadgeInterval);
 }
 
-function checkBadge(reCheck)
+function checkBadge()
 {
     if (debugRepeating) console.info("WAT: Checking badge...");
 
@@ -310,14 +317,14 @@ function checkBadge(reCheck)
             {
                 var chatElem = chatElems[i];
                 var unreadElem = chatElem.children[0].children[0].children[1].children[1].children[1];
-
+            
                 var unreadCount = parseInt(unreadElem.textContent) || 0; // Returns 0 in case of isNaN
                 if (unreadCount > 0)
                 {
                     var chatTitle =  chatElem.children[0].children[0].children[1].children[0].children[0].textContent;
                     var chatTime =   chatElem.children[0].children[0].children[1].children[0].children[1].textContent;
                     var chatStatus = chatElem.children[0].children[0].children[1].children[1].children[0].textContent;
-
+            
                     if (chatTitle.length > 30) // Max 30 chars
                     {
                         chatTitle = chatTitle.substr(0, 30 - 3) + "...";
@@ -326,7 +333,7 @@ function checkBadge(reCheck)
                     {
                         chatStatus = chatStatus.substr(0, 70 - 3) + "...";
                     }
-
+            
                     totalUnreadCount += unreadCount;
                     tooltipText += (i > 0 ? "\n" : "") + "(" + unreadCount + ")  " + chatTitle + "  →  " + chatStatus + "  [" + chatTime + "]";
                 }
@@ -375,14 +382,67 @@ function checkBadge(reCheck)
         console.error("WAT: Exception while checking badge");
         console.error(err);
     }
-
-    if (reCheck)
-    {
-        reCheckBadge();
-    }
 }
 
 // FOR BACKGROUND SCRIPT /////////////////////////////////////////////////////////////////////////
+
+function addStopAnimations()
+{
+    // Provide stopAnimations method to clear all pending animations that can cause live DOM data such as unreadCount not to be up to date on the background page
+    // Velocity.js related thread: https://github.com/julianshapiro/velocity/issues/842 (special thanks to https://github.com/Rycochet)
+    // The window object is not shared between the original page and the content script: http://stackoverflow.com/a/12396221/423171
+        
+    if (debug) console.info("WAT: Adding stopAnimations() function...");
+
+    var script = "";
+    script += "var debugRepeating = " + debugRepeating + ";";
+    script += "(" + function ()
+    {
+        function _stopAnimations(maxChecks)
+        {
+            try
+            {
+                var pendingElems = document.querySelectorAll(".velocity-animating");
+                if (pendingElems.length > 0)
+                {
+                    if (debugRepeating) console.info("WAT: Will stop " + pendingElems.length + " pending animations");
+
+                    Velocity(Array.from(pendingElems), "stop");
+                    maxChecks--; // Max consecutive repetitions to prevent a potential infinite loop if WhatsApp changes something on their animation logic
+                    if (maxChecks > 0)
+                    {
+                        setTimeout(function () { _stopAnimations(maxChecks); }, 0);
+                    }
+                    else
+                    {
+                        if (debugRepeating) console.info("WAT: Max repetitions reached while stopping animations, will not continue");
+                    }
+                }
+            }
+            catch (err)
+            {
+                console.error("WAT: Exception while stopping Velocity.js animations");
+                console.error(err);
+            }
+        }
+
+        document.addEventListener("stopAnimations", function (e)
+        {
+            try
+            {
+                _stopAnimations(20); // maxChecks is set so that all consecutive _stopAnimations() calls should not exceed safetyDelayLong for optimal performance 
+            }
+            catch (err)
+            {
+                console.error("WAT: Exception while stopping animations");
+                console.error(err);
+            }
+        });
+    } + ")();";
+    var scriptElem = document.createElement("script");
+    scriptElem.innerHTML = script;
+    document.head.appendChild(scriptElem);
+}
 
 var lastPotentialLoadingError = false;
 
