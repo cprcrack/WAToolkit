@@ -20,7 +20,7 @@ chrome.webRequest.onHeadersReceived.addListener(
     function (details)
     {
         var headers = details.responseHeaders;
-        for (var i = headers.length - 1; i >= 0 ; i--)
+        for (var i = headers.length - 1; i >= 0; i--)
         {
             if (headers[i].name.toLowerCase() == "x-frame-options") // Potential future bug fix: || headers[i].name.toLowerCase() == "content-security-policy"
             {

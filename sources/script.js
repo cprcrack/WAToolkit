@@ -92,7 +92,7 @@ function onMainUiReady(callback)
     try
     {
         // First check if the main UI is already ready, just in case
-        if (document.querySelector(".app-wrapper > .app") != undefined)
+        if (document.querySelector(".app-wrapper-web > .app") != undefined)
         {
             if (debug) console.info("WAT: Found main UI, will notify main UI ready event directly");
 
@@ -220,7 +220,7 @@ function proxyNotifications(isBackgroundScript)
                         srcChatTitle = event.srcElement.title;
                         
                         if (debug) console.info("WAT: Background notification click intercepted with srcChatTitle " + srcChatTitle);
-                    };
+                    }
                     window.postMessage({ name: "backgroundNotificationClicked", srcChatTitle: srcChatTitle }, "*");
                 }
                 else
@@ -228,7 +228,7 @@ function proxyNotifications(isBackgroundScript)
                     if (debug) console.info("WAT: Foreground notification click intercepted");
 
                     window.postMessage({ name: "foregroundNotificationClicked" }, "*");
-                };
+                }
             };
             _notification.onshow = function (event)
             {
@@ -239,7 +239,7 @@ function proxyNotifications(isBackgroundScript)
                     if (debug) console.info("WAT: Foreground notification show intercepted");
 
                     window.postMessage({ name: "foregroundNotificationShown" }, "*");
-                };
+                }
             };
             _notification.onerror = function (event)
             {
@@ -453,7 +453,7 @@ function reCheckLoadingError()
 
 function checkLoadingError()
 {
-    if (debug) console.info("WAT: Checking potential loading error...");
+    if (debugRepeating) console.info("WAT: Checking potential loading error...");
 
     try
     {
@@ -505,7 +505,7 @@ function checkSrcChat()
             {
                 var chatElem = chatElems[i];
                 chatTitle = chatElem.children[0].children[0].children[1].children[0].children[0].children[0];
-                var chatTitleText = chatTitle.getAttribute("title")
+                var chatTitleText = chatTitle.getAttribute("title");
                 if (typeof chatTitleText == "string" && chatTitleText == srcChatTitle)
                 {
                     foundSrcChat = true;
