@@ -109,7 +109,7 @@ function onMainUiReady(callback)
                 {
                     if (debug) console.info("WAT: Mutation observerd, will search main UI");
 
-                    // Search for new child div with class "app"
+                    // Search for new child div with class "two"
                     var found = false;
                     for (var i = 0; i < mutations.length; i++)
                     {
@@ -118,7 +118,7 @@ function onMainUiReady(callback)
                         for (var j = 0; j < addedNodes.length; j++)
                         {
                             var addedNode = addedNodes[j];
-                            if (addedNode.nodeName.toLowerCase() == "div" && addedNode.classList.contains("app"))
+                            if (addedNode.nodeName.toLowerCase() == "div" && addedNode.classList.contains("two"))
                             {
                                 if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
 
