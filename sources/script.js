@@ -218,7 +218,7 @@ function proxyNotifications(isBackgroundScript)
                     if (event != undefined && event.srcElement != undefined && typeof event.srcElement.title == "string" && event.srcElement.title.length > 0)
                     {
                         srcChatTitle = event.srcElement.title;
-                        
+
                         if (debug) console.info("WAT: Background notification click intercepted with srcChatTitle " + srcChatTitle);
                     }
                     window.postMessage({ name: "backgroundNotificationClicked", srcChatTitle: srcChatTitle }, "*");
