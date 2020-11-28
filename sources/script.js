@@ -109,29 +109,13 @@ function onMainUiReady(callback)
                 {
                     if (debug) console.info("WAT: Mutation observerd, will search main UI");
 
-                    // Search for new child div with class "two"
-                    var found = false;
-                    for (var i = 0; i < mutations.length; i++)
+                    // Check if main UI is now ready (new child div with class "two")
+                    if (document.querySelector("#app .two") != undefined)
                     {
-                        var mutation = mutations[i];
-                        var addedNodes = mutations[i].addedNodes;
-                        for (var j = 0; j < addedNodes.length; j++)
-                        {
-                            var addedNode = addedNodes[j];
-                            if (addedNode.nodeName.toLowerCase() == "div" && addedNode.classList.contains("two"))
-                            {
-                                if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
+                        if (debug) console.info("WAT: Found main UI, will notify main UI ready event");
 
-                                mutationObserver.disconnect();
-                                setTimeout(function () { callback(); }, safetyDelayShort);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (found)
-                        {
-                            break;
-                        }
+                        mutationObserver.disconnect();
+                        setTimeout(function () { callback(); }, safetyDelayShort);
                     }
                 });
                 mutationObserver.observe(appElem, { childList: true, subtree: true });
