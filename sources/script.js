@@ -92,7 +92,7 @@ function onMainUiReady(callback)
     try
     {
         // First check if the main UI is already ready, just in case
-        if (document.querySelector(".app-wrapper-web > .app") != undefined)
+        if (document.querySelector("#app .two") != undefined)
         {
             if (debug) console.info("WAT: Found main UI, will notify main UI ready event directly");
 
