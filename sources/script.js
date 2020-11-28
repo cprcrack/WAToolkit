@@ -549,7 +549,7 @@ function addOptions()
                     <div id='watoolkit-option-background-notif' class='watoolkit-options-item'> \
                         <div class='checkbox-watoolkit " + (backgroundNotif ? "checked" : "unchecked") + "'></div> \
                         Background notifications \
-                        <div class='watoolkit-options-description'>Enable background notifications to receive new message notifications even when you have no WhatsApp tab or Chrome window at all open. Regular notifications must be enabled in WhatsApp's menu for this to work.</div> \
+                        <div class='watoolkit-options-description'>Enable background notifications to receive new message notifications even when you have no WhatsApp tab or Chrome window open at all. Notifications must be enabled in WhatsApp's own settings menu for background notifications to work. If you disable the background notifications, you will probably want to silence notifications as well in WhatsApp's own settings menu.</div> \
                     </div> \
                     <div id='watoolkit-option-wide-text' class='watoolkit-options-item'> \
                         <div class='checkbox-watoolkit " + (wideText ? "checked" : "unchecked") + "'></div> \
