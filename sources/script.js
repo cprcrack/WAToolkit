@@ -656,7 +656,7 @@ function updateWideText()
     {
         wideTextStyleElem = document.createElement("style");
         wideTextStyleElem.setAttribute("type", "text/css");
-        wideTextStyleElem.innerHTML = ".message-in, .message-out { max-width: 100% !important; }";
+        wideTextStyleElem.innerHTML = ".message-in div, .message-out div { max-width: 100% !important; }";
     }
 
     if (wideText && wideTextStyleElem.parentElement == undefined)
