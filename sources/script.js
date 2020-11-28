@@ -504,7 +504,7 @@ function checkSrcChat()
             for (var i = 0; i < chatElems.length; i++)
             {
                 var chatElem = chatElems[i];
-                chatTitle = chatElem.children[0].children[0].children[1].children[0].children[0].children[0];
+                chatTitle = chatElem.children[0].children[0].children[1].children[0].children[0].children[0].children[0];
                 var chatTitleText = chatTitle.getAttribute("title");
                 if (typeof chatTitleText == "string" && chatTitleText == srcChatTitle)
                 {
