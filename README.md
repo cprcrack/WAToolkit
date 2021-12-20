@@ -1,3 +1,7 @@
+> ### ⚠️ CHANGE OF OWNERSHIP: The original WAToolkit Chrome extension published on the Chrome Web Store is no longer owned by Cristian Perez, which is the owner of this repository. Current and future versions published with the name "WAToolkit" on the Chrome Web Store will not come from me.
+
+> #### As a consequence, this repository will soon change name and a new extension will be published under that new name. It will still be open source and it will be linked from this respository. Meanwhile you can still safely install this extension manually following the instructions bellow as always.
+
 ![WAToolkit](https://raw.githubusercontent.com/cprcrack/WAToolkit/master/resources/chrome_web_store_promo_1400x560.png)
 
 ## WAToolkit
@@ -16,7 +20,7 @@ Never ever miss a WhatsApp notification again while you are on your desktop comp
 
 ### Installation instructions
 
-**The recommended installation path is directly from [Chrome Web Store](http://watoolkit.com)**, because you will benefit from a 2-click install and auto-updates. If for any reason you would like to install the last version of WAToolkit manually, you can follow these steps:
+~~**The recommended installation path is directly from [Chrome Web Store](http://watoolkit.com)**, because you will benefit from a 2-click install and auto-updates.~~ If for any reason you would like to install the last version of WAToolkit manually, you can follow these steps:
 
 **Windows:**
 
